@@ -12,8 +12,8 @@ def indexView(request):
 
 
 def roznakuhnaView(request):
-    return HttpResponse("Smo v roznakuhna.")
+    return HttpResponse("Smo v odlični gostilni, znani po imenu Rožna Kuhna.")
 
 
 def marjeticaView(request):
-    return HttpResponse("Smo v marjetica.")
+    return HttpResponse("Smo v odlični gostilni, znani po imenu Marjetica.")

@@ -1,0 +1,48 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "shell",
+            "command": "pipenv run python .\\menzarbackend\\manage.py runserver",
+            "label": "Backend",
+            "runOptions": {
+                "runOn": "folderOpen"
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            }
+        },
+        {
+            "type": "shell",
+            "command": "npm start",
+            "label": "Frontend",
+            "runOptions": {
+                "runOn": "folderOpen"
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            },
+            "options": {
+                "cwd": "${workspaceFolder}\\menzarfrontend"
+            },
+            "dependsOn":["Add frontend packages"]
+        },
+        {
+            "type": "shell",
+            "command": "npm install react-scripts react-dom web-vitals",
+            "label": "Add frontend packages",
+            "runOptions": {
+                "runOn": "folderOpen"
+            },
+            "presentation": {
+                "reveal": "never",
+                "panel": "new"
+            },
+            "options": {
+                "cwd": "${workspaceFolder}\\menzarfrontend"
+            },
+        }
+    ]
+}

@@ -5,7 +5,6 @@ name = "pypi"
 
 [packages]
 django = "*"
-nodeenv = "*"
 
 [dev-packages]
 autopep8 = "*"

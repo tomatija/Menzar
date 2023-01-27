@@ -3,7 +3,7 @@
     "tasks": [
         {
             "type": "shell",
-            "command": "pipenv run python .\\menzarbackend\\manage.py runserver",
+            "command": "pipenv run python .\\backend\\manage.py runserver",
             "label": "Backend",
             "runOptions": {
                 "runOn": "folderOpen"
@@ -33,7 +33,7 @@
             "command": "pipenv install",
             "label": "Build backend",
             "options": {
-                "cwd": "${workspaceFolder}\\menzarbackend"
+                "cwd": "${workspaceFolder}\\backend"
             },
         },
         {

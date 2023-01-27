@@ -1,3 +1,5 @@
-from django.shortcuts import render
+from django.http import HttpResponse
 
-# Create your views here.
+
+def indexView(request):
+    return HttpResponse("<br>".join(["<h1>Index</h1>", "This is the index page"]))

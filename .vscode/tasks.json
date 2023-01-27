@@ -27,6 +27,22 @@
             "options": {
                 "cwd": "${workspaceFolder}\\menzarfrontend"
             },
-        }
+        },
+        {
+            "type": "shell",
+            "command": "pipenv install",
+            "label": "Build backend",
+            "options": {
+                "cwd": "${workspaceFolder}\\menzarbackend"
+            },
+        },
+        {
+            "type": "shell",
+            "command": "npm install",
+            "label": "Build frontend",
+            "options": {
+                "cwd": "${workspaceFolder}\\menzarfrontend"
+            },
+        },
     ]
 }

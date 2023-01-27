@@ -1,5 +1,5 @@
 """
-WSGI config for menzarBackend project.
+WSGI config for menzarbackend project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 

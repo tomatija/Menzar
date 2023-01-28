@@ -28,8 +28,11 @@ def createDiners():
         "roznakuhna": "Rožna Kuh'na"
     }
     for name in diners:
-        q = Diner(name=name, display_name=diners[name])
-        q.save()
+        try:
+            Diner.objects.get(name=name)
+        except Diner.DoesNotExist:
+            q = Diner(name=name, display_name=diners[name])
+            q.save()
 
 
 SOUPS = ["Goveja juha", "Zelenjavna juha", "Cvetačna juha", "Ajdova juha"]
@@ -37,8 +40,11 @@ SOUPS = ["Goveja juha", "Zelenjavna juha", "Cvetačna juha", "Ajdova juha"]
 
 def createSoups():
     for soup in SOUPS:
-        q = Soup(name=soup, date="2020-10-01")
-        q.save()
+        try:
+            Soup.objects.get(name=soup)
+        except Soup.DoesNotExist:
+            q = Soup(name=soup, date="2020-10-01")
+            q.save()
 
 
 DISH_GROUPS = [
@@ -738,12 +744,14 @@ def createMenus():
             name = ",".join(dish)
             s = Soup.objects.get(name=random.choice(SOUPS))
             d = Dish.objects.get(name=name)
+
             try:
-                obj = Menu.objects.get(
-                    soup=s, dish=d, diner=diner, date=dishGroup["datum"])
+                obj = Menu.objects.get(soup=s, dish=d, diner=diner,
+                                       date=dishGroup["datum"])
             except Menu.DoesNotExist:
-                Menu(soup=s, dish=d, diner=diner,
-                     date=dishGroup["datum"]).save()
+                obj = Menu(soup=s, dish=d, diner=diner,
+                           date=dishGroup["datum"])
+                obj.save()
 
 
 ORDERS = [

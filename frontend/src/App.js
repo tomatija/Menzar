@@ -6,16 +6,37 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
         <a
           className="App-link"
-          href="https://reactjs.org"
+          href="http://127.0.0.1:8000/"
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn React
+          INDEX
+        </a>
+        <a
+          className="App-link"
+          href="http://127.0.0.1:8000/admin/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          ADMIN
+        </a>
+        <a
+          className="App-link"
+          href="http://127.0.0.1:8000/createDB/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          CREATE DB
+        </a>
+        <a
+          className="App-link"
+          href="http://127.0.0.1:8000/deleteDB/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          DROP DB
         </a>
       </header>
     </div>

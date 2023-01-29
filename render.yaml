@@ -7,7 +7,7 @@ services:
   - type: web
     name: backend
     env: python
-    buildCommand: "./build.sh"
+    buildCommand: "cd backend && ./build.sh"
     startCommand: "gunicorn backend.wsgi:application"
     envVars:
       - key: DATABASE_URL

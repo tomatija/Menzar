@@ -2,6 +2,7 @@
 # exit on error
 set -o errexit
 
+apt-get install -y cron
 pip install poetry -U
 poetry install
 

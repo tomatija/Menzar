@@ -1,4 +1,5 @@
 from menzaDatabase.models import *
+from users.models import User
 import random
 from tqdm import tqdm
 

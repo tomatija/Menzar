@@ -1,6 +1,24 @@
 from abc import ABC, abstractmethod
 
 
+class MenuBase():
+
+    @property
+    @abstractmethod
+    def dinerName(self):
+        pass
+
+    @property
+    @abstractmethod
+    def soupString(self):
+        pass
+
+    @property
+    @abstractmethod
+    def dishName(self):
+        pass
+
+
 class ScraperBase(ABC):
 
     # it must match a the diners name in the database
@@ -15,5 +33,5 @@ class ScraperBase(ABC):
         pass
 
     @abstractmethod
-    def get(self):
+    def get(self) -> list[MenuBase]:
         pass

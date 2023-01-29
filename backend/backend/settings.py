@@ -43,6 +43,7 @@ CRONJOBS = [
 INSTALLED_APPS = [
     'menzaDatabase.apps.MenzadatabaseConfig',
     'django_crontab',
+    'users.apps.UsersConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

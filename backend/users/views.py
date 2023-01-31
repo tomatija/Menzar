@@ -1,5 +1,4 @@
 from django.http import JsonResponse
-from django.shortcuts import render
 from django.http import HttpResponse
 from .models import User
 from language import *
@@ -49,9 +48,10 @@ def registerView(request):
 
 
 def profileView(request, username):
+    print(username)
     user = User.objects.filter(username=username)
 
     if len(user) == 0:
         return HttpResponse(USER_NOT_FOUND)
 
-    return HttpResponse(user)
+    return HttpResponse(JsonResponse(user.first(), safe=False))

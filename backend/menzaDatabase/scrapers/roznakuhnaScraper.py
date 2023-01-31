@@ -28,19 +28,8 @@ class RoznaKuhnaScraper(ScraperBase):
             menu = MenuBase()
             menu.dinerName = self.name
             menu.soupString = menuArray[0]
-            menu.dishName = ",".join(menuArray)(menuArray[1::])
+            menu.dishString = ",".join(menuArray[1::])
 
             menu_array.append(menu)
 
         return menu_array
-
-    def get(self) -> list[MenuBase]:
-        # get the site
-        req = requests.get(self.url, allow_redirects=False)
-        soup = BeautifulSoup(req.content, "html.parser")
-
-        print(soup)
-        if (req.status_code != 200):
-            return None
-
-        return self.parser(soup)

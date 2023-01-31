@@ -1,6 +1,6 @@
 from django.db import models
 from django.core.validators import *
-from django.utils import timezone
+
 import users.models
 
 

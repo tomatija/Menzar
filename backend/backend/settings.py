@@ -13,6 +13,15 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 from pathlib import Path
 import os
 import dj_database_url
+from menzaDatabase.scrapers.scrapers import Scrapers
+from menzaDatabase.scrapers.marjeticaBelinkaScraper import MarjeticaBelinkaScraper
+from menzaDatabase.scrapers.marjeticaTobacnaScraper import MarjeticaTobacnaScraper
+from menzaDatabase.scrapers.roznakuhnaScraper import RoznaKuhnaScraper
+
+DINER_SCRAPERS = Scrapers()
+# DINER_SCRAPERS.registerScraper(MarjeticaTobacnaScraper())
+DINER_SCRAPERS.registerScraper(RoznaKuhnaScraper())
+# DINER_SCRAPERS.registerScraper(MarjeticaBelinkaScraper())
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -130,13 +139,10 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
+TIME_ZONE = 'Europe/Berlin'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 # This setting tells Django at which URL static files are going to be served to the user.
 # Here, they well be accessible at your-domain.onrender.com/static/...

@@ -1,6 +1,8 @@
+from backend.settings import DINER_SCRAPERS
 from django.http import HttpResponse
 from .setupDatabase import *
 from language import *
+from django.utils import timezone
 
 
 def indexView(request):
@@ -53,3 +55,35 @@ def orderMenu(request, menuId):
     # get user
     # user.order(menu)
     return HttpResponse(200)
+
+
+def scrapeView(request):
+    menus = DINER_SCRAPERS.getMenus()
+    response = ""
+    print(menus)
+    for menu in menus:
+        response += f"{menu.dinerName} / {menu.soupString} / {menu.dishString}<br>"
+
+    for menu in menus:
+        diner = Diner.objects.get(name=menu.dinerName)
+
+        soup = None
+        try:
+            soup = Soup.objects.get(name=menu.soupString)
+        except Soup.DoesNotExist:
+            soup = Soup(name=menu.soupString).save()
+
+        dish = None
+        try:
+            dish = Dish.objects.get(name=menu.dishString)
+        except Dish.DoesNotExist:
+            dish = Dish(name=menu.dishString).save()
+
+        try:
+            Menu.objects.get(diner=diner, soup=soup, dish=dish,
+                             date=timezone.now().date())
+        except Menu.DoesNotExist:
+            menu = Menu(diner=diner, soup=soup, dish=dish,
+                        date=timezone.now().date()).save()
+
+    return HttpResponse(response)

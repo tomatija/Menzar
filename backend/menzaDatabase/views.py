@@ -73,20 +73,23 @@ def scrapeView(request):
         try:
             soup = Soup.objects.get(name=menu.soupString)
         except Soup.DoesNotExist:
-            soup = Soup(name=menu.soupString).save()
+            soup = Soup(name=menu.soupString)
+            soup.save()
 
         dish = None
 
         try:
             dish = Dish.objects.get(name=menu.dishString)
         except Dish.DoesNotExist:
-            dish = Dish(name=menu.dishString).save()
+            dish = Dish(name=menu.dishString)
+            dish.save()
 
         try:
             Menu.objects.get(diner=diner, soup=soup, dish=dish,
                              date=timezone.now().date())
         except Menu.DoesNotExist:
             menu = Menu(diner=diner, soup=soup, dish=dish,
-                        date=timezone.now().date()).save()
+                        date=timezone.now().date())
+            menu.save()
 
     return HttpResponse(response)

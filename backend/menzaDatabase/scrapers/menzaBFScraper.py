@@ -5,7 +5,8 @@ from datetime import datetime
 
 
 class MenzaBFScraper(ScraperBase):
-    url = "https://www.studentska-prehrana.si/sl/restaurant/Details/2023"
+    year = timezone.now().date().strftime("%Y")
+    url = f"https://www.studentska-prehrana.si/sl/restaurant/Details/{year}"
     name = 'menzabf'
 
     def parser(self, soup) -> list[MenuBase]:

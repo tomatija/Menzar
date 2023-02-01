@@ -1,34 +1,38 @@
 from .baseScraper import ScraperBase, MenuBase
 from django.utils import timezone
 
+from bs4 import BeautifulSoup
+import requests
+from datetime import datetime
 
 class MarjeticaTobacnaScraper(ScraperBase):
     url = "https://www.marjetice.si/"
-    name = 'marjetica'
+    name = 'marjeticatobacna'
 
     def parser(self, soup) -> list[MenuBase]:
         elements = soup.find_all("p", {"style": "text-align: center;"})
-        currentDate = timezone.now().date().strftime("%d.%m.%Y")
-
         menuArray = []
-        for element in elements:
-            # choices are split by <br> tag
-            choices = element.split("<br/>")
+        for element in elements:                
+            date = element.strong
+            #check if we have a date
+            if date is None:
+                continue
+            #get the date string and format it into an actual date
+            dateString =date.string.split(" ")[1]
+            date = datetime.strptime(dateString, '%d.%m.%Y').date()
 
-            menuDate = element.find("strong").text.split(" ")[1]
+            #if it is todays menu
+            #FIXME: replace datetime with djangos version
+            #print(timezone.now())
+            if date != timezone.now().date():
+                continue
 
-            if menuDate == currentDate:
-
-                menuArray = [e for e in str(element).split("<br/>")]
-                menuArray = menuArray[1::]
-                menuArray[-1] = menuArray[-1].replace("</p>", "")
-                print(menuArray)
-                menu = MenuBase()
-                menu.dinerName = self.name
-                menu.soupString = ""  # soup choices are not available
-
-                for choice in choices[1::]:
-                    menu.dishName = choice
+            for dish in element.contents:
+                if isinstance(dish, str):
+                    menu = MenuBase()
+                    menu.dinerName = self.name
+                    menu.soupString = ""
+                    menu.dishString = dish
                     menuArray.append(menu)
-
+                
         return menuArray

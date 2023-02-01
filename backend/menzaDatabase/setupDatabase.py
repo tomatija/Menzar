@@ -1,19 +1,19 @@
 from menzaDatabase.models import *
-from users.models import User
+from django.contrib.auth.models import User
 import random
 from tqdm import tqdm
 
 
 def createDatabase():
     print("Creating database...")
+    print("Creating users...")
+    createUsers()
     print("Creating diners...")
     createDiners()
     print("Creating soups...")
     createSoups()
     print("Creating dishes...")
     createDishes()
-    print("Creating users...")
-    createUsers()
     print("Creating menus...")
     createMenus()
     print("Creating orders...")
@@ -25,8 +25,10 @@ def createDatabase():
 
 def createDiners():
     diners = {
-        "marjetica": "Marjetica",
-        "roznakuhna": "Rožna Kuh'na"
+        "marjeticatobacna": "Marjetica - Tobačna",
+        "marjeticabelinka": "Marjetica - Belinka",
+        "roznakuhna": "Rožna Kuh'na",
+        "menzabf": "Menza BF",
     }
     for name in diners:
         try:

@@ -1,8 +1,7 @@
 from django.db import models
 from django.core.validators import *
 
-import users.models
-
+from django.contrib.auth.models import User
 
 # table of menzas
 class Diner(models.Model):
@@ -46,7 +45,7 @@ class Menu(models.Model):
 # table of orders, connecting menza menus to users
 class Order(models.Model):
     menu = models.ForeignKey(Menu, on_delete=models.CASCADE)
-    user = models.ForeignKey(users.models.User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:

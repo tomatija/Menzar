@@ -60,11 +60,13 @@ def orderMenu(request, menuId):
 def scrapeView(request):
     menus = DINER_SCRAPERS.getMenus()
     response = ""
-    print(menus)
+
     for menu in menus:
+        #print(menu)
         response += f"{menu.dinerName} / {menu.soupString} / {menu.dishString}<br>"
 
     for menu in menus:
+        print(menu)
         diner = Diner.objects.get(name=menu.dinerName)
 
         soup = None
@@ -74,6 +76,7 @@ def scrapeView(request):
             soup = Soup(name=menu.soupString).save()
 
         dish = None
+
         try:
             dish = Dish.objects.get(name=menu.dishString)
         except Dish.DoesNotExist:

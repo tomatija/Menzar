@@ -1,11 +1,9 @@
 from django.db import models
 from django.core.validators import *
+
 from django.contrib.auth.models import User
-from django.utils import timezone
 
 # table of menzas
-
-
 class Diner(models.Model):
     name = models.CharField(max_length=50)
     display_name = models.CharField(max_length=50)
@@ -45,8 +43,6 @@ class Menu(models.Model):
 
 
 # table of orders, connecting menza menus to users
-
-
 class Order(models.Model):
     menu = models.ForeignKey(Menu, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)

@@ -1,0 +1,17 @@
+# DINERS
+DINER_MENUS_UNAVAILABLE = "Nisem uspel pridobiti menijev. Poskusite znova kasneje."
+DINER_NOT_FOUND = "Ne najdem željene menze."
+
+# MENUS
+MENU_NOT_FOUND = "Ne najdem željenega menija."
+
+# USERS
+LOGIN_SUCCESSFUL = "Prijava uspešna"
+LOGIN_FAILED = "Prijava neuspešna"
+USER_NOT_FOUND = "Ne najdem željenega uporabnika."
+
+# ORDERS
+ORDER_NOT_FOUND = "Ne najdem željenega naročila."
+
+# REVIEWS
+REVIEW_NOT_FOUND = "Ne najdem željenega mnenja."

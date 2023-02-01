@@ -13,6 +13,17 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 from pathlib import Path
 import os
 import dj_database_url
+from menzaDatabase.scrapers.scrapers import Scrapers
+from menzaDatabase.scrapers.marjeticaBelinkaScraper import MarjeticaBelinkaScraper
+from menzaDatabase.scrapers.marjeticaTobacnaScraper import MarjeticaTobacnaScraper
+from menzaDatabase.scrapers.roznakuhnaScraper import RoznaKuhnaScraper
+from menzaDatabase.scrapers.menzaBFScraper import MenzaBFScraper
+
+DINER_SCRAPERS = Scrapers()
+DINER_SCRAPERS.registerScraper(RoznaKuhnaScraper())
+DINER_SCRAPERS.registerScraper(MarjeticaTobacnaScraper())
+DINER_SCRAPERS.registerScraper(MarjeticaBelinkaScraper())
+DINER_SCRAPERS.registerScraper(MenzaBFScraper())
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -34,11 +45,15 @@ RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:
     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
+CRONJOBS = [
+    ('*/1 * * * *', 'menzaDatabase.cron.my_scheduled_job')
+]
 
 # Application definition
 
 INSTALLED_APPS = [
     'menzaDatabase.apps.MenzadatabaseConfig',
+    'django_crontab',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -82,13 +97,18 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES = {
-    'default': dj_database_url.config(
+DATABASES = dict()
+if DEBUG == True:
+    DATABASES["default"] = {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+else:
+    DATABASES["default"] = dj_database_url.config(
         # Feel free to alter this value to suit your needs.
         default='postgresql://postgres:postgres@localhost:5432/mysite',
         conn_max_age=600
     )
-}
 
 
 # Password validation
@@ -120,13 +140,10 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
+TIME_ZONE = 'Europe/Berlin'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 # This setting tells Django at which URL static files are going to be served to the user.
 # Here, they well be accessible at your-domain.onrender.com/static/...

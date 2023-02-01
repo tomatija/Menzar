@@ -1,4 +1,16 @@
 from abc import ABC, abstractmethod
+import requests
+from bs4 import BeautifulSoup
+
+
+class MenuBase():
+
+    dinerName: str = ""
+    soupString: str = ""
+    dishString: str = ""
+
+    def __repr__(self):
+        return f"{self.dinerName} {self.soupString} {self.dishString}"
 
 
 class ScraperBase(ABC):
@@ -15,5 +27,15 @@ class ScraperBase(ABC):
         pass
 
     @abstractmethod
-    def get(self):
+    def parser(self, soup: BeautifulSoup) -> list[MenuBase]:
         pass
+
+    def get(self) -> list[MenuBase]:
+        # get the site
+        req = requests.get(self.url, allow_redirects=False)
+        soup = BeautifulSoup(req.content, "html.parser")
+
+        if (req.status_code != 200):
+            return None
+
+        return self.parser(soup)

@@ -3,10 +3,13 @@
     "tasks": [
         {
             "type": "shell",
-            "command": "pipenv run python .\\backend\\manage.py runserver",
+            "command": "poetry run python manage.py runserver",
             "label": "Backend",
             "runOptions": {
                 "runOn": "folderOpen"
+            },
+            "options": {
+                "cwd": "${workspaceFolder}\\backend"
             },
             "presentation": {
                 "reveal": "always",
@@ -36,7 +39,7 @@
         },
         {
             "type": "shell",
-            "command": "pipenv install",
+            "command": "poetry install",
             "label": "Build backend",
             "options": {
                 "cwd": "${workspaceFolder}\\backend"

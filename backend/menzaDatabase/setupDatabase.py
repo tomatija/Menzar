@@ -1,5 +1,5 @@
 from menzaDatabase.models import *
-from django.contrib.auth.models import User
+from user.models import User
 import random
 from tqdm import tqdm
 

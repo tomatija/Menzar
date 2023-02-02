@@ -1,7 +1,7 @@
 from django.db import models
 from django.core.validators import *
 
-from django.contrib.auth.models import User
+from user.models import User
 
 # table of menzas
 class Diner(models.Model):

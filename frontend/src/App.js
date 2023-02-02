@@ -1,44 +1,36 @@
-import logo from './logo.svg';
+import { useEffect, useState } from 'react';
+import Diner from './Diner/Diner';
+
 import './App.css';
 
 function App() {
+  const [menus, setData] = useState([]);
+  const apiUrl = 'http://127.0.0.1:8000/'
+  
+  useEffect(() => {
+    fetch(apiUrl)
+      .then(response => response.json())
+      .then(menus => setData(menus))
+      .catch((err) => {
+        console.log(err.message);
+      });
+  }, []);
+  
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <a
-          className="App-link"
-          href="http://127.0.0.1:8000/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          INDEX
-        </a>
-        <a
-          className="App-link"
-          href="http://127.0.0.1:8000/admin/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          ADMIN
-        </a>
-        <a
-          className="App-link"
-          href="http://127.0.0.1:8000/createDB/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          CREATE DB
-        </a>
-        <a
-          className="App-link"
-          href="http://127.0.0.1:8000/deleteDB/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          DROP DB
-        </a>
-      </header>
+      <table>
+        <tbody>
+          <tr>
+            <th>Ime menze</th>
+          </tr>
+          {menus.map((menu, index) => (
+            <tr key={index}>
+              <td><Diner name={menu.name} display_name={menu.display_name} /></td>
+              
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }

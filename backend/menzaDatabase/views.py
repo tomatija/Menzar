@@ -3,6 +3,9 @@ from django.http import HttpResponse
 from .setupDatabase import *
 from language import *
 from django.utils import timezone
+import json
+from django.core import serializers
+from django.core.serializers.json import DjangoJSONEncoder
 
 
 def indexView(request):
@@ -12,8 +15,9 @@ def indexView(request):
 
     for diner in diners:
         returnStr += f"<a href='/api/{diner.name}/'>{diner.display_name}</a><br>"
-
-    return HttpResponse(returnStr)
+    rawData = serializers.serialize('python', list(diners))
+    filteredData = [d['fields'] for d in rawData]
+    return HttpResponse(json.dumps(filteredData, cls=DjangoJSONEncoder), content_type="application/json")
 
 
 def createDB(request):
@@ -62,7 +66,7 @@ def scrapeView(request):
     response = ""
 
     for menu in menus:
-        #print(menu)
+        # print(menu)
         response += f"{menu.dinerName} / {menu.soupString} / {menu.dishString}<br>"
 
     for menu in menus:

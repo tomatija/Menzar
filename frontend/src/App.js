@@ -5,21 +5,24 @@ import Home from "./components/Home";
 import Signup from "./components/Signup/Signup";
 import Login from "./components/Login/Login";
 import Dashboard from "./components/Dashboard/Dashboard";
-
+import DinerPage from "./components/DinersPage"
+import MenusPage from "./components/MenusPage";
+//            
 class App extends Component {
   render() {
     return (
       <div>
-        <Root> {/* replace BrowserRouter with Root */}
+        <Root>
           <Switch>
-            <Route path="/diners" element={Signup}/>
+            <Route path="/diners" component={DinerPage}/>
             <Route path="/signup" component={Signup} />
             <Route path="/login" component={Login} />
             <Route path="/dashboard" component={Dashboard} />
             <Route exact path="/" component={Home} />
+            <Route path="/menus/*" component={MenusPage} />
             <Route path="*">Ups</Route>
           </Switch>
-        </Root> {/* replace BrowserRouter with Root */}
+        </Root> 
       </div>
     );
   }

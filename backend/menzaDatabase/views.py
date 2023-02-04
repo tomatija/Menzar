@@ -8,13 +8,46 @@ from django.core import serializers
 from django.core.serializers.json import DjangoJSONEncoder
 
 
-def indexView(request):
+def getAvailableDiners(request):
     diners = Diner.objects.all()
 
-    returnStr = ""
+    rawData = serializers.serialize('python', list(diners))
+    filteredData = [d['fields'] for d in rawData]
+    return HttpResponse(json.dumps(filteredData, cls=DjangoJSONEncoder), content_type="application/json")
 
-    for diner in diners:
-        returnStr += f"<a href='/api/{diner.name}/'>{diner.display_name}</a><br>"
+
+def getDinerAvailabeMenus(request, dinerName):
+    diner = Diner.objects.filter(name=dinerName)
+
+    if len(diner) == 0:
+        return HttpResponse(DINER_NOT_FOUND)
+
+    menus = Menu.objects.filter(
+        diner=diner.first(), date=timezone.now().date())
+
+    if len(menus) == 0:
+        return HttpResponse(DINER_MENUS_UNAVAILABLE)
+    res = list()
+    for menu in menus:
+        tmpMenu = {}
+        tmpMenu['soup'] = menu.soup.name
+        tmpMenu['dish'] = menu.dish.name
+        tmpMenu['diner'] = menu.diner.name
+        res.append(tmpMenu)
+
+    return HttpResponse(json.dumps(res))
+
+    # TODO: Create a better way to serialize the data
+    rawData = serializers.serialize('python', list(diners))
+    filteredData = [d['fields'] for d in rawData]
+    return HttpResponse(json.dumps(filteredData, cls=DjangoJSONEncoder), content_type="application/json")
+
+
+# HELPER VIEWS
+def indexView(request):
+    return HttpResponse("Hello, world. You're at the menzaDatabase index.")
+    diners = Diner.objects.all()
+
     rawData = serializers.serialize('python', list(diners))
     filteredData = [d['fields'] for d in rawData]
     return HttpResponse(json.dumps(filteredData, cls=DjangoJSONEncoder), content_type="application/json")
@@ -28,37 +61,6 @@ def createDB(request):
 def deleteDB(request):
     deleteDatabase()
     return HttpResponse("Database deleted")
-
-
-def displayDinerMenus(request, dinerName):
-    diner = Diner.objects.filter(name=dinerName)
-
-    if len(diner) == 0:
-        return HttpResponse(DINER_NOT_FOUND)
-
-    returnStr = ""
-    menus = Menu.objects.filter(
-        diner=diner.first(), date=timezone.now().date())
-
-    if len(menus) == 0:
-        return HttpResponse(DINER_MENUS_UNAVAILABLE)
-
-    for menu in menus:
-        returnStr += f"<a href='/api/order/{menu.id}/'>{menu}</a><br>"
-
-    return HttpResponse(returnStr)
-
-
-def orderMenu(request, menuId):
-    menu = Menu.objects.filter(id=menuId)
-
-    if len(menu) == 0:
-        return HttpResponse(MENU_NOT_FOUND)
-
-    # user order menu
-    # get user
-    # user.order(menu)
-    return HttpResponse(200)
 
 
 def scrapeView(request):

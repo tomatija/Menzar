@@ -20,10 +20,10 @@ from menzaDatabase.scrapers.roznakuhnaScraper import RoznaKuhnaScraper
 from menzaDatabase.scrapers.menzaBFScraper import MenzaBFScraper
 
 DINER_SCRAPERS = Scrapers()
-DINER_SCRAPERS.registerScraper(RoznaKuhnaScraper())
 DINER_SCRAPERS.registerScraper(MarjeticaTobacnaScraper())
 DINER_SCRAPERS.registerScraper(MarjeticaBelinkaScraper())
 DINER_SCRAPERS.registerScraper(MenzaBFScraper())
+DINER_SCRAPERS.registerScraper(RoznaKuhnaScraper())
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent

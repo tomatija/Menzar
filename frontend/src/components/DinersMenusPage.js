@@ -57,7 +57,7 @@ class DinerMenusPage extends Component {
                 <Container>
                     <Row pt="4" >
                         {menus.map((menu, index) =>(
-                            <Col md="4" key={index}>
+                            <Col md="3" key={index}>
                                 <Menu menu={menu} /><br></br>
                             </Col>
                         ))}

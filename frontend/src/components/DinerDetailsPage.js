@@ -25,8 +25,8 @@ class DinerDetailsPage extends Component {
                         </Button>
                     </Col>
                     <Col xs={6}>
-                        <Button href={"/diners/"+this.dinerName+"/16-6-2022/"} variant="outline-dark">
-                            Menu 16. 6. 2022
+                        <Button href={"/diners/"+this.dinerName+"/13-10-2022/"} variant="outline-dark">
+                            Menu 13. 10. 2022
                         </Button>
                     </Col>
                 </Row>

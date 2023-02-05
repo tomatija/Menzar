@@ -4,6 +4,7 @@ DINER_NOT_FOUND = "Ne najdem željene menze."
 
 # MENUS
 MENU_NOT_FOUND = "Ne najdem željenega menija."
+MENU_NOT_RATED = "Menu še nima ocen"
 
 # USERS
 LOGIN_SUCCESSFUL = "Prijava uspešna"

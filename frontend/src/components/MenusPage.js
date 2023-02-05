@@ -56,7 +56,7 @@ class MenusPage extends Component {
                     <Row pt="4" >
                     {menus.map((menu, index) => (
                             <Col md="4" key={index}>
-                                <Menu diner={menu.diner} soup={menu.soup} dish={menu.dish} /><br></br>
+                                <Menu menu={menu} /><br></br>
                             </Col>
                     ))}
                     </Row>

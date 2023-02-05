@@ -27,15 +27,30 @@ def getDinerAvailabeMenus(request, dinerName):
 
     if len(menus) == 0:
         return HttpResponse(DINER_MENUS_UNAVAILABLE)
+
     res = list()
     for menu in menus:
-        tmpMenu = {}
+        orderRatings = []
+        # choose all menus with same dish and diner
+        for chosenMenu in Menu.objects.filter(diner=menu.diner, dish=menu.dish):
+            # choose all orders with chosen menu
+            for chosenOrder in Order.objects.filter(menu=chosenMenu):
+                # choose all reviews with chosen order
+                for review in Review.objects.filter(order=chosenOrder):
+                    orderRatings.append(review.grade)
+
+        tmpMenu = dict()
+        if len(orderRatings) == 0:
+            tmpMenu['rating'] = MENU_NOT_RATED
+        else:
+            tmpMenu['rating'] = sum(orderRatings)/len(orderRatings)
+
         tmpMenu['soup'] = menu.soup.name
         tmpMenu['dish'] = menu.dish.name
         tmpMenu['diner'] = menu.diner.name
         res.append(tmpMenu)
 
-    return HttpResponse(json.dumps(res))
+    return HttpResponse(json.dumps(res, cls=DjangoJSONEncoder))
 
     # TODO: Create a better way to serialize the data
     rawData = serializers.serialize('python', list(diners))

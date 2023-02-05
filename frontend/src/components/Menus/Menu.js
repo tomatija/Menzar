@@ -4,11 +4,11 @@ import { Button } from "react-bootstrap";
 class Menu extends Component {
     constructor(props) {
         super(props);
-        this.diner = props.diner;
-        this.soupString = props.soup;
-        
+        this.diner = props.menu.diner;
+        this.soupString = props.menu.soup;
+        this.rating = props.menu.rating;
         //TODO: Check if splitting with "," is the best way to do this
-        this.dishString = props.dish.split(",");
+        this.dishString = props.menu.dish.split(",");
     }
         
     onMenuClick = () => {
@@ -27,6 +27,7 @@ class Menu extends Component {
                 {this.dishString.map((dish, index) => (
                     <li key={index}>{dish}</li>))
                 }
+                Povprečna ocena menija: {this.rating}
             </Button>
         )
     }

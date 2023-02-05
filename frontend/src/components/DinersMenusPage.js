@@ -5,16 +5,21 @@ import {
   Col,
 } from "react-bootstrap";
 
-import Diner from "./Diner/Diner";
+import Menu from "./Menus/Menu";
 
-class DinerPage extends Component {
+class DinerMenusPage extends Component {
     constructor(props) {
         super(props);
-        this.apiUrl = 'http://127.0.0.1:8000/api/diners';
+        this.splitPath = window.location.pathname.split('/');
+        this.dinerName = this.splitPath[this.splitPath.length - 3];
+        this.dinerDate = this.splitPath[this.splitPath.length - 2];
+        console.log(this.dinerName, this.dinerDate);
+        this.apiUrl = 'http://127.0.0.1:8000/api/v1/' + this.dinerName+'/'+this.dinerDate+'/';
+        console.log(this.apiUrl);
         this.state = {
             error: null,
             isLoaded: false,
-            diners: []
+            menus: []
         };        
     }
     
@@ -25,34 +30,22 @@ class DinerPage extends Component {
             (result) => {
                 this.setState({
                     isLoaded: true,
-                    diners: result
+                    menus: result
                 });
-            console.log(result);
             },
             (error) => {
                 this.setState({
-                    isLoaded: true,
-                    error
+                    isLoaded: false,
+                    error: error
                 });
-            console.log(error);
             }
         );
     }
     
-    
-    /*
-    onSignupClick = () => {
-    const userData = {
-      username: this.state.username,
-      password: this.state.password
-    };
-    console.log("Sign up " + userData.username + " " + userData.password);
-    };
-    */
-    
     render()
     {
-        const { error, isLoaded, diners } = this.state;
+        const { error, isLoaded, menus } = this.state;
+        console.log(this.state)
         if (error) {
             return <div>Error: {error.message}</div>;
         }
@@ -62,17 +55,17 @@ class DinerPage extends Component {
         else {
             return (
                 <Container>
-                    {diners.map((diner, index) => (
-                        <Row key={index}>
-                            <Col md="4">
-                                <Diner name={diner.name} display_name={diner.display_name} />
+                    <Row pt="4" >
+                        {menus.map((menu, index) =>(
+                            <Col md="4" key={index}>
+                                <Menu menu={menu} /><br></br>
                             </Col>
-                        </Row>
-                    ))}
+                        ))}
+                    </Row>
                 </Container>
             );
         }
     }
 }
 
-export default DinerPage;
+export default DinerMenusPage;

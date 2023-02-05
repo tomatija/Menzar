@@ -11,9 +11,50 @@ urlpatterns = [
     path('scrape/', views.scrapeView, name='scrape'),
 
     # API URLS
-    path('api/diners/', views.getAvailableDiners, name='Diners'),
-    path('api/menus/<str:dinerName>/',
-         views.getDinerAvailabeMenus, name='Diner menus'),
+    # DINERS
+    path(
+        'diners/',
+        views.getAvailableDiners,
+        name='Diners'
+    ),
+
+    # MENUS
+    path(
+        '<str:dinerName>/<str:dateString>/',
+        views.getDinerMenusByDate,
+        name='Diner menus by date'
+    ),
+    path(
+        'menus/<int:menuId>/',
+        views.getMenuDetails,
+        name='Comments'
+    ),
+    path(
+        'menus/<int:menuId>/orders/',
+        views.getMenuOrders,
+        name='Orders'
+    ),
+
+    # USERS
+    path(
+        'users/',
+        views.getUsers,
+        name='Users'
+    ),
+    path(
+        'users/<int:userId>/',
+        views.getUserDetails,
+        name='User details'
+    ),
+    path(
+        'users/<int:userId>/orders/',
+        views.getUserOrders,
+        name='User orders'
+    ),
+
+    # ORDERS
+    # path('orders/<int:orderId>/', views.getOrderDetails, name='Order details'),
+
 
 
 ]

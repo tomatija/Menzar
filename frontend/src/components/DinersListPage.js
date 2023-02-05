@@ -5,19 +5,16 @@ import {
   Col,
 } from "react-bootstrap";
 
-import Menu from "./Menus/Menu";
+import Diner from "./Diner/Diner";
 
-class MenusPage extends Component {
+class DinerListPage extends Component {
     constructor(props) {
         super(props);
-        this.splitPath = window.location.pathname.split('/');
-        this.dinerName = this.splitPath[this.splitPath.length - 1];
-        this.apiUrl = 'http://127.0.0.1:8000/api/menus/' + this.dinerName;
-        console.log(this.apiUrl);
+        this.apiUrl = 'http://127.0.0.1:8000/api/v1/diners';
         this.state = {
             error: null,
             isLoaded: false,
-            menus: []
+            diners: []
         };        
     }
     
@@ -28,22 +25,34 @@ class MenusPage extends Component {
             (result) => {
                 this.setState({
                     isLoaded: true,
-                    menus: result
+                    diners: result
                 });
+            console.log(result);
             },
             (error) => {
                 this.setState({
-                    isLoaded: false,
-                    error: error
+                    isLoaded: true,
+                    error
                 });
+            console.log(error);
             }
         );
     }
     
+    
+    /*
+    onSignupClick = () => {
+    const userData = {
+      username: this.state.username,
+      password: this.state.password
+    };
+    console.log("Sign up " + userData.username + " " + userData.password);
+    };
+    */
+    
     render()
     {
-        const { error, isLoaded, menus } = this.state;
-        console.log(this.state)
+        const { error, isLoaded, diners } = this.state;
         if (error) {
             return <div>Error: {error.message}</div>;
         }
@@ -53,17 +62,17 @@ class MenusPage extends Component {
         else {
             return (
                 <Container>
-                    <Row pt="4" >
-                    {menus.map((menu, index) => (
-                            <Col md="4" key={index}>
-                                <Menu menu={menu} /><br></br>
+                    {diners.map((diner, index) => (
+                        <Row key={index}>
+                            <Col md="4">
+                                <Diner diner={diner} date={this.date} />
                             </Col>
+                        </Row>
                     ))}
-                    </Row>
                 </Container>
             );
         }
     }
 }
 
-export default MenusPage;
+export default DinerListPage;

@@ -1,3 +1,4 @@
+from datetime import datetime
 from backend.settings import DINER_SCRAPERS
 from django.http import HttpResponse
 from .setupDatabase import *
@@ -16,14 +17,14 @@ def getAvailableDiners(request):
     return HttpResponse(json.dumps(filteredData, cls=DjangoJSONEncoder), content_type="application/json")
 
 
-def getDinerAvailabeMenus(request, dinerName):
+def getDinerMenus(dinerName, date):
     diner = Diner.objects.filter(name=dinerName)
 
     if len(diner) == 0:
         return HttpResponse(DINER_NOT_FOUND)
 
     menus = Menu.objects.filter(
-        diner=diner.first(), date=timezone.now().date())
+        diner=diner.first(), date=date)
 
     if len(menus) == 0:
         return HttpResponse(DINER_MENUS_UNAVAILABLE)
@@ -58,9 +59,65 @@ def getDinerAvailabeMenus(request, dinerName):
     return HttpResponse(json.dumps(filteredData, cls=DjangoJSONEncoder), content_type="application/json")
 
 
+def getDinerMenusByDate(request, dinerName, dateString):
+    '''
+        Returns all menus for a given diner on a given date
+    '''
+    date = None
+    if type(dateString) == str:
+        if dateString == "today":
+            date = timezone.now().date()
+        else:
+            date = datetime.strptime(dateString, '%d-%m-%Y').date()
+
+    if date is None:
+        return HttpResponse(DINER_NO_MENUS_ON_DATE)
+
+    return getDinerMenus(dinerName, date)
+
+
+def getMenuDetails(request, menuId):
+    '''
+        Returns all details for a given menu
+    '''
+    return HttpResponse("API not implemented yet.")
+
+
+def getMenuOrders(request, menuId):
+    '''
+        Returns all orders for a given menu
+    '''
+    return HttpResponse("API not implemented yet.")
+
+
+def getUsers(request):
+    '''
+        Returns all users in the database
+    '''
+    # Probably need to add some kind of authentication or even not implement this
+    return HttpResponse("API not implemented yet.")
+
+
+def getUserDetails(request, userId):
+    '''
+        Gets all details of a given user
+    '''
+    return HttpResponse("API not implemented yet.")
+
+
+def getUserOrders(request, userId):
+    '''
+        Gets all orders of a given user
+    '''
+    return HttpResponse("API not implemented yet.")
+
+
 # HELPER VIEWS
 def indexView(request):
-    return HttpResponse("Hello, world. You're at the menzaDatabase index.")
+    '''
+        Index view for the API
+    '''
+    return HttpResponse("Hello, world. You're at the API index.")
     diners = Diner.objects.all()
 
     rawData = serializers.serialize('python', list(diners))

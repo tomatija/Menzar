@@ -5,21 +5,24 @@ import Home from "./components/Home";
 import Signup from "./components/Signup/Signup";
 import Login from "./components/Login/Login";
 import Dashboard from "./components/Dashboard/Dashboard";
-import DinerPage from "./components/DinersPage"
-import MenusPage from "./components/MenusPage";
-//            
+import DinerListPage from "./components/DinersListPage";
+import DinerDetailsPage from "./components/DinerDetailsPage";
+import DinerMenusPage from "./components/DinersMenusPage";
+
+//TODO: For nested paths, check: https://ui.dev/react-router-nested-routes
 class App extends Component {
   render() {
     return (
       <div>
         <Root>
           <Switch>
-            <Route path="/diners" component={DinerPage}/>
+            <Route exact path="/diners" component={DinerListPage}/>
+            <Route exact path="/diners/:diner" component={DinerDetailsPage}/>
+            <Route exact path="/diners/:diner/:date" component={DinerMenusPage}/>
             <Route path="/signup" component={Signup} />
             <Route path="/login" component={Login} />
             <Route path="/dashboard" component={Dashboard} />
             <Route exact path="/" component={Home} />
-            <Route path="/menus/*" component={MenusPage} />
             <Route path="*">Ups</Route>
           </Switch>
         </Root> 

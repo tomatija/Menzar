@@ -1,6 +1,7 @@
 # DINERS
 DINER_MENUS_UNAVAILABLE = "Nisem uspel pridobiti menijev. Poskusite znova kasneje."
 DINER_NOT_FOUND = "Ne najdem željene menze."
+DINER_NO_MENUS_ON_DATE = "Na ta dan ne najdem menijev."
 
 # MENUS
 MENU_NOT_FOUND = "Ne najdem željenega menija."

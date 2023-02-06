@@ -1,27 +1,46 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import { Container } from "react-bootstrap";
+import { Button, Container } from "react-bootstrap";
 
-class Home extends Component {
-  render() {
+const Home = (props) => {
+  
     return (
       <Container>
         <h1>Home</h1>
-        <p>
-          <Link to="/diners">Diners</Link>
-        </p>
-        <p>
-          <Link to="/login">Login</Link>
-        </p>
-        <p>
-          <Link to="/signup">Sign up</Link>
-        </p>
-        <p>
-          <Link to="/dashboard">Dashboard</Link>
-        </p>
-      </Container>
+            <Button
+                className="m-2 col-5"
+                href="/diners"
+                variant="dark"
+                size="lg"
+            >
+                Diners
+            </Button>
+            <Button
+                className="m-2 col-5"
+                href="/dashboard"
+                variant="dark"
+                size="lg"
+            >
+                Dashboard
+            </Button>
+            <Button
+                className="m-2 col-5"
+                href="/login"
+                variant="dark"
+                size="lg"
+            >
+            Login
+            </Button>
+            <Button
+                className="m-2 col-5"
+                href="/signup"
+                variant="dark"
+                size="lg"
+            >
+                Sign up
+            </Button>
+        </Container>
     );
-  }
+  
 }
 
 export default Home;

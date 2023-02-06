@@ -1,36 +1,57 @@
-import React, { Component} from "react";
-import { Button } from "react-bootstrap";
+import React, { useEffect, useState, } from "react";
+import { Button, ButtonGroup } from "react-bootstrap";
 
-class Menu extends Component {
-    constructor(props) {
-        super(props);
-        this.diner = props.menu.diner;
-        this.soupString = props.menu.soup;
-        this.rating = props.menu.rating;
-        //TODO: Check if splitting with "," is the best way to do this
-        this.dishString = props.menu.dish.split(",");
-    }
-        
-    onMenuClick = () => {
-        //TODO: Implement user when user login is implemented
-        //const userData = {
-        //    username: this.state.username,
-        //    password: this.state.password
-        //};
-        console.log("User ordered " + this.soupString + " and " + this.dishString + " at " + this.diner);
-    };
-    
-    render() {
-        return (
-            <Button variant="outline-dark" pt="4" onClick={this.onMenuClick}>
-                <li>{this.soupString}</li>
-                {this.dishString.map((dish, index) => (
-                    <li key={index}>{dish}</li>))
-                }
-                Povprečna ocena menija: {this.rating}
-            </Button>
-        )
-    }
+function simulateNetworkRequest() {
+    return new Promise((resolve) => setTimeout(resolve, 2000));
 }
 
+const Menu = (props) => {
+    const diner = props.menu.diner;
+    const menuID = props.menu.id;
+    const soupString = props.menu.soup;
+    const rating = props.menu.rating == null ? null : ((Math.round(props.menu.rating * 100) / 100).toFixed(2));
+    const dishString = props.menu.dish;
+    console.log(rating)
+
+    const dishDisplayString = (soupString == null) ? (soupString + " | ") : "" + dishString;
+    const ratingDisplayString = (rating == null) ? "" : rating + "🌟";
+    
+    const loadingText = "Pa dober tek!";
+    
+    const [isLoading, setLoading] = useState(false);
+    useEffect(() => {
+        if (isLoading) {
+        simulateNetworkRequest().then(() => {
+            setLoading(false);
+        });
+        }
+    }, [isLoading]);
+
+    const handleClick = () => setLoading(true);
+    
+    return (
+        <ButtonGroup
+            size="lg"
+            onClick={!isLoading ? handleClick : null}
+            disabled={isLoading}
+            style={{ width: "100%" }}
+            className="mb-2"
+        >
+            <Button
+                variant={isLoading ? "success" : "secondary"}
+                className="col-10"
+            >
+            {isLoading ? loadingText : dishDisplayString}
+            </Button>
+            
+            <Button
+                variant={isLoading ? "success" : "secondary"}
+                className="col-2 text-left"
+            >
+            {isLoading ? "" : ratingDisplayString}
+            </Button>
+        </ButtonGroup>
+    )
+    
+}
 export default Menu;

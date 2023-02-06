@@ -39,17 +39,6 @@ class DinerListPage extends Component {
         );
     }
     
-    
-    /*
-    onSignupClick = () => {
-    const userData = {
-      username: this.state.username,
-      password: this.state.password
-    };
-    console.log("Sign up " + userData.username + " " + userData.password);
-    };
-    */
-    
     render()
     {
         const { error, isLoaded, diners } = this.state;
@@ -62,13 +51,15 @@ class DinerListPage extends Component {
         else {
             return (
                 <Container>
-                    {diners.map((diner, index) => (
-                        <Row key={index}>
-                            <Col md="4">
-                                <Diner diner={diner} date={this.date} />
-                            </Col>
-                        </Row>
-                    ))}
+                    <Row>
+                        <Col>
+                            <div className="d-grid gap-2">
+                                {diners.map((diner, index) => (
+                                    <Diner key={index}  diner={diner} date={this.date} />
+                                ))}
+                            </div>
+                        </Col>
+                    </Row>
                 </Container>
             );
         }

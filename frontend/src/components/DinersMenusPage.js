@@ -55,12 +55,15 @@ class DinerMenusPage extends Component {
         else {
             return (
                 <Container>
-                    <Row pt="4" >
-                        {menus.map((menu, index) =>(
-                            <Col md="3" key={index}>
-                                <Menu menu={menu} /><br></br>
-                            </Col>
-                        ))}
+                    <Row>
+                        <Col>
+                            <div className="d-grid gap-2">
+                            {
+                                menus.map((menu, index) => (
+                                    <Menu key={index} menu={menu}/>
+                            ))}
+                            </div>
+                        </Col>
                     </Row>
                 </Container>
             );

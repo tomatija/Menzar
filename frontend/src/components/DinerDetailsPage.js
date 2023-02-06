@@ -7,32 +7,43 @@ import {
 } from "react-bootstrap";
 
 
-class DinerDetailsPage extends Component {
-    constructor(props) {
-        super(props);
-        this.splitPath = window.location.pathname.split('/');
-        this.dinerName = this.splitPath[this.splitPath.length - 2];
-    }
-        
-    render()
-    {
-        return (
-            <Container>
-                <Row>
-                    <Col xs={6}>
-                        <Button href={"/diners/"+this.dinerName+"/today/"} variant="outline-dark">
-                            Današnji meni
-                        </Button>
-                    </Col>
-                    <Col xs={6}>
-                        <Button href={"/diners/"+this.dinerName+"/13-10-2022/"} variant="outline-dark">
-                            Menu 13. 10. 2022
-                        </Button>
-                    </Col>
-                </Row>
-            </Container>
-        );
-    }
+const DinerDetailsPage = (props) => {
+
+    const splitPath = window.location.pathname.split('/');
+    const dinerName = splitPath[splitPath.length - 2];
+    
+    const displayDates = [
+        "13-10-2022",
+        "14-10-2022",
+        "17-10-2022",
+    ];
+    
+    return (
+        <Container>
+            <Button
+                href={"/diners/" + dinerName + "/today/"}
+                size="lg"
+                variant="dark"
+                className="mb-2 col-12"
+                mb="2"
+            >
+                Današnji meni
+            </Button>
+            {displayDates.map((date, index) => (
+            
+                <Button
+                    key={index}
+                    href={"/diners/" + dinerName + "/" + date + "/"}
+                    size="lg"
+                    variant="dark"
+                    className="mb-2 col-12"
+                    mb="2"
+                >
+                    Menu za {date.replaceAll("-", ".")}
+                </Button>
+            ))}
+        </Container>
+    );
 }
 
 export default DinerDetailsPage;

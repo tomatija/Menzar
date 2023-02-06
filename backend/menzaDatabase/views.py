@@ -41,11 +41,9 @@ def getDinerMenus(dinerName, date):
                     orderRatings.append(review.grade)
 
         tmpMenu = dict()
-        if len(orderRatings) == 0:
-            tmpMenu['rating'] = MENU_NOT_RATED
-        else:
+        if len(orderRatings) != 0:
             tmpMenu['rating'] = sum(orderRatings)/len(orderRatings)
-
+        tmpMenu['id'] = menu.pk
         tmpMenu['soup'] = menu.soup.name
         tmpMenu['dish'] = menu.dish.name
         tmpMenu['diner'] = menu.diner.name
@@ -140,11 +138,9 @@ def scrapeView(request):
     response = ""
 
     for menu in menus:
-        # print(menu)
         response += f"{menu.dinerName} / {menu.soupString} / {menu.dishString}<br>"
 
     for menu in menus:
-        print(menu)
         diner = Diner.objects.get(name=menu.dinerName)
 
         soup = None

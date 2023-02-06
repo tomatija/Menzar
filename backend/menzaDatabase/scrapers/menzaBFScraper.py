@@ -24,5 +24,4 @@ class MenzaBFScraper(ScraperBase):
             menu.soupString = soup
             menu.dishString = dish
             menuArray.append(menu)
-
         return menuArray

@@ -38,4 +38,9 @@ class ScraperBase(ABC):
         if (req.status_code != 200):
             return None
 
-        return self.parser(soup)
+        # TODO: Maybe define the exception
+        try:
+            menus = self.parser(soup)
+            return menus
+        except Exception as e:
+            return []

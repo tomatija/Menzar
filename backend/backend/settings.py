@@ -18,12 +18,15 @@ from menzaDatabase.scrapers.marjeticaBelinkaScraper import MarjeticaBelinkaScrap
 from menzaDatabase.scrapers.marjeticaTobacnaScraper import MarjeticaTobacnaScraper
 from menzaDatabase.scrapers.roznakuhnaScraper import RoznaKuhnaScraper
 from menzaDatabase.scrapers.menzaBFScraper import MenzaBFScraper
+from menzaDatabase.scrapers.dijaskiDomVicScraper import DijaskiDomVicScraper
 
 DINER_SCRAPERS = Scrapers()
 DINER_SCRAPERS.registerScraper(MarjeticaTobacnaScraper())
 DINER_SCRAPERS.registerScraper(MarjeticaBelinkaScraper())
 DINER_SCRAPERS.registerScraper(MenzaBFScraper())
 DINER_SCRAPERS.registerScraper(RoznaKuhnaScraper())
+DINER_SCRAPERS.registerScraper(DijaskiDomVicScraper())
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent

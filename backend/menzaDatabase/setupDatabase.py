@@ -29,6 +29,7 @@ def createDiners():
         "marjeticabelinka": "Marjetica - Belinka",
         "roznakuhna": "Rožna Kuh'na",
         "menzabf": "Menza BF",
+        "ddvic": "Dijaški dom Vič",
     }
     for name in tqdm(diners):
         try:

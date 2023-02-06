@@ -13,8 +13,7 @@ class Scrapers:
 
         menuArray = []
         for scraper in self.scrapers:
-            print(scraper.name)
             for menu in scraper.get():
                 menuArray.append(menu)
-        
+
         return menuArray

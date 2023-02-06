@@ -30,6 +30,9 @@ def createDiners():
         "roznakuhna": "Rožna Kuh'na",
         "menzabf": "Menza BF",
         "ddvic": "Dijaški dom Vič",
+        'menzapf': "Menza PF",
+        'menzaijs': "Menza IJS",
+        'menzafe': "Menza FE",
     }
     for name in tqdm(diners):
         try:
@@ -750,11 +753,9 @@ def createMenus():
             d = Dish.objects.get(name=name)
 
             try:
-                obj = Menu.objects.get(soup=s, dish=d, diner=diner,
-                                       date=dishGroup["datum"])
+                obj = Menu.objects.get(soup=s, dish=d, diner=diner, date=dishGroup["datum"])
             except Menu.DoesNotExist:
-                obj = Menu(soup=s, dish=d, diner=diner,
-                           date=dishGroup["datum"])
+                obj = Menu(soup=s, dish=d, diner=diner, date=dishGroup["datum"])
                 obj.save()
 
 

@@ -20,7 +20,7 @@ urlpatterns = [
 
     # MENUS
     path(
-        '<str:dinerName>/<str:dateString>/',
+        'diner/<str:dinerName>/<str:dateString>/',
         views.getDinerMenusByDate,
         name='Diner menus by date'
     ),
@@ -37,17 +37,17 @@ urlpatterns = [
 
     # USERS
     path(
-        'users/',
+        'user/',
         views.getUsers,
         name='Users'
     ),
     path(
-        'users/<int:userId>/',
+        'user/<int:userId>/',
         views.getUserDetails,
         name='User details'
     ),
     path(
-        'users/<int:userId>/orders/',
+        'user/<int:userId>/orders/',
         views.getUserOrders,
         name='User orders'
     ),

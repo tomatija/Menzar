@@ -18,6 +18,9 @@ from menzaDatabase.scrapers.marjeticaBelinkaScraper import MarjeticaBelinkaScrap
 from menzaDatabase.scrapers.marjeticaTobacnaScraper import MarjeticaTobacnaScraper
 from menzaDatabase.scrapers.roznakuhnaScraper import RoznaKuhnaScraper
 from menzaDatabase.scrapers.menzaBFScraper import MenzaBFScraper
+from menzaDatabase.scrapers.menzaIJSScraper import MenzaIJSScraper
+from menzaDatabase.scrapers.menzaPFScraper import MenzaPFScraper
+from menzaDatabase.scrapers.menzaFEScraper import MenzaFEScraper
 from menzaDatabase.scrapers.dijaskiDomVicScraper import DijaskiDomVicScraper
 
 DINER_SCRAPERS = Scrapers()
@@ -26,6 +29,9 @@ DINER_SCRAPERS.registerScraper(MarjeticaBelinkaScraper())
 DINER_SCRAPERS.registerScraper(MenzaBFScraper())
 DINER_SCRAPERS.registerScraper(RoznaKuhnaScraper())
 DINER_SCRAPERS.registerScraper(DijaskiDomVicScraper())
+DINER_SCRAPERS.registerScraper(MenzaIJSScraper())
+DINER_SCRAPERS.registerScraper(MenzaPFScraper())
+DINER_SCRAPERS.registerScraper(MenzaFEScraper())
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -63,7 +69,26 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'rest_framework',
+    'rest_framework.authtoken',
+    'djoser',
+    'accounts.apps.AccountsConfig'
 ]
+
+# configure DRF
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ]
+}
+
+DJOSER = {
+    "USER_ID_FIELD": "username"
+}
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',

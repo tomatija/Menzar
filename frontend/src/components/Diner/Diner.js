@@ -6,7 +6,7 @@ const Diner = (props) => {
     
     return (
         <Button
-            href={"/diners/" + diner.name + "/"}
+            href={"/diner/" + diner.name + "/"}
             size="lg"
             variant="dark"
             className="mb-2 col-12"

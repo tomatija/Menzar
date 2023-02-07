@@ -1,8 +1,6 @@
-import React, { Component } from "react";
+import React from "react";
 import {
   Container,
-  Row,
-    Col,
   Button
 } from "react-bootstrap";
 
@@ -21,7 +19,7 @@ const DinerDetailsPage = (props) => {
     return (
         <Container>
             <Button
-                href={"/diners/" + dinerName + "/today/"}
+                href={"/diner/" + dinerName + "/today/"}
                 size="lg"
                 variant="dark"
                 className="mb-2 col-12"
@@ -33,7 +31,7 @@ const DinerDetailsPage = (props) => {
             
                 <Button
                     key={index}
-                    href={"/diners/" + dinerName + "/" + date + "/"}
+                    href={"/diner/" + dinerName + "/" + date + "/"}
                     size="lg"
                     variant="dark"
                     className="mb-2 col-12"

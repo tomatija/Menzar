@@ -1,7 +1,10 @@
+import axios from "axios";
 import React, { useEffect, useState, } from "react";
 import { Button, ButtonGroup } from "react-bootstrap";
 
-function simulateNetworkRequest() {
+function simulateNetworkRequest(user, menuID) {
+    axios.get("http://127.0.0.1:8000/api/v1/user/"+ user.username +"/order/"+menuID.toString()+"/")
+    console.log(user);
     return new Promise((resolve) => setTimeout(resolve, 2000));
 }
 
@@ -11,6 +14,8 @@ const Menu = (props) => {
     const soupString = props.menu.soup;
     const rating = props.menu.rating == null ? null : ((Math.round(props.menu.rating * 100) / 100).toFixed(2));
     const dishString = props.menu.dish;
+    const user = props.user;
+    console.log(user);
     console.log(rating)
 
     const dishDisplayString = (soupString == null) ? (soupString + " | ") : "" + dishString;
@@ -21,7 +26,7 @@ const Menu = (props) => {
     const [isLoading, setLoading] = useState(false);
     useEffect(() => {
         if (isLoading) {
-        simulateNetworkRequest().then(() => {
+        simulateNetworkRequest(props.user, menuID).then(() => {
             setLoading(false);
         });
         }

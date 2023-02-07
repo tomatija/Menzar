@@ -47,11 +47,15 @@ urlpatterns = [
         name='User details'
     ),
     path(
-        'user/<int:userId>/orders/',
+        'user/<str:username>/orders/',
         views.getUserOrders,
         name='User orders'
     ),
-
+    path(
+        'user/<str:username>/order/<int:menuID>/',
+        view=views.userOrder,
+        name='User order menu'
+    )
     # ORDERS
     # path('orders/<int:orderId>/', views.getOrderDetails, name='Order details'),
 

@@ -57,6 +57,31 @@ def getDinerMenus(dinerName, date):
     return HttpResponse(json.dumps(filteredData, cls=DjangoJSONEncoder), content_type="application/json")
 
 
+def userOrder(request, username, menuID):
+    '''
+        Creates an order for a given user and menu
+    '''
+    user = User.objects.filter(username=username)
+    if len(user) == 0:
+        return HttpResponse(USER_NOT_FOUND)
+
+    menu = Menu.objects.filter(pk=menuID)
+
+    if len(menu) == 0:
+        return HttpResponse(MENU_NOT_FOUND)
+
+    if len(menu) > 1:
+        return HttpResponse(MENU_INVALID)
+
+    try:
+        order = Order.objects.get(user=user.first(), menu=menu.first())
+        return HttpResponse(ORDER_ALREADY_EXISTS)
+    except Order.DoesNotExist:
+        order = Order(user=user.first(), menu=menu.first())
+        order.save()
+    return HttpResponse("Order created successfully.")
+
+
 def getDinerMenusByDate(request, dinerName, dateString):
     '''
         Returns all menus for a given diner on a given date
@@ -103,11 +128,28 @@ def getUserDetails(request, userId):
     return HttpResponse("API not implemented yet.")
 
 
-def getUserOrders(request, userId):
+def getUserOrders(request, username):
     '''
         Gets all orders of a given user
     '''
-    return HttpResponse("API not implemented yet.")
+    user = User.objects.filter(username=username)
+    if len(user) == 0:
+        return HttpResponse(USER_NOT_FOUND)
+
+    orders = Order.objects.filter(user=user.first())
+    res = []
+    for order in orders:
+        tmpOrder = dict()
+        tmpOrder['diner'] = order.menu.diner.display_name
+        tmpOrder['dish'] = order.menu.dish.name
+        tmpOrder['soup'] = order.menu.soup.name
+        res.append(tmpOrder)
+
+    print(res)
+    return HttpResponse(json.dumps(res, cls=DjangoJSONEncoder))
+    rawData = serializers.serialize('python', list(orders))
+    filteredData = [d['fields'] for d in rawData]
+    return HttpResponse(json.dumps(filteredData, cls=DjangoJSONEncoder), content_type="application/json")
 
 
 # HELPER VIEWS

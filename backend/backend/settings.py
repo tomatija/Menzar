@@ -48,11 +48,24 @@ SECRET_KEY = 'django-insecure-5!o3+^w*(+4zb_v_qk0fkg_q&$)b+c93b@lcdq+l&zz-1tmh@&
 DEBUG = 'RENDER' not in os.environ
 
 # https://docs.djangoproject.com/en/3.0/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = []
 
-RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
-if RENDER_EXTERNAL_HOSTNAME:
-    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
+BACKEND_URL = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
+FRONTEND_URL = os.environ.get('FRONTEND_URL')
+
+
+ALLOWED_HOSTS = [
+    '127.0.0.1',
+    'https://mojamenza.onrender.com'
+]
+
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',
+]
+
+if FRONTEND_URL:
+    CORS_ALLOWED_ORIGINS.append(FRONTEND_URL)
+if DEBUG:
+    ALLOWED_HOSTS.append('[::1]')
 
 CRONJOBS = [
     ('*/1 * * * *', 'menzaDatabase.cron.my_scheduled_job')
@@ -100,11 +113,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
-]
-
-CORS_ALLOWED_ORIGINS = [
-    "https://menzar.vercel.app/",
-    "https://mojamenza.onrender.com"
 ]
 
 ROOT_URLCONF = 'backend.urls'

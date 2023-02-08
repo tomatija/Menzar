@@ -143,6 +143,7 @@ def getUserOrders(request, username):
         tmpOrder['diner'] = order.menu.diner.display_name
         tmpOrder['dish'] = order.menu.dish.name
         tmpOrder['soup'] = order.menu.soup.name
+        tmpOrder['id'] = order.id
         res.append(tmpOrder)
 
     print(res)
@@ -150,6 +151,15 @@ def getUserOrders(request, username):
     rawData = serializers.serialize('python', list(orders))
     filteredData = [d['fields'] for d in rawData]
     return HttpResponse(json.dumps(filteredData, cls=DjangoJSONEncoder), content_type="application/json")
+
+
+def deleteUserOrder(request, pk):
+    #TODO: check if request came from corrent user (by username)
+    orders = Order.objects.filter(pk=pk)
+    if not len(orders) == 0:
+        orders.first().delete()
+
+    return HttpResponse("order deleted")
 
 
 # HELPER VIEWS

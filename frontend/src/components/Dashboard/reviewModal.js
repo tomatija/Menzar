@@ -9,12 +9,12 @@ function ReviewModal(props) {
   return (
     <Modal show={props.show}>
       <Modal.Header>
-        <Modal.Title>Add new menu item</Modal.Title>
+        <Modal.Title>Oceni jed</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form>
           <Form.Group>
-          <Form.Label>Ocena</Form.Label>
+            <Form.Label>Ocena</Form.Label>
             <Form.Control as="select" size="lg" className="mb-3">
               <option value={1}>1</option>
               <option value={2}>2</option>
@@ -36,7 +36,7 @@ function ReviewModal(props) {
       </Modal.Body>
       <Modal.Footer>
         <Button variant="primary" type="submit">
-          Submit
+          Oddaj komentar
         </Button>
         <Button onClick={() => props.closeModal(false)}>Close</Button>
       </Modal.Footer>

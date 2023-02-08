@@ -33,7 +33,7 @@ const Order = (props) => {
           <p>{dish}</p>
 
           <Button className="float-right" onClick={() => deleteOrder()}>
-            Delete
+            Izbriši naročilo
           </Button>
           <Button onClick={() => setShowReviewModal(true)}>Review</Button>
         </Card.Body>

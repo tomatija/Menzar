@@ -72,7 +72,7 @@ function Dashboard(props) {
     <div>
 
       <Navbar bg="light">
-        <Navbar.Brand href="/">Home</Navbar.Brand>
+        <Navbar.Brand href="/">Domov</Navbar.Brand>
         <Navbar.Toggle />
         <Navbar.Collapse className="justify-content-end">
           <Navbar.Text>

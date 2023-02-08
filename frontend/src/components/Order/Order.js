@@ -6,7 +6,7 @@ const Order = (props) => {
   const id = props.order.id;
 
   function deleteOrder() {
-    const apiURL = "http://127.0.0.1:8000/api/v1/order/remove/" + id + "/";
+    const apiURL = "https://mojamenza.onrender.com/api/v1/order/remove/" + id + "/";
     fetch(apiURL).then(
       (result) => {props.refreshParent();}
     );

@@ -17,7 +17,7 @@ class Dashboard extends Component {
     };
 
     this.apiUrl =
-      "http://127.0.0.1:8000/api/v1/user/" +
+      "https://mojamenza.onrender.com/api/v1/user/" +
       this.props.auth.user.username +
       "/orders/";
     this.displayElement = null;

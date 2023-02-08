@@ -3,7 +3,7 @@ import React, { useEffect, useState, } from "react";
 import { Button, ButtonGroup } from "react-bootstrap";
 
 function simulateNetworkRequest(user, menuID) {
-    axios.get("http://127.0.0.1:8000/api/v1/user/"+ user.username +"/order/"+menuID.toString()+"/")
+    axios.get("https://mojamenza.onrender.com/api/v1/user/"+ user.username +"/order/"+menuID.toString()+"/")
     console.log(user);
     return new Promise((resolve) => setTimeout(resolve, 2000));
 }

@@ -3,9 +3,10 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 
-import { Container, Navbar, Nav, Row, Col } from "react-bootstrap";
+import { Container, Navbar, Nav } from "react-bootstrap";
 import { logout } from "../Login/LoginActions";
 import Order from "../Order/Order";
+import Accordion from 'react-bootstrap/Accordion';
 
 class Dashboard extends Component {
   constructor(props) {
@@ -23,6 +24,7 @@ class Dashboard extends Component {
     this.displayElement = null;
 
     this.getUserOrderData = this.getUserOrderData.bind(this);
+    this.test = 0;
   }
 
   onLogout = () => {
@@ -53,7 +55,6 @@ class Dashboard extends Component {
     this.getUserOrderData();
   }
 
-
   render() {
     const { user } = this.props.auth;
     const { error, isLoaded, orders } = this.state;
@@ -63,15 +64,11 @@ class Dashboard extends Component {
       this.displayElement = <div>Loading...</div>;
     } else {
       this.displayElement = (
-        <Row>
-          <Col>
-            <div className="d-grid gap-2">
-              {orders.map((order, index) => (
-                <Order key={index} order={order} refreshParent={this.getUserOrderData}  />
-              ))}
-            </div>
-          </Col>
-        </Row>
+        <Accordion defaultActiveKey="0">
+          {orders.map((order, index) => (
+            <Order key={index} test={index} order={order} refreshParent={this.getUserOrderData}  />
+          ))}
+        </Accordion>
       );
     }
     return (

@@ -52,13 +52,9 @@ class DinerListPage extends Component {
             return (
                 <Container>
                     <Row>
-                        <Col>
-                            <div className="d-grid gap-2">
-                                {diners.map((diner, index) => (
-                                    <Diner key={index}  diner={diner} date={this.date} />
-                                ))}
-                            </div>
-                        </Col>
+                        {diners.map((diner, index) => (
+                            <Diner key={index}  diner={diner} date={this.date} />
+                        ))}
                     </Row>
                 </Container>
             );

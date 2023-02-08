@@ -2,7 +2,7 @@
 const DinerData = {
     
     'roznakuhna': {
-        'image': require('./DinerImages/roznakuhna.jpg'),
+        'image': require('./DinerImages/roznakuhna.png'),
         'description': "To je opis restavracije Rožna kuhna"
     },
     
@@ -32,7 +32,7 @@ const DinerData = {
         'description': "To je opis restavracije Menza FE"
     },
     'menzapf': {
-        'image': require('./DinerImages/menzapf.jpg'),
+        'image': require('./DinerImages/menzapf.png'),
         'description': "To je opis restavracije Menza PF"
     },
 }

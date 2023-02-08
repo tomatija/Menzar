@@ -16,7 +16,7 @@ class Dashboard extends Component {
             orders: []
     };
     
-    this.apiUrl = 'https://menzar.vercel.app/api/v1/user/' + this.props.auth.user.username + '/orders/';
+    this.apiUrl = 'https://mojamenza.onrender.com//api/v1/user/' + this.props.auth.user.username + '/orders/';
     this.displayElement = null;
   }
   

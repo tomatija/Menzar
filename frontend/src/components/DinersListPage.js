@@ -10,7 +10,7 @@ import Diner from "./Diner/Diner";
 class DinerListPage extends Component {
     constructor(props) {
         super(props);
-        this.apiUrl = 'https://menzar.vercel.app/api/v1/diners';
+        this.apiUrl = 'https://mojamenza.onrender.com//api/v1/diners';
         this.state = {
             error: null,
             isLoaded: false,

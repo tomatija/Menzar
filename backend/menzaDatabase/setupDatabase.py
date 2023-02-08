@@ -29,8 +29,12 @@ def createDiners():
         "marjeticabelinka": "Marjetica - Belinka",
         "roznakuhna": "Rožna Kuh'na",
         "menzabf": "Menza BF",
+        "ddvic": "Dijaški dom Vič",
+        'menzapf': "Menza PF",
+        'menzaijs': "Menza IJS",
+        'menzafe': "Menza FE",
     }
-    for name in diners:
+    for name in tqdm(diners):
         try:
             Diner.objects.get(name=name)
         except Diner.DoesNotExist:
@@ -42,7 +46,7 @@ SOUPS = ["Goveja juha", "Zelenjavna juha", "Cvetačna juha", "Ajdova juha"]
 
 
 def createSoups():
-    for soup in SOUPS:
+    for soup in tqdm(SOUPS):
         try:
             Soup.objects.get(name=soup)
         except Soup.DoesNotExist:
@@ -749,11 +753,9 @@ def createMenus():
             d = Dish.objects.get(name=name)
 
             try:
-                obj = Menu.objects.get(soup=s, dish=d, diner=diner,
-                                       date=dishGroup["datum"])
+                obj = Menu.objects.get(soup=s, dish=d, diner=diner, date=dishGroup["datum"])
             except Menu.DoesNotExist:
-                obj = Menu(soup=s, dish=d, diner=diner,
-                           date=dishGroup["datum"])
+                obj = Menu(soup=s, dish=d, diner=diner, date=dishGroup["datum"])
                 obj.save()
 
 
@@ -5115,13 +5117,24 @@ def createOrders():
         menu = Menu.objects.get(
             date=menuOrdered["datum"], dish=dish, diner=diner)
 
+        orderObj = None
         try:
-            Order.objects.get(user=user, menu=menu)
+            orderObj = Order.objects.get(user=user, menu=menu)
         except Order.DoesNotExist:
-            order = Order.objects.create(
+            orderObj = Order.objects.create(
                 user=user,
                 menu=menu,
-            ).save()
+            )
+            orderObj.save()
+
+        # sorry for this weird naming
+        if order["rating"] != 0 and order["comment"] != "None":
+            try:
+                review = Review.objects.get(order=orderObj)
+            except Review.DoesNotExist:
+                review = Review.objects.create(
+                    order=orderObj, grade=order["rating"], comment=order["comment"])
+                review.save()
 
 
 def deleteDatabase():

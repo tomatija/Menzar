@@ -1,0 +1,87 @@
+import React, { Component } from "react";
+import {
+  Container,
+  Row,
+  Col,
+} from "react-bootstrap";
+
+import { logout } from "./Login/LoginActions";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+import Menu from "./Menus/Menu";
+
+class DinerMenusPage extends Component {
+    constructor(props) {
+        super(props);
+        this.splitPath = window.location.pathname.split('/');
+        this.dinerName = this.splitPath[this.splitPath.length - 3];
+        this.dinerDate = this.splitPath[this.splitPath.length - 2];
+        console.log(this.dinerName, this.dinerDate);
+        this.apiUrl = 'http://127.0.0.1:8000/api/v1/diner/' + this.dinerName+'/'+this.dinerDate+'/';
+        console.log(this.apiUrl);
+        this.state = {
+            error: null,
+            isLoaded: false,
+            menus: []
+        };
+        this.auth = this.props.auth;
+    }
+    onLogout = () => {
+        this.props.logout();
+    };
+    componentDidMount() {
+        fetch(this.apiUrl)
+        .then(response => response.json())
+        .then(
+            (result) => {
+                this.setState({
+                    isLoaded: true,
+                    menus: result
+                });
+            },
+            (error) => {
+                this.setState({
+                    isLoaded: false,
+                    error: error
+                });
+            }
+        );
+    }
+    
+    render()
+    {
+        const { user } = this.props.auth;
+        const { error, isLoaded, menus } = this.state;
+        console.log(this.state)
+        if (error) {
+            return <div>Error: {error.message}</div>;
+        }
+        else if (!isLoaded) {
+            return <div>Loading...</div>;
+        }
+        else {
+            return (
+                <Container>
+                    <Row>
+                        <Col>
+                            <div className="d-grid gap-2">
+                            {
+                                menus.map((menu, index) => (
+                                    <Menu user={user} key={index} menu={menu}/>
+                            ))}
+                            </div>
+                        </Col>
+                    </Row>
+                </Container>
+            );
+        }
+    }
+}
+
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
+export default connect(mapStateToProps, {
+  logout
+})(withRouter(DinerMenusPage));

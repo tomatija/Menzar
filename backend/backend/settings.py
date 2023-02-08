@@ -18,12 +18,21 @@ from menzaDatabase.scrapers.marjeticaBelinkaScraper import MarjeticaBelinkaScrap
 from menzaDatabase.scrapers.marjeticaTobacnaScraper import MarjeticaTobacnaScraper
 from menzaDatabase.scrapers.roznakuhnaScraper import RoznaKuhnaScraper
 from menzaDatabase.scrapers.menzaBFScraper import MenzaBFScraper
+from menzaDatabase.scrapers.menzaIJSScraper import MenzaIJSScraper
+from menzaDatabase.scrapers.menzaPFScraper import MenzaPFScraper
+from menzaDatabase.scrapers.menzaFEScraper import MenzaFEScraper
+from menzaDatabase.scrapers.dijaskiDomVicScraper import DijaskiDomVicScraper
 
 DINER_SCRAPERS = Scrapers()
-DINER_SCRAPERS.registerScraper(RoznaKuhnaScraper())
 DINER_SCRAPERS.registerScraper(MarjeticaTobacnaScraper())
 DINER_SCRAPERS.registerScraper(MarjeticaBelinkaScraper())
 DINER_SCRAPERS.registerScraper(MenzaBFScraper())
+DINER_SCRAPERS.registerScraper(RoznaKuhnaScraper())
+DINER_SCRAPERS.registerScraper(DijaskiDomVicScraper())
+DINER_SCRAPERS.registerScraper(MenzaIJSScraper())
+DINER_SCRAPERS.registerScraper(MenzaPFScraper())
+DINER_SCRAPERS.registerScraper(MenzaFEScraper())
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -39,11 +48,19 @@ SECRET_KEY = 'django-insecure-5!o3+^w*(+4zb_v_qk0fkg_q&$)b+c93b@lcdq+l&zz-1tmh@&
 DEBUG = 'RENDER' not in os.environ
 
 # https://docs.djangoproject.com/en/3.0/ref/settings/#allowed-hosts
+
+BACKEND_URL = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
+FRONTEND_URL = os.environ.get('FRONTEND_URL')
+
+# TODO: REMOVE THIS '*' ALLOWED HOSTS
 ALLOWED_HOSTS = []
 
-RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
-if RENDER_EXTERNAL_HOSTNAME:
-    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000'
+]
+
+if FRONTEND_URL:
+    CORS_ALLOWED_ORIGINS.append(FRONTEND_URL)
 
 CRONJOBS = [
     ('*/1 * * * *', 'menzaDatabase.cron.my_scheduled_job')
@@ -60,9 +77,29 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'rest_framework',
+    'rest_framework.authtoken',
+    'djoser',
 ]
 
+# configure DRF
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ]
+}
+
+DJOSER = {
+    "USER_ID_FIELD": "username"
+}
+
 MIDDLEWARE = [
+    'django.middleware.common.CommonMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',

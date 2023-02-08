@@ -1,46 +1,40 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import Root from "./Root"; // <------------- new import
+import { Route, Switch } from "react-router-dom"; // <--- remove BrowserRouter
+import Home from "./components/Home";
+import Signup from "./components/Signup/Signup";
+import Login from "./components/Login/Login";
+import Dashboard from "./components/Dashboard/Dashboard";
+import DinerListPage from "./components/DinersListPage";
+import DinerDetailsPage from "./components/DinerDetailsPage";
+import DinerMenusPage from "./components/DinersMenusPage";
+import { ToastContainer } from "react-toastify";
+import axios from "axios";
+import requireAuth from "./utils/RequireAuth";
+axios.defaults.baseURL = "http://127.0.0.1:8000";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <a
-          className="App-link"
-          href="http://127.0.0.1:8000/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          INDEX
-        </a>
-        <a
-          className="App-link"
-          href="http://127.0.0.1:8000/admin/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          ADMIN
-        </a>
-        <a
-          className="App-link"
-          href="http://127.0.0.1:8000/createDB/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          CREATE DB
-        </a>
-        <a
-          className="App-link"
-          href="http://127.0.0.1:8000/deleteDB/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          DROP DB
-        </a>
-      </header>
-    </div>
-  );
+// below <Root> add
+//TODO: For nested paths, check: https://ui.dev/react-router-nested-routes
+class App extends Component {
+  render() {
+    return (
+      <div>
+        <Root>
+          <ToastContainer hideProgressBar={true} newestOnTop={true} />
+          <Switch>
+            <Route exact path="/diners" component={DinerListPage}/>
+            <Route exact path="/diner/:diner" component={DinerDetailsPage}/>
+            <Route exact path="/diner/:diner/:date" component={requireAuth(DinerMenusPage)}/>
+            <Route path="/signup" component={Signup} />
+            <Route path="/login" component={Login} />
+            <Route path="/dashboard" component={requireAuth(Dashboard)} />
+            <Route exact path="/" component={Home} />
+            <Route path="*">Ups</Route>
+          </Switch>
+        </Root> 
+      </div>
+    );
+  }
 }
 
 export default App;

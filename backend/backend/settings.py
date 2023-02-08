@@ -52,8 +52,9 @@ DEBUG = 'RENDER' not in os.environ
 BACKEND_URL = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 FRONTEND_URL = os.environ.get('FRONTEND_URL')
 
-
+# TODO: REMOVE THIS '*' ALLOWED HOSTS
 ALLOWED_HOSTS = [
+    '*',
     '127.0.0.1',
     'https://mojamenza.onrender.com'
 ]

@@ -104,7 +104,7 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     "https://menzar.vercel.app/",
-    "https://mojamenza.onrender.com/"
+    "https://mojamenza.onrender.com"
 ]
 
 ROOT_URLCONF = 'backend.urls'

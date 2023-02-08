@@ -55,6 +55,11 @@ urlpatterns = [
         'user/<str:username>/order/<int:menuID>/',
         view=views.userOrder,
         name='User order menu'
+    ),
+    path(
+        'order/remove/<int:pk>/',
+        view=views.deleteUserOrder,
+        name='order delete order'
     )
     # ORDERS
     # path('orders/<int:orderId>/', views.getOrderDetails, name='Order details'),

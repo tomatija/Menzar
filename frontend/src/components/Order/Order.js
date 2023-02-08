@@ -6,7 +6,7 @@ const Order = (props) => {
     const dish = props.order.dish;
     const soup = props.order.soup;
     const id = props.order.id;
-    const accordionID = props.test.toString();
+    const accordionID = props.accordionID.toString();
     console.log(accordionID);
     
     function deleteOrder() {
@@ -14,23 +14,23 @@ const Order = (props) => {
         fetch(apiURL).then(props.refreshParent);
     }
     return (
-    <Card>
-    <Card.Header>
-      <Accordion.Toggle as={Button} variant="light" eventKey={accordionID}>
-        Naročilo v {diner}
-      </Accordion.Toggle>
-    </Card.Header>
-    <Accordion.Collapse eventKey={accordionID}>
+        <Card>
+            <Card.Header>
+                <Accordion.Toggle as={Button} variant="light" eventKey={accordionID}>
+                    Naročilo v {diner}
+                </Accordion.Toggle>
+            </Card.Header>
+            <Accordion.Collapse eventKey={accordionID}>
                 <Card.Body>
-                <p>{soup}</p>
-                <p>{dish}</p>
-                    
-                <Button
-                    onClick={() => deleteOrder()}>
-                    Delete
-                    </Button>
+                    <p>{soup}</p>
+                    <p>{dish}</p>
+                            
+                    <Button
+                        onClick={() => deleteOrder()}>
+                        Delete
+                        </Button>
                 </Card.Body>
-    </Accordion.Collapse>
+            </Accordion.Collapse>
         </Card>
     )
 };

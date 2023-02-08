@@ -53,7 +53,7 @@ function Dashboard(props) {
     displayElement = (
       <Accordion defaultActiveKey="0">
           {orders.map((order, index) => (
-            <Order key={index} test={index} order={order} refreshParent={this.getUserOrderData}  />
+            <Order key={index} accordionID={index} order={order} refreshParent={() => getUserOrderData()}  />
           ))}
         </Accordion>
     );

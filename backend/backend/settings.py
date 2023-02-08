@@ -53,17 +53,13 @@ BACKEND_URL = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 FRONTEND_URL = os.environ.get('FRONTEND_URL')
 
 # TODO: REMOVE THIS '*' ALLOWED HOSTS
-ALLOWED_HOSTS = [
-    '*',
-    '127.0.0.1',
-    'https://mojamenza.onrender.com'
-]
+ALLOWED_HOSTS = ['*']
+CORS_ALLOWED_ORIGINS = ['*']
 
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',
-    'https://mojamenza.onrender.com'
-]
-
+# CORS_ALLOWED_ORIGINS = [
+#    'http://localhost:3000',
+#    'https://mojamenza.onrender.com'
+# ]
 if FRONTEND_URL:
     CORS_ALLOWED_ORIGINS.append(FRONTEND_URL)
 if DEBUG:

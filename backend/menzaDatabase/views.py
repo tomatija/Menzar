@@ -219,3 +219,5 @@ def scrapeView(request):
             menu.save()
 
     return HttpResponse(response)
+
+

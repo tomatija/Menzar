@@ -6,12 +6,14 @@ import { withRouter } from "react-router-dom";
 import { Container, Navbar, Nav } from "react-bootstrap";
 import { logout } from "../Login/LoginActions";
 import Order from "../Order/Order";
-import Accordion from 'react-bootstrap/Accordion';
+import Accordion from "react-bootstrap/Accordion";
+
 
 function Dashboard(props) {
   const [errors, setErrors] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [orders, setOrders] = useState([]);
+
 
   const apiUrl =
     "http://127.0.0.1:8000/api/v1/user/" +
@@ -19,6 +21,8 @@ function Dashboard(props) {
     "/orders/";
 
   var displayElement = null;
+
+
 
   function onLogout() {
     props.logout();
@@ -52,17 +56,23 @@ function Dashboard(props) {
   } else {
     displayElement = (
       <Accordion defaultActiveKey="0">
-          {orders.map((order, index) => (
-            <Order key={index} accordionID={index} order={order} refreshParent={() => getUserOrderData()}  />
-          ))}
-        </Accordion>
+        {orders.map((order, index) => (
+          <Order
+            key={index}
+            accordionID={index}
+            order={order}
+            refreshParent={() => getUserOrderData()}
+          />
+        ))}
+      </Accordion>
     );
   }
 
   return (
     <div>
+
       <Navbar bg="light">
-        <Navbar.Brand href="/">Home</Navbar.Brand>
+        <Navbar.Brand href="/">Domov</Navbar.Brand>
         <Navbar.Toggle />
         <Navbar.Collapse className="justify-content-end">
           <Navbar.Text>
@@ -74,7 +84,6 @@ function Dashboard(props) {
       <Container>{displayElement}</Container>
     </div>
   );
-
 }
 
 Dashboard.propTypes = {

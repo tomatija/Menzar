@@ -13,14 +13,3 @@ According to [THIS GUIDE](https://www.sharepointdiary.com/2014/03/fix-for-powers
 # Cron job
 
 Cron jobs won't function on windows machines, so they work only on deployed version of the app.
-
-# HOSTING
-## To deploy we need to use firebase
-### INSTALLATION
-    npm install -g firebase-tools
-### LOGIN
-    firebase login
-### INIT
-    firebase init
-### DEPLOY
-    firebase deploy

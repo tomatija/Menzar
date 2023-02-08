@@ -11,7 +11,7 @@ import DinerMenusPage from "./components/DinersMenusPage";
 import { ToastContainer } from "react-toastify";
 import axios from "axios";
 import requireAuth from "./utils/RequireAuth";
-axios.defaults.baseURL = "http://127.0.0.1:8000";
+axios.defaults.baseURL = "https://mojamenza.onrender.com/";
 
 // below <Root> add
 //TODO: For nested paths, check: https://ui.dev/react-router-nested-routes

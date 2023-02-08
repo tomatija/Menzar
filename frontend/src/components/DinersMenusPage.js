@@ -17,7 +17,7 @@ class DinerMenusPage extends Component {
         this.dinerName = this.splitPath[this.splitPath.length - 3];
         this.dinerDate = this.splitPath[this.splitPath.length - 2];
         console.log(this.dinerName, this.dinerDate);
-        this.apiUrl = 'http://127.0.0.1:8000/api/v1/diner/' + this.dinerName+'/'+this.dinerDate+'/';
+        this.apiUrl = 'https://mojamenza.onrender.com//api/v1/diner/' + this.dinerName+'/'+this.dinerDate+'/';
         console.log(this.apiUrl);
         this.state = {
             error: null,

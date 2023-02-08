@@ -53,10 +53,12 @@ BACKEND_URL = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 FRONTEND_URL = os.environ.get('FRONTEND_URL')
 
 # TODO: REMOVE THIS '*' ALLOWED HOSTS
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '*'
+]
 
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000'
+    '*'
 ]
 
 if FRONTEND_URL:

@@ -14,7 +14,7 @@ function Dashboard(props) {
   const [orders, setOrders] = useState([]);
 
   const apiUrl =
-    "http://127.0.0.1:8000/api/v1/user/" +
+    "https://mojamenza.onrender.com/api/v1/user/" +
     props.auth.user.username +
     "/orders/";
 

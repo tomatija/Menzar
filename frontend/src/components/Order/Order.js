@@ -10,7 +10,7 @@ const Order = (props) => {
     console.log(accordionID);
     
     function deleteOrder() {
-        const apiURL = "http://127.0.0.1:8000/api/v1/order/remove/" + id + "/";
+        const apiURL = "https://mojamenza.onrender.com/api/v1/order/remove/" + id + "/";
         fetch(apiURL).then(props.refreshParent);
     }
     return (

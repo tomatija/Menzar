@@ -62,6 +62,7 @@ function Dashboard(props) {
             accordionID={index}
             order={order}
             refreshParent={() => getUserOrderData()}
+            auth = {props.auth}
           />
         ))}
       </Accordion>

@@ -7,6 +7,11 @@ from django.utils import timezone
 import json
 from django.core import serializers
 from django.core.serializers.json import DjangoJSONEncoder
+from .serializers import *
+
+from rest_framework.decorators import api_view
+
+from django.views.decorators.csrf import csrf_exempt
 
 
 def getAvailableDiners(request):
@@ -140,6 +145,16 @@ def getUserOrders(request, username):
     res = []
     for order in orders:
         tmpOrder = dict()
+       
+        review = Review.objects.filter(order = order)
+
+        if len(review) == 1:
+           tmpOrder['comment'] = review.first().comment
+           tmpOrder['rating'] = review.first().grade
+        else:
+            tmpOrder['comment'] = ""
+            tmpOrder['rating'] = None
+
         tmpOrder['diner'] = order.menu.diner.display_name
         tmpOrder['dish'] = order.menu.dish.name
         tmpOrder['soup'] = order.menu.soup.name
@@ -221,3 +236,10 @@ def scrapeView(request):
     return HttpResponse(response)
 
 
+@api_view(['POST'])
+def createReview(request):
+    print(request.data)
+    serializer = Review_serializer(data=request.data)
+    if serializer.is_valid(raise_exception=True):
+       serializer.save()
+    return HttpResponse(serializer.data)

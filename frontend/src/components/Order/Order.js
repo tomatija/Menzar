@@ -22,7 +22,7 @@ const Order = (props) => {
   }
 
   const reviewButton = (
-    <Button onClick={() => setShowReviewModal(true)}>Review</Button>
+    <Button onClick={() => setShowReviewModal(true)}>Oceni kosilo</Button>
   );
 
   const review = (

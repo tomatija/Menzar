@@ -55,9 +55,9 @@ class Order(models.Model):
 # table of reviews
 class Review(models.Model):
     comment = models.CharField(max_length=200)
-    grade = models.DecimalField(max_digits=2, decimal_places=1, validators=[
-                                MinValueValidator(1), MaxValueValidator(5)])
+    rating = models.IntegerField(validators=[
+                                MinValueValidator(1), MaxValueValidator(10)])
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
 
     def __str__(self) -> str:
-        return f"{self.order} got {self.grade} stars with comment: {self.comment}"
+        return f"{self.order} got {self.rating} stars with comment: {self.comment}"

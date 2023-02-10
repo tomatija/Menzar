@@ -1,13 +1,19 @@
 import React, { useState } from "react";
 import { Modal, Button, Form, Select } from "react-bootstrap";
 
+import { Rating } from "react-simple-star-rating";
+import CloseButton from "react-bootstrap/CloseButton";
+
 function ReviewModal(props) {
   const [comment, setComment] = useState();
   const [rating, setRating] = useState(1);
 
-  function ratingChangeHandler(e) {
-    setRating(e.target.value);
-  }
+  const ratingChangeHandler = (rate) => {
+    if (rate < 1) {
+      rate = 1;
+    }
+    setRating(rate * 2); //rating is 1 - 10 on backend and 0.5 - 5 on frontend so i multiply it by 2
+  };
 
   function commentChangeHandler(e) {
     setComment(e.target.value);
@@ -16,7 +22,7 @@ function ReviewModal(props) {
   function submitReview() {
     const apiURL = "http://127.0.0.1:8000/api/v1/review/add/";
 
-    const data = { comment: comment, grade: rating, order: props.orderID };
+    const data = { comment: comment, rating: rating, order: props.orderID };
 
     console.log(props.auth);
     fetch(apiURL, {
@@ -36,23 +42,18 @@ function ReviewModal(props) {
     <Modal show={props.show}>
       <Modal.Header>
         <Modal.Title>Oceni jed</Modal.Title>
+        <CloseButton onClick={() => props.closeModal(false)} />
       </Modal.Header>
       <Modal.Body>
         <Form>
-          <Form.Group>
+          <Form.Group className="mb-3">
             <Form.Label>Ocena</Form.Label>
-            <Form.Control
-              as="select"
-              size="lg"
-              className="mb-3"
-              onChange={ratingChangeHandler}
-            >
-              <option value={1}>1</option>
-              <option value={2}>2</option>
-              <option value={3}>3</option>
-              <option value={4}>4</option>
-              <option value={5}>5</option>
-            </Form.Control>
+            <br></br>
+            <Rating
+              allowFraction={true}
+              onClick={ratingChangeHandler}
+              initialValue={rating}
+            />
           </Form.Group>
 
           <Form.Group className="mb-3">
@@ -70,7 +71,6 @@ function ReviewModal(props) {
         <Button variant="primary" onClick={() => submitReview()}>
           Oddaj komentar
         </Button>
-        <Button onClick={() => props.closeModal(false)}>Close</Button>
       </Modal.Footer>
     </Modal>
   );

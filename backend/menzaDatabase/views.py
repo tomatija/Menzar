@@ -45,7 +45,7 @@ def getDinerMenus(dinerName, date):
             for chosenOrder in Order.objects.filter(menu=chosenMenu):
                 # choose all reviews with chosen order
                 for review in Review.objects.filter(order=chosenOrder):
-                    orderRatings.append(review.grade)
+                    orderRatings.append(review.rating)
 
         tmpMenu = dict()
         if len(orderRatings) != 0:
@@ -152,7 +152,7 @@ def getUserOrders(request, username):
 
         if len(review) == 1:
            tmpOrder['comment'] = review.first().comment
-           tmpOrder['rating'] = review.first().grade
+           tmpOrder['rating'] = review.first().rating
         else:
             tmpOrder['comment'] = ""
             tmpOrder['rating'] = None

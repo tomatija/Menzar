@@ -11,7 +11,7 @@ import DinerMenusPage from "./components/DinersMenusPage";
 import { ToastContainer } from "react-toastify";
 import axios from "axios";
 import requireAuth from "./utils/RequireAuth";
-import Navigation from "./components/Dashboard/Navbar/Navigation";
+import Navigation from "./components/Navbar/Navigation";
 axios.defaults.baseURL = "http://127.0.0.1:8000";
 
 // below <Root> add

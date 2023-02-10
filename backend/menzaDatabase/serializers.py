@@ -4,31 +4,31 @@ from .models import *
 
 class Diner_serializer (serializers.ModelSerializer):
     class Meta:
-        models = Diner
+        model = Diner
         fields = '__all__'
 
 class Dish_serializer (serializers.ModelSerializer):
     class Meta:
-        models = Dish
+        model = Dish
         fields = '__all__'
 
 class Soup_serializer (serializers.ModelSerializer):
     class Meta:
-        models = Soup
+        model = Soup
         fields = '__all__'
 
 
 class Menu_serializer (serializers.ModelSerializer):
     class Meta:
-        models = Menu
+        model = Menu
         fields = '__all__'
 
 class Order_serializer (serializers.ModelSerializer):
     class Meta:
-        models = Order
+        model = Order
         fields = '__all__'
 
 class Review_serializer (serializers.ModelSerializer):
     class Meta:
-        models = Review
+        model = Review
         fields = '__all__'

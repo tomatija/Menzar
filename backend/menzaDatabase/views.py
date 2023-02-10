@@ -18,7 +18,10 @@ def getAvailableDiners(request):
     diners = Diner.objects.all()
 
     serializerData = Diner_serializer(diners, many=True).data
-    return HttpResponse(json.dumps(serializerData))
+    if len(diners) > 0:
+        return HttpResponse(json.dumps(serializerData))
+    else:
+        return HttpResponse("No diners avaliable")
 
 
 def getDinerMenus(dinerName, date):

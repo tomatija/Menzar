@@ -8,6 +8,7 @@ function ReviewModal(props) {
   const [comment, setComment] = useState();
   const [rating, setRating] = useState(1);
 
+
   const ratingChangeHandler = (rate) => {
     if (rate < 1) {
       rate = 1;
@@ -32,17 +33,19 @@ function ReviewModal(props) {
         Authorization: "Token " + props.auth.token,
       },
       body: JSON.stringify(data),
-    }).then((result) => {
-      console.log(result);
+    })
+    .then(
+      (result) => {
+        console.log(result);
+      })
       props.closeModal();
-    });
   }
 
   return (
     <Modal show={props.show}>
       <Modal.Header>
         <Modal.Title>Oceni jed</Modal.Title>
-        <CloseButton onClick={() => props.closeModal(false)} />
+        <CloseButton onClick={() => props.closeModal()} />
       </Modal.Header>
       <Modal.Body>
         <Form>
@@ -53,6 +56,7 @@ function ReviewModal(props) {
               allowFraction={true}
               onClick={ratingChangeHandler}
               initialValue={rating}
+              transition={true}
             />
           </Form.Group>
 

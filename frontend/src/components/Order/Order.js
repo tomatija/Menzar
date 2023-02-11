@@ -11,10 +11,12 @@ const Order = (props) => {
   const id = props.order.id;
   const comment = props.order.comment;
   const rating = props.order.rating;
+  const reviewID = props.order.reviewID;
   const accordionID = props.accordionID.toString();
   console.log(accordionID);
 
   const [showReviewModal, setShowReviewModal] = useState(false);
+  const [modalEditMode, setModalEditMode] = useState(false);
 
   function deleteOrder() {
     const apiURL = "http://127.0.0.1:8000/api/v1/order/remove/" + id + "/";
@@ -26,9 +28,18 @@ const Order = (props) => {
   );
 
   const review = (
-    <div style={{border: '3px solid rgba(0, 0, 0,0.1)', maxWidth:'fit-content', borderRadius:'10px', padding:'20px'}}>
+    <div
+      style={{
+        border: "3px solid rgba(0, 0, 0,0.1)",
+        maxWidth: "fit-content",
+        borderRadius: "10px",
+        padding: "20px",
+      }}
+    >
       <p>{comment}</p>
       <Rating allowFraction={true} readonly={true} initialValue={rating / 2} />
+      <br></br>
+      <Button onClick={() => {setModalEditMode(true); setShowReviewModal(true);}}>Uredi</Button>
     </div>
   );
 
@@ -38,10 +49,14 @@ const Order = (props) => {
         show={showReviewModal}
         closeModal={() => {
           setShowReviewModal(false);
-          window.location.reload();
+          window.location.reload(); //TODO: figure out how to refresh component correctly
         }}
         orderID={id}
         auth={props.auth}
+        comment={comment}
+        rating={rating}
+        edit={modalEditMode}
+        reviewID={reviewID}
       />
       <Card.Header>
         <Accordion.Toggle as={Button} variant="light" eventKey={accordionID}>

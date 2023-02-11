@@ -5,10 +5,8 @@ import { Rating } from "react-simple-star-rating";
 import CloseButton from "react-bootstrap/CloseButton";
 
 function ReviewModal(props) {
-  const [comment, setComment] = useState();
-  const [rating, setRating] = useState(1);
-
-
+  const [comment, setComment] = useState(props.comment);
+  const [rating, setRating] = useState(props.rating);
   const ratingChangeHandler = (rate) => {
     if (rate < 1) {
       rate = 1;
@@ -21,11 +19,18 @@ function ReviewModal(props) {
   }
 
   function submitReview() {
-    const apiURL = "http://127.0.0.1:8000/api/v1/review/add/";
+    var apiURL = "";
+    var data = {};
+    if (props.edit) {
+      apiURL = "http://127.0.0.1:8000/api/v1/review/update/";
+      data = { comment: comment, rating: rating, reviewID: props.reviewID, order: props.orderID };
+    } else {
+      apiURL = "http://127.0.0.1:8000/api/v1/review/add/";
+      data = { comment: comment, rating: rating, order: props.orderID };
+    }
 
-    const data = { comment: comment, rating: rating, order: props.orderID };
-
-    console.log(props.auth);
+    console.log(data);
+    console.log(props.auth.token)
     fetch(apiURL, {
       method: "POST",
       headers: {
@@ -33,12 +38,10 @@ function ReviewModal(props) {
         Authorization: "Token " + props.auth.token,
       },
       body: JSON.stringify(data),
-    })
-    .then(
-      (result) => {
-        console.log(result);
-      })
-      props.closeModal();
+    }).then((result) => {
+      console.log(result);
+    });
+    props.closeModal();
   }
 
   return (
@@ -55,7 +58,7 @@ function ReviewModal(props) {
             <Rating
               allowFraction={true}
               onClick={ratingChangeHandler}
-              initialValue={rating}
+              initialValue={rating / 2}
               transition={true}
             />
           </Form.Group>
@@ -67,6 +70,7 @@ function ReviewModal(props) {
               rows={3}
               placeholder="Vpišite komentar"
               onChange={commentChangeHandler}
+              defaultValue={comment}
             />
           </Form.Group>
         </Form>

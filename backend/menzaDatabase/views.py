@@ -17,9 +17,11 @@ from django.views.decorators.csrf import csrf_exempt
 def getAvailableDiners(request):
     diners = Diner.objects.all()
 
-    rawData = serializers.serialize('python', list(diners))
-    filteredData = [d['fields'] for d in rawData]
-    return HttpResponse(json.dumps(filteredData, cls=DjangoJSONEncoder), content_type="application/json")
+    serializerData = Diner_serializer(diners, many=True).data
+    if len(diners) > 0:
+        return HttpResponse(json.dumps(serializerData))
+    else:
+        return HttpResponse("No diners avaliable")
 
 
 def getDinerMenus(dinerName, date):

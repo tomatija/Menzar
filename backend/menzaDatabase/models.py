@@ -3,7 +3,8 @@ from django.core.validators import *
 
 from django.contrib.auth.models import User
 
-# table of menzas
+
+# table of diners
 class Diner(models.Model):
     name = models.CharField(max_length=50)
     display_name = models.CharField(max_length=50)
@@ -57,7 +58,8 @@ class Review(models.Model):
     comment = models.CharField(max_length=200)
     grade = models.DecimalField(max_digits=2, decimal_places=1, validators=[
                                 MinValueValidator(1), MaxValueValidator(5)])
-    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    order = models.ForeignKey(
+        Order, related_name='reviews', on_delete=models.CASCADE)
 
     def __str__(self) -> str:
         return f"{self.order} got {self.grade} stars with comment: {self.comment}"

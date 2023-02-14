@@ -16,8 +16,8 @@
                 "panel": "new"
             },
             "dependsOn": [
-                "Build backend",
-            ],
+                "Build backend"
+            ]
         },
         {
             "type": "shell",
@@ -34,8 +34,9 @@
                 "cwd": "${workspaceFolder}\\frontend"
             },
             "dependsOn": [
-                "Build frontend",
+                "Build frontend"
             ],
+            "problemMatcher": []
         },
         {
             "type": "shell",
@@ -43,7 +44,7 @@
             "label": "Build backend",
             "options": {
                 "cwd": "${workspaceFolder}\\backend"
-            },
+            }
         },
         {
             "type": "shell",
@@ -51,7 +52,7 @@
             "label": "Build frontend",
             "options": {
                 "cwd": "${workspaceFolder}\\frontend"
-            },
-        },
+            }
+        }
     ]
 }

@@ -13,10 +13,14 @@ const Order = (props) => {
   const rating = props.order.rating;
   const reviewID = props.order.reviewID;
   const accordionID = props.accordionID.toString();
-  console.log(accordionID);
+
 
   const [showReviewModal, setShowReviewModal] = useState(false);
   const [modalEditMode, setModalEditMode] = useState(false);
+
+  function refreshOrder(){
+    setShowReviewModal(false);
+  }
 
   function deleteOrder() {
     const apiURL = "http://127.0.0.1:8000/api/v1/order/remove/" + id + "/";
@@ -37,9 +41,16 @@ const Order = (props) => {
       }}
     >
       <p>{comment}</p>
-      <Rating allowFraction={true} readonly={true} initialValue={rating / 2} />
+      <Rating allowFraction={true} readonly={true} initialValue={rating} />
       <br></br>
-      <Button onClick={() => {setModalEditMode(true); setShowReviewModal(true);}}>Uredi</Button>
+      <Button
+        onClick={() => {
+          setModalEditMode(true);
+          setShowReviewModal(true);
+        }}
+      >
+        Uredi
+      </Button>
     </div>
   );
 
@@ -47,10 +58,7 @@ const Order = (props) => {
     <Card>
       <ReviewModal
         show={showReviewModal}
-        closeModal={() => {
-          setShowReviewModal(false);
-          window.location.reload(); //TODO: figure out how to refresh component correctly
-        }}
+        closeModal={refreshOrder}
         orderID={id}
         auth={props.auth}
         comment={comment}
@@ -68,7 +76,7 @@ const Order = (props) => {
           <p>{soup}</p>
           <p>{dish}</p>
 
-          {comment == "" ? reviewButton : review}
+          {comment === "" ? reviewButton : review}
           <Button className="float-right" onClick={() => deleteOrder()}>
             Izbriši naročilo
           </Button>

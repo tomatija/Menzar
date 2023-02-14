@@ -165,11 +165,7 @@ def getUserOrders(request, username):
         tmpOrder['id'] = order.id
         res.append(tmpOrder)
 
-    #print(res)
     return HttpResponse(json.dumps(res, cls=DjangoJSONEncoder))
-    rawData = serializers.serialize('python', list(orders))
-    filteredData = [d['fields'] for d in rawData]
-    return HttpResponse(json.dumps(filteredData, cls=DjangoJSONEncoder), content_type="application/json")
 
 
 def deleteUserOrder(request, pk):
@@ -249,10 +245,8 @@ def createReview(request):
 
 @api_view(['POST'])
 def updateReview(request):
-    print(request.data)
     reviewID = request.data.get('reviewID')
     review = Review.objects.filter(pk = reviewID).first()
-    print(review)
     serializer = Review_serializer(instance=review, data=request.data)
     if serializer.is_valid(raise_exception=True):
        serializer.save()

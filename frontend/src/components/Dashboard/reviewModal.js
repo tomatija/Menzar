@@ -8,10 +8,8 @@ function ReviewModal(props) {
   const [comment, setComment] = useState(props.comment);
   const [rating, setRating] = useState(props.rating);
   const ratingChangeHandler = (rate) => {
-    if (rate < 1) {
-      rate = 1;
-    }
-    setRating(rate * 2); //rating is 1 - 10 on backend and 0.5 - 5 on frontend so i multiply it by 2
+    rate = rate/20;//TODO: fix
+    setRating(rate);
   };
 
   function commentChangeHandler(e) {
@@ -23,14 +21,17 @@ function ReviewModal(props) {
     var data = {};
     if (props.edit) {
       apiURL = "http://127.0.0.1:8000/api/v1/review/update/";
-      data = { comment: comment, rating: rating, reviewID: props.reviewID, order: props.orderID };
+      data = {
+        comment: comment,
+        rating: rating,
+        reviewID: props.reviewID,
+        order: props.orderID,
+      };
     } else {
       apiURL = "http://127.0.0.1:8000/api/v1/review/add/";
       data = { comment: comment, rating: rating, order: props.orderID };
     }
 
-    console.log(data);
-    console.log(props.auth.token)
     fetch(apiURL, {
       method: "POST",
       headers: {
@@ -39,16 +40,16 @@ function ReviewModal(props) {
       },
       body: JSON.stringify(data),
     }).then((result) => {
-      console.log(result);
+      props.closeModal(false);
     });
-    props.closeModal();
+
   }
 
   return (
     <Modal show={props.show}>
       <Modal.Header>
         <Modal.Title>Oceni jed</Modal.Title>
-        <CloseButton onClick={() => props.closeModal()} />
+        <CloseButton onClick={() => props.closeModal(false)} />
       </Modal.Header>
       <Modal.Body>
         <Form>
@@ -56,9 +57,9 @@ function ReviewModal(props) {
             <Form.Label>Ocena</Form.Label>
             <br></br>
             <Rating
-              allowFraction={true}
+              allowHalfIcon={true}
               onClick={ratingChangeHandler}
-              initialValue={rating / 2}
+              initialValue={rating}
               transition={true}
             />
           </Form.Group>

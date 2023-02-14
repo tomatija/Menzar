@@ -8,12 +8,16 @@ import { logout } from "../Login/LoginActions";
 import Order from "../Order/Order";
 import Accordion from "react-bootstrap/Accordion";
 
+import ReviewModal from "../Dashboard/reviewModal";
 
 function Dashboard(props) {
   const [errors, setErrors] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [orders, setOrders] = useState([]);
 
+  const [showReviewModal, setShowReviewModal] = useState(false);
+
+  const [reviewModalData, setReviewModalData] = useState({});
 
   const apiUrl =
     "http://127.0.0.1:8000/api/v1/user/" +
@@ -22,10 +26,18 @@ function Dashboard(props) {
 
   var displayElement = null;
 
-
-
   function onLogout() {
     props.logout();
+  }
+
+  function openReviewModal(orderID, reviewID = null, rating = 0, comment = "") {
+    setReviewModalData({
+      orderID: orderID,
+      comment: comment,
+      rating: rating,
+      reviewID: reviewID,
+    });
+    setShowReviewModal(true);
   }
 
   function getUserOrderData() {
@@ -62,7 +74,7 @@ function Dashboard(props) {
             accordionID={index}
             order={order}
             refreshParent={() => getUserOrderData()}
-            auth = {props.auth}
+            reviewModalEnable={openReviewModal}
           />
         ))}
       </Accordion>
@@ -71,7 +83,15 @@ function Dashboard(props) {
 
   return (
     <div>
-
+      <ReviewModal
+        show={showReviewModal}
+        closeModal={() => {
+          setShowReviewModal(false);
+          getUserOrderData();
+        }}
+        orderData={reviewModalData}
+        auth={props.auth}
+      />
       <Navbar bg="light">
         <Navbar.Brand href="/">Domov</Navbar.Brand>
         <Navbar.Toggle />

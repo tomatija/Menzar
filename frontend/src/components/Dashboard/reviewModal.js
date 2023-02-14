@@ -1,14 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Modal, Button, Form, Select } from "react-bootstrap";
 
 import { Rating } from "react-simple-star-rating";
 import CloseButton from "react-bootstrap/CloseButton";
 
 function ReviewModal(props) {
-  const [comment, setComment] = useState(props.comment);
-  const [rating, setRating] = useState(props.rating);
+  const [comment, setComment] = useState(props.orderData.comment);
+  const [rating, setRating] = useState(props.orderData.rating);
+
+  useEffect(() => {
+    setComment(props.orderData.comment);
+    setRating(props.orderData.rating);
+  }, [props.orderData]);
+
   const ratingChangeHandler = (rate) => {
-    rate = rate/20;//TODO: fix
+    rate = rate / 20; //TODO: fix
+
     setRating(rate);
   };
 
@@ -17,19 +24,23 @@ function ReviewModal(props) {
   }
 
   function submitReview() {
-    var apiURL = "";
+    var apiURL = "http://127.0.0.1:8000/api/v1/review/add/";
     var data = {};
-    if (props.edit) {
+    if (props.orderData.reviewID !== null) {
       apiURL = "http://127.0.0.1:8000/api/v1/review/update/";
       data = {
         comment: comment,
         rating: rating,
-        reviewID: props.reviewID,
-        order: props.orderID,
+        reviewID: props.orderData.reviewID,
+        order: props.orderData.orderID,
       };
     } else {
       apiURL = "http://127.0.0.1:8000/api/v1/review/add/";
-      data = { comment: comment, rating: rating, order: props.orderID };
+      data = {
+        comment: comment,
+        rating: rating,
+        order: props.orderData.orderID,
+      };
     }
 
     fetch(apiURL, {
@@ -42,7 +53,6 @@ function ReviewModal(props) {
     }).then((result) => {
       props.closeModal(false);
     });
-
   }
 
   return (
@@ -59,7 +69,7 @@ function ReviewModal(props) {
             <Rating
               allowHalfIcon={true}
               onClick={ratingChangeHandler}
-              initialValue={rating}
+              ratingValue={props.orderData.rating}
               transition={true}
             />
           </Form.Group>
@@ -71,7 +81,7 @@ function ReviewModal(props) {
               rows={3}
               placeholder="Vpišite komentar"
               onChange={commentChangeHandler}
-              defaultValue={comment}
+              defaultValue={props.orderData.comment}
             />
           </Form.Group>
         </Form>

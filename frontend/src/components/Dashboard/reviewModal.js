@@ -1,24 +1,37 @@
 import React, { useState } from "react";
 import { Modal, Button, Form, Select } from "react-bootstrap";
 
-function ReviewModal(props) {
-  const [comment, setComment] = useState();
-  const [rating, setRating] = useState(1);
+import { Rating } from "react-simple-star-rating";
+import CloseButton from "react-bootstrap/CloseButton";
 
-  function ratingChangeHandler(e) {
-    setRating(e.target.value);
-  }
+function ReviewModal(props) {
+  const [comment, setComment] = useState(props.comment);
+  const [rating, setRating] = useState(props.rating);
+  const ratingChangeHandler = (rate) => {
+    rate = rate/20;//TODO: fix
+    setRating(rate);
+  };
 
   function commentChangeHandler(e) {
     setComment(e.target.value);
   }
 
   function submitReview() {
-    const apiURL = "http://127.0.0.1:8000/api/v1/review/add/";
+    var apiURL = "";
+    var data = {};
+    if (props.edit) {
+      apiURL = "http://127.0.0.1:8000/api/v1/review/update/";
+      data = {
+        comment: comment,
+        rating: rating,
+        reviewID: props.reviewID,
+        order: props.orderID,
+      };
+    } else {
+      apiURL = "http://127.0.0.1:8000/api/v1/review/add/";
+      data = { comment: comment, rating: rating, order: props.orderID };
+    }
 
-    const data = { comment: comment, grade: rating, order: props.orderID };
-
-    console.log(props.auth);
     fetch(apiURL, {
       method: "POST",
       headers: {
@@ -27,32 +40,28 @@ function ReviewModal(props) {
       },
       body: JSON.stringify(data),
     }).then((result) => {
-      console.log(result);
-      props.closeModal();
+      props.closeModal(false);
     });
+
   }
 
   return (
     <Modal show={props.show}>
       <Modal.Header>
         <Modal.Title>Oceni jed</Modal.Title>
+        <CloseButton onClick={() => props.closeModal(false)} />
       </Modal.Header>
       <Modal.Body>
         <Form>
-          <Form.Group>
+          <Form.Group className="mb-3">
             <Form.Label>Ocena</Form.Label>
-            <Form.Control
-              as="select"
-              size="lg"
-              className="mb-3"
-              onChange={ratingChangeHandler}
-            >
-              <option value={1}>1</option>
-              <option value={2}>2</option>
-              <option value={3}>3</option>
-              <option value={4}>4</option>
-              <option value={5}>5</option>
-            </Form.Control>
+            <br></br>
+            <Rating
+              allowHalfIcon={true}
+              onClick={ratingChangeHandler}
+              initialValue={rating}
+              transition={true}
+            />
           </Form.Group>
 
           <Form.Group className="mb-3">
@@ -62,6 +71,7 @@ function ReviewModal(props) {
               rows={3}
               placeholder="Vpišite komentar"
               onChange={commentChangeHandler}
+              defaultValue={comment}
             />
           </Form.Group>
         </Form>
@@ -70,7 +80,6 @@ function ReviewModal(props) {
         <Button variant="primary" onClick={() => submitReview()}>
           Oddaj komentar
         </Button>
-        <Button onClick={() => props.closeModal(false)}>Close</Button>
       </Modal.Footer>
     </Modal>
   );

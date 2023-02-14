@@ -45,7 +45,7 @@ def getDinerMenus(dinerName, date):
             for chosenOrder in Order.objects.filter(menu=chosenMenu):
                 # choose all reviews with chosen order
                 for review in Review.objects.filter(order=chosenOrder):
-                    orderRatings.append(review.grade)
+                    orderRatings.append(review.rating)
 
         tmpMenu = dict()
         if len(orderRatings) != 0:
@@ -152,10 +152,12 @@ def getUserOrders(request, username):
 
         if len(review) == 1:
            tmpOrder['comment'] = review.first().comment
-           tmpOrder['rating'] = review.first().grade
+           tmpOrder['rating'] = review.first().rating
+           tmpOrder['reviewID'] = review.first().id
         else:
             tmpOrder['comment'] = ""
             tmpOrder['rating'] = None
+            tmpOrder['reviewID'] = None
 
         tmpOrder['diner'] = order.menu.diner.display_name
         tmpOrder['dish'] = order.menu.dish.name
@@ -163,11 +165,7 @@ def getUserOrders(request, username):
         tmpOrder['id'] = order.id
         res.append(tmpOrder)
 
-    print(res)
     return HttpResponse(json.dumps(res, cls=DjangoJSONEncoder))
-    rawData = serializers.serialize('python', list(orders))
-    filteredData = [d['fields'] for d in rawData]
-    return HttpResponse(json.dumps(filteredData, cls=DjangoJSONEncoder), content_type="application/json")
 
 
 def deleteUserOrder(request, pk):
@@ -240,8 +238,16 @@ def scrapeView(request):
 
 @api_view(['POST'])
 def createReview(request):
-    print(request.data)
     serializer = Review_serializer(data=request.data)
+    if serializer.is_valid(raise_exception=True):
+       serializer.save()
+    return HttpResponse(serializer.data)
+
+@api_view(['POST'])
+def updateReview(request):
+    reviewID = request.data.get('reviewID')
+    review = Review.objects.filter(pk = reviewID).first()
+    serializer = Review_serializer(instance=review, data=request.data)
     if serializer.is_valid(raise_exception=True):
        serializer.save()
     return HttpResponse(serializer.data)

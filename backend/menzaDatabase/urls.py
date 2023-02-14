@@ -69,6 +69,11 @@ urlpatterns = [
         view=views.createReview,
         name='insert new review'
     ),
+        path(
+        'review/update/',
+        view=views.updateReview,
+        name='update review'
+    ),
 
 
 ]

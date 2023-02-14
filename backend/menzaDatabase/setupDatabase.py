@@ -5133,7 +5133,7 @@ def createOrders():
                 review = Review.objects.get(order=orderObj)
             except Review.DoesNotExist:
                 review = Review.objects.create(
-                    order=orderObj, grade=order["rating"], comment=order["comment"])
+                    order=orderObj, rating=order["rating"], comment=order["comment"])
                 review.save()
 
 

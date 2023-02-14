@@ -36,15 +36,15 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class OrderSerializer(serializers.ModelSerializer):
-    reviews = serializers.PrimaryKeyRelatedField(
-        many=True,
+    review = serializers.PrimaryKeyRelatedField(
+        many=False,
         read_only=True,
         allow_null=True
     )
 
     class Meta:
         model = Order
-        fields = ['pk', 'menu', 'reviews']
+        fields = ['pk', 'menu', 'review']
         depth = 2
 
 
@@ -52,5 +52,5 @@ class ReviewSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Review
-        fields = ['grade', 'comment', 'orders']
+        fields = ['rating', 'comment', 'orders']
         depth = 2

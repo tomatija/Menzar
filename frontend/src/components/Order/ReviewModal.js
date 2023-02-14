@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Modal, Button, Form, Select } from "react-bootstrap";
+import { Modal, Button, Form } from "react-bootstrap";
 
 import { Rating } from "react-simple-star-rating";
 import CloseButton from "react-bootstrap/CloseButton";
@@ -8,7 +8,7 @@ function ReviewModal(props) {
   const [comment, setComment] = useState(props.comment);
   const [rating, setRating] = useState(props.rating);
   const ratingChangeHandler = (rate) => {
-    rate = rate/20;//TODO: fix
+    rate = rate / 20;//TODO: fix
     setRating(rate);
   };
 

@@ -7,7 +7,7 @@ from django.utils import timezone
 import json
 from django.core import serializers
 from django.core.serializers.json import DjangoJSONEncoder
-from .serializers.serializers import DinerSerializer, MenuSerializer, SoupSerializer, DishSerializer, OrderSerializer
+from .serializers.serializers import DinerSerializer, MenuSerializer, OrderSerializer, ReviewSerializer, UserSerializer
 from rest_framework.decorators import api_view
 
 
@@ -189,7 +189,7 @@ def scrapeView(request):
 
 @api_view(['POST'])
 def createReview(request):
-    serializer = Review_serializer(data=request.data)
+    serializer = ReviewSerializer(data=request.data)
     if serializer.is_valid(raise_exception=True):
         serializer.save()
     return HttpResponse(serializer.data)
@@ -199,7 +199,7 @@ def createReview(request):
 def updateReview(request):
     reviewID = request.data.get('reviewID')
     review = Review.objects.filter(pk=reviewID).first()
-    serializer = Review_serializer(instance=review, data=request.data)
+    serializer = ReviewSerializer(instance=review, data=request.data)
     if serializer.is_valid(raise_exception=True):
         serializer.save()
     return HttpResponse(serializer.data)

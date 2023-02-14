@@ -8,6 +8,7 @@ import json
 from django.core import serializers
 from django.core.serializers.json import DjangoJSONEncoder
 from .serializers.serializers import DinerSerializer, MenuSerializer, SoupSerializer, DishSerializer, OrderSerializer
+from rest_framework.decorators import api_view
 
 
 def getAvailableDiners(request):
@@ -30,6 +31,7 @@ def getDinerMenus(dinerName, date):
 
     serializedData = MenuSerializer(menus, many=True).data
     return HttpResponse(json.dumps(serializedData))
+
 
 def userOrder(request, username, menuID):
     '''
@@ -115,7 +117,6 @@ def getUserOrders(request, username):
     return HttpResponse(json.dumps(serializedData, cls=DjangoJSONEncoder))
 
 
-
 def deleteUserOrder(request, pk):
     # TODO: check if request came from corrent user (by username)
     orders = Order.objects.filter(pk=pk)
@@ -184,3 +185,21 @@ def scrapeView(request):
             menu.save()
 
     return HttpResponse(response)
+
+
+@api_view(['POST'])
+def createReview(request):
+    serializer = Review_serializer(data=request.data)
+    if serializer.is_valid(raise_exception=True):
+        serializer.save()
+    return HttpResponse(serializer.data)
+
+
+@api_view(['POST'])
+def updateReview(request):
+    reviewID = request.data.get('reviewID')
+    review = Review.objects.filter(pk=reviewID).first()
+    serializer = Review_serializer(instance=review, data=request.data)
+    if serializer.is_valid(raise_exception=True):
+        serializer.save()
+    return HttpResponse(serializer.data)

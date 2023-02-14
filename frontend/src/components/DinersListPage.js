@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import {
   Container,
   Row,
-  Col,
 } from "react-bootstrap";
 
 import Diner from "./Diner/Diner";
@@ -27,7 +26,6 @@ class DinerListPage extends Component {
                     isLoaded: true,
                     diners: result
                 });
-            console.log(result);
             },
             (error) => {
                 this.setState({

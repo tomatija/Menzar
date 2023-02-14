@@ -9,14 +9,12 @@ function simulateNetworkRequest(user, menuID) {
 }
 
 const Menu = (props) => {
-    const diner = props.menu.diner;
-    const menuID = props.menu.id;
-    const soupString = props.menu.soup;
+    const diner = props.menu.diner.name;
+    const menuID = props.menu.pk;
+    const soupString = props.menu.soup.name;
     const rating = props.menu.rating == null ? null : ((Math.round(props.menu.rating * 100) / 100).toFixed(2));
-    const dishString = props.menu.dish;
+    const dishString = props.menu.dish.name;
     const user = props.user;
-    console.log(user);
-    console.log(rating)
 
     const dishDisplayString = (soupString == null) ? (soupString + " | ") : "" + dishString;
     const ratingDisplayString = (rating == null) ? "" : rating + "🌟";

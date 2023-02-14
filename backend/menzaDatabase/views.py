@@ -7,14 +7,13 @@ from django.utils import timezone
 import json
 from django.core import serializers
 from django.core.serializers.json import DjangoJSONEncoder
+from .serializers.serializers import DinerSerializer, MenuSerializer, SoupSerializer, DishSerializer, OrderSerializer
 
 
 def getAvailableDiners(request):
     diners = Diner.objects.all()
-
-    rawData = serializers.serialize('python', list(diners))
-    filteredData = [d['fields'] for d in rawData]
-    return HttpResponse(json.dumps(filteredData, cls=DjangoJSONEncoder), content_type="application/json")
+    serializedData = DinerSerializer(diners, many=True).data
+    return HttpResponse(json.dumps(serializedData))
 
 
 def getDinerMenus(dinerName, date):
@@ -29,33 +28,8 @@ def getDinerMenus(dinerName, date):
     if len(menus) == 0:
         return HttpResponse(DINER_MENUS_UNAVAILABLE)
 
-    res = list()
-    for menu in menus:
-        orderRatings = []
-        # choose all menus with same dish and diner
-        for chosenMenu in Menu.objects.filter(diner=menu.diner, dish=menu.dish):
-            # choose all orders with chosen menu
-            for chosenOrder in Order.objects.filter(menu=chosenMenu):
-                # choose all reviews with chosen order
-                for review in Review.objects.filter(order=chosenOrder):
-                    orderRatings.append(review.grade)
-
-        tmpMenu = dict()
-        if len(orderRatings) != 0:
-            tmpMenu['rating'] = sum(orderRatings)/len(orderRatings)
-        tmpMenu['id'] = menu.pk
-        tmpMenu['soup'] = menu.soup.name
-        tmpMenu['dish'] = menu.dish.name
-        tmpMenu['diner'] = menu.diner.name
-        res.append(tmpMenu)
-
-    return HttpResponse(json.dumps(res, cls=DjangoJSONEncoder))
-
-    # TODO: Create a better way to serialize the data
-    rawData = serializers.serialize('python', list(diners))
-    filteredData = [d['fields'] for d in rawData]
-    return HttpResponse(json.dumps(filteredData, cls=DjangoJSONEncoder), content_type="application/json")
-
+    serializedData = MenuSerializer(menus, many=True).data
+    return HttpResponse(json.dumps(serializedData))
 
 def userOrder(request, username, menuID):
     '''
@@ -137,24 +111,13 @@ def getUserOrders(request, username):
         return HttpResponse(USER_NOT_FOUND)
 
     orders = Order.objects.filter(user=user.first())
-    res = []
-    for order in orders:
-        tmpOrder = dict()
-        tmpOrder['diner'] = order.menu.diner.display_name
-        tmpOrder['dish'] = order.menu.dish.name
-        tmpOrder['soup'] = order.menu.soup.name
-        tmpOrder['id'] = order.id
-        res.append(tmpOrder)
+    serializedData = OrderSerializer(orders, many=True).data
+    return HttpResponse(json.dumps(serializedData, cls=DjangoJSONEncoder))
 
-    print(res)
-    return HttpResponse(json.dumps(res, cls=DjangoJSONEncoder))
-    rawData = serializers.serialize('python', list(orders))
-    filteredData = [d['fields'] for d in rawData]
-    return HttpResponse(json.dumps(filteredData, cls=DjangoJSONEncoder), content_type="application/json")
 
 
 def deleteUserOrder(request, pk):
-    #TODO: check if request came from corrent user (by username)
+    # TODO: check if request came from corrent user (by username)
     orders = Order.objects.filter(pk=pk)
     if not len(orders) == 0:
         orders.first().delete()
@@ -163,6 +126,8 @@ def deleteUserOrder(request, pk):
 
 
 # HELPER VIEWS
+
+
 def indexView(request):
     '''
         Index view for the API

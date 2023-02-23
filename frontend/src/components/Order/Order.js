@@ -5,13 +5,14 @@ import ReviewModal from "./ReviewModal";
 import { Rating } from "react-simple-star-rating";
 
 const Order = (props) => {
-    const menu = props.order.menu;
+    const order = props.order;
+    const menu = order.menu;
     const diner = menu.diner.display_name;
     const dish = menu.dish.name;
     const soup = menu.soup.name;
-    const id = props.order.pk;
-    const review = props.order.review;
+    const review = order.review;
     const reviewAvailable = review !== null;
+    
     const accordionID = props.accordionID.toString();
     
     const [showReviewModal, setShowReviewModal] = useState(false);
@@ -22,7 +23,7 @@ const Order = (props) => {
     }
 
     function deleteOrder() {
-        const apiURL = "http://127.0.0.1:8000/api/v1/order/remove/" + id + "/";
+        const apiURL = "http://127.0.0.1:8000/api/v1/order/remove/" + order.pk + "/";
         fetch(apiURL).then(props.refreshParent);
     }
 
@@ -30,7 +31,7 @@ const Order = (props) => {
         <Button onClick={() => setShowReviewModal(true)}>Oceni kosilo</Button>
     );
     
-    
+    console.log(order);
     const reviewElement =!reviewAvailable ? reviewButton :(
         <div>
             <p>{review.comment}</p>
@@ -51,14 +52,14 @@ const Order = (props) => {
             <ReviewModal
                 show={showReviewModal}
                 closeModal={refreshOrder}
-                orderID={id}
+                orderID={order.pk}
                 auth={props.auth}
                 review={review}
                 edit={modalEditMode}
             />
             <Card.Header>
                 <Accordion.Toggle as={Button} variant="light" eventKey={accordionID}>
-                    Naročilo v {diner}
+                    {menu.date.split("-").reverse().join(".")} - Naročilo v {diner}
                 </Accordion.Toggle>
             </Card.Header>
             <Accordion.Collapse eventKey={accordionID}>
@@ -66,7 +67,7 @@ const Order = (props) => {
                     <p>{soup}</p>
                     <p>{dish}</p>
                     {reviewElement}
-                    <Button className="float-right" onClick={() => deleteOrder()}>
+                    <Button className="float-right mb-2" onClick={() => deleteOrder()}>
                         Izbriši naročilo
                     </Button>
                 </Card.Body>

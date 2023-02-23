@@ -112,7 +112,7 @@ def getUserOrders(request, username):
     if len(user) == 0:
         return HttpResponse(USER_NOT_FOUND)
 
-    orders = Order.objects.filter(user=user.first())
+    orders = Order.objects.filter(user=user.first()).order_by('-timestamp')
     serializedData = OrderSerializer(orders, many=True).data
     return HttpResponse(json.dumps(serializedData, cls=DjangoJSONEncoder))
 

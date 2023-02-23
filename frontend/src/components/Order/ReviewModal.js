@@ -9,7 +9,7 @@ function ReviewModal(props) {
   const reviewAvailable = props.review !== null;
   const orderID = props.orderID;
   const [comment, setComment] = useState(reviewAvailable ? review.comment : "");
-  const [rating, setRating] = useState(reviewAvailable ? reviewAvailable.rating : 0);
+  const [rating, setRating] = useState(reviewAvailable ? review.rating : 0);
   
   const apiAddUrl = "http://127.0.0.1:8000/api/v1/review/add/";
   
@@ -64,7 +64,7 @@ function ReviewModal(props) {
             <Rating
               allowHalfIcon={true}
               onClick={ratingChangeHandler}
-              initialValue={rating}
+              ratingValue={parseFloat(rating)}
               transition={true}
             />
           </Form.Group>

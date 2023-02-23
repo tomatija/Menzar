@@ -7,7 +7,7 @@ from django.utils import timezone
 import json
 from django.core import serializers
 from django.core.serializers.json import DjangoJSONEncoder
-from .serializers.serializers import DinerSerializer, MenuSerializer, OrderSerializer, ReviewSerializer, UserSerializer
+from .serializers.serializers import DinerSerializer, MenuSerializer, OrderSerializer, ReviewSerializer
 from rest_framework.decorators import api_view
 
 
@@ -189,17 +189,22 @@ def scrapeView(request):
 
 @api_view(['POST'])
 def createReview(request):
-    serializer = ReviewSerializer(data=request.data)
-    if serializer.is_valid(raise_exception=True):
-        serializer.save()
-    return HttpResponse(serializer.data)
+    """
+    First checks if a review with the given ID already exists.
+    If it does, it updates the existing review.
+    If it doesn't, it creates a new review.
+    """
 
-
-@api_view(['POST'])
-def updateReview(request):
     reviewID = request.data.get('reviewID')
-    review = Review.objects.filter(pk=reviewID).first()
-    serializer = ReviewSerializer(instance=review, data=request.data)
+    review = Review.objects.filter(pk=reviewID)
+
+    serializer = None
+    if len(review) == 0:
+        serializer = ReviewSerializer(data=request.data)
+    else:
+        serializer = ReviewSerializer(
+            instance=review.first(), data=request.data)
+
     if serializer.is_valid(raise_exception=True):
         serializer.save()
     return HttpResponse(serializer.data)

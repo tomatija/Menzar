@@ -32,7 +32,6 @@ class DinerListPage extends Component {
                     isLoaded: true,
                     error
                 });
-            console.log(error);
             }
         );
     }

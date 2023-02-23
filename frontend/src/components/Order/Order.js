@@ -10,9 +10,10 @@ const Order = (props) => {
     const dish = menu.dish.name;
     const soup = menu.soup.name;
     const id = props.order.pk;
-    const review = props.review;
+    const review = props.order.review;
+    const reviewAvailable = review !== null;
     const accordionID = props.accordionID.toString();
-
+    
     const [showReviewModal, setShowReviewModal] = useState(false);
     const [modalEditMode, setModalEditMode] = useState(false);
 
@@ -28,18 +29,12 @@ const Order = (props) => {
     const reviewButton = (
         <Button onClick={() => setShowReviewModal(true)}>Oceni kosilo</Button>
     );
-
-    const reviewElement = review === undefined ? reviewButton : (
-        <div
-            style={{
-                border: "3px solid rgba(0, 0, 0,0.1)",
-                maxWidth: "fit-content",
-                borderRadius: "10px",
-                padding: "20px",
-            }}
-        >
-            <p>{review === undefined ? "Naročila niste ocenili" : review.comment}</p>
-            <Rating allowFraction={true} readonly={true} initialValue={review.rating} />
+    
+    
+    const reviewElement =!reviewAvailable ? reviewButton :(
+        <div>
+            <p>{review.comment}</p>
+            <Rating allowHalfIcon={true} readonly={true} ratingValue={parseFloat(review.rating)} />
             <br></br>
             <Button
                 onClick={() => {
@@ -67,11 +62,10 @@ const Order = (props) => {
                 </Accordion.Toggle>
             </Card.Header>
             <Accordion.Collapse eventKey={accordionID}>
-                <Card.Body>
+                <Card.Body>         
                     <p>{soup}</p>
                     <p>{dish}</p>
                     {reviewElement}
-
                     <Button className="float-right" onClick={() => deleteOrder()}>
                         Izbriši naročilo
                     </Button>

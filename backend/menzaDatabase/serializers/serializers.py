@@ -35,22 +35,17 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ['pk', 'username']
 
 
+class ReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Review
+        fields = "__all__"
+        depth = 0
+
+
 class OrderSerializer(serializers.ModelSerializer):
-    review = serializers.PrimaryKeyRelatedField(
-        many=False,
-        read_only=True,
-        allow_null=True
-    )
+    review = ReviewSerializer(read_only=True, many=False, allow_null=True)
 
     class Meta:
         model = Order
         fields = ['pk', 'menu', 'review']
-        depth = 2
-
-
-class ReviewSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Review
-        fields = ['rating', 'comment', 'orders']
         depth = 2

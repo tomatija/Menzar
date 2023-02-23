@@ -31,7 +31,6 @@ function Dashboard(props) {
       .then((response) => response.json())
       .then(
         (result) => {
-          console.log(result);
           setIsLoaded(true);
           setOrders(result);
         },

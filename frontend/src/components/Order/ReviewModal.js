@@ -1,14 +1,20 @@
 import React, { useState } from "react";
-import { Modal, Button, Form, Select } from "react-bootstrap";
+import { Modal, Button, Form } from "react-bootstrap";
 
 import { Rating } from "react-simple-star-rating";
 import CloseButton from "react-bootstrap/CloseButton";
 
 function ReviewModal(props) {
-  const [comment, setComment] = useState(props.comment);
-  const [rating, setRating] = useState(props.rating);
+  const review = props.review;
+  const reviewAvailable = props.review !== null;
+  const orderID = props.orderID;
+  const [comment, setComment] = useState(reviewAvailable ? review.comment : "");
+  const [rating, setRating] = useState(reviewAvailable ? review.rating : 0);
+  
+  const apiAddUrl = "http://127.0.0.1:8000/api/v1/review/add/";
+  
   const ratingChangeHandler = (rate) => {
-    rate = rate/20;//TODO: fix
+    rate = rate / 20;//TODO: fix
     setRating(rate);
   };
 
@@ -17,32 +23,31 @@ function ReviewModal(props) {
   }
 
   function submitReview() {
-    var apiURL = "";
-    var data = {};
-    if (props.edit) {
-      apiURL = "http://127.0.0.1:8000/api/v1/review/update/";
-      data = {
-        comment: comment,
-        rating: rating,
-        reviewID: props.reviewID,
-        order: props.orderID,
-      };
-    } else {
-      apiURL = "http://127.0.0.1:8000/api/v1/review/add/";
-      data = { comment: comment, rating: rating, order: props.orderID };
+    const apiURL = apiAddUrl;
+    
+    let data = {
+      "comment": comment,
+      "rating": rating,
+      "order": orderID,
+    };
+    
+    if (reviewAvailable)
+    {
+      data.reviewID = review.id;
     }
-
-    fetch(apiURL, {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json",
-        Authorization: "Token " + props.auth.token,
-      },
-      body: JSON.stringify(data),
-    }).then((result) => {
-      props.closeModal(false);
-    });
-
+    
+    fetch(apiURL,
+      {
+        method: "POST",
+        headers: {
+          "Content-type" : "application/json",
+          "Authorization": "Token " + props.auth.token,
+        },
+        body: JSON.stringify(data)
+      })
+      .then((result) => {
+        props.closeModal(false);
+      });
   }
 
   return (
@@ -59,7 +64,7 @@ function ReviewModal(props) {
             <Rating
               allowHalfIcon={true}
               onClick={ratingChangeHandler}
-              initialValue={rating}
+              ratingValue={parseFloat(rating)}
               transition={true}
             />
           </Form.Group>

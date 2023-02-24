@@ -63,17 +63,11 @@ urlpatterns = [
     ),
     # ORDERS
     # path('orders/<int:orderId>/', views.getOrderDetails, name='Order details'),
-    #REVIEW
+    # REVIEW
     path(
         'review/add/',
         view=views.createReview,
         name='insert new review'
-    ),
-        path(
-        'review/update/',
-        view=views.updateReview,
-        name='update review'
-    ),
-
+    )
 
 ]

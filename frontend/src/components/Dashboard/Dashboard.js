@@ -14,14 +14,12 @@ function Dashboard(props) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [orders, setOrders] = useState([]);
 
-
   const apiUrl =
     "http://127.0.0.1:8000/api/v1/user/" +
     props.auth.user.username +
     "/orders/";
 
   var displayElement = null;
-
 
 
   function onLogout() {
@@ -33,7 +31,6 @@ function Dashboard(props) {
       .then((response) => response.json())
       .then(
         (result) => {
-          console.log(result);
           setIsLoaded(true);
           setOrders(result);
         },
@@ -47,13 +44,18 @@ function Dashboard(props) {
   useEffect(() => {
     getUserOrderData();
   }, []);
-
   const { user } = props.auth;
-  if (errors) {
+  
+  if (errors)
+  {
     displayElement = <div>Error: {errors.message}</div>;
-  } else if (!isLoaded) {
+  }
+  else if (!isLoaded)
+  {
     displayElement = <div>Loading...</div>;
-  } else {
+  }
+  else
+  {
     displayElement = (
       <Accordion defaultActiveKey="0">
         {orders.map((order, index) => (
@@ -61,7 +63,7 @@ function Dashboard(props) {
             key={index}
             accordionID={index}
             order={order}
-            refreshParent={() => getUserOrderData()}
+            refreshParent={getUserOrderData}
             auth = {props.auth}
           />
         ))}

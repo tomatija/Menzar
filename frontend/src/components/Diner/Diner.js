@@ -22,8 +22,6 @@ import DinerInfo from './DinerData/DinerInfo';
 const Diner = (props) => {
     const diner = props.diner;
     const dinerInfo = DinerInfo(diner.name);
-    console.log(diner.name)
-    console.log(dinerInfo)
     return (
         <Card
             className="col-5 mx-2 my-2"

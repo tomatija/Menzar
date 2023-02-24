@@ -16,9 +16,7 @@ class DinerMenusPage extends Component {
         this.splitPath = window.location.pathname.split('/');
         this.dinerName = this.splitPath[this.splitPath.length - 3];
         this.dinerDate = this.splitPath[this.splitPath.length - 2];
-        console.log(this.dinerName, this.dinerDate);
         this.apiUrl = 'http://127.0.0.1:8000/api/v1/diner/' + this.dinerName+'/'+this.dinerDate+'/';
-        console.log(this.apiUrl);
         this.state = {
             error: null,
             isLoaded: false,
@@ -52,7 +50,7 @@ class DinerMenusPage extends Component {
     {
         const { user } = this.props.auth;
         const { error, isLoaded, menus } = this.state;
-        console.log(this.state)
+        
         if (error) {
             return <div>Error: {error.message}</div>;
         }

@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
@@ -7,25 +7,36 @@ import { Container, Navbar, Nav } from "react-bootstrap";
 import { logout } from "../Login/LoginActions";
 import Order from "../Order/Order";
 import Accordion from "react-bootstrap/Accordion";
+import ReviewModal from "./ReviewModal";
 
 
 function Dashboard(props) {
+  const user = props.auth.user;
   const [errors, setErrors] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [orders, setOrders] = useState([]);
+  const [showReviewModal, setShowReviewModal] = useState(false);
+  const [modalReview, setReviewModalData] = useState({});
 
   const apiUrl =
-    "http://127.0.0.1:8000/api/v1/user/" +
-    props.auth.user.username +
-    "/orders/";
+    "http://127.0.0.1:8000/api/v1/user/" + user.username + "/orders/";
 
   var displayElement = null;
-
 
   function onLogout() {
     props.logout();
   }
-
+  
+  function openReviewModal(order) {
+    setReviewModalData(order);
+    setShowReviewModal(true);
+  }
+  
+  function closeReviewModal() {
+    setShowReviewModal(false);
+    getUserOrderData();
+  }
+  
   function getUserOrderData() {
     fetch(apiUrl)
       .then((response) => response.json())
@@ -43,9 +54,8 @@ function Dashboard(props) {
 
   useEffect(() => {
     getUserOrderData();
-  }, []);
-  const { user } = props.auth;
-  
+  });
+
   if (errors)
   {
     displayElement = <div>Error: {errors.message}</div>;
@@ -63,8 +73,9 @@ function Dashboard(props) {
             key={index}
             accordionID={index}
             order={order}
-            refreshParent={getUserOrderData}
-            auth = {props.auth}
+            auth={props.auth}
+            openModal={openReviewModal}
+            closeModal={closeReviewModal}
           />
         ))}
       </Accordion>
@@ -73,7 +84,11 @@ function Dashboard(props) {
 
   return (
     <div>
-
+      <ReviewModal
+        show={showReviewModal}
+        closeModal={closeReviewModal}
+        data={modalReview}
+      />
       <Navbar bg="light">
         <Navbar.Brand href="/">Domov</Navbar.Brand>
         <Navbar.Toggle />

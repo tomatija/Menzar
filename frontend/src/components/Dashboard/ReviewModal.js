@@ -1,21 +1,28 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 
 import { Rating } from "react-simple-star-rating";
 import CloseButton from "react-bootstrap/CloseButton";
 
 function ReviewModal(props) {
-  const review = props.review;
-  const reviewAvailable = props.review !== null;
-  const orderID = props.orderID;
+  const order = props.order;
+  console.log(props);
+  const reviewAvailable = order.review !== null;
+  const review = order.review;
+  
   const [comment, setComment] = useState(reviewAvailable ? review.comment : "");
   const [rating, setRating] = useState(reviewAvailable ? review.rating : 0);
+
+  useEffect(() => {
+    setComment(review.comment);
+    setRating(review.rating);
+  }, [props.order]);
   
   const apiAddUrl = "http://127.0.0.1:8000/api/v1/review/add/";
   
   const ratingChangeHandler = (rate) => {
     rate = rate / 20;//TODO: fix
-    setRating(rate);
+    //TODO: Put me back: setRating(rate);
   };
 
   function commentChangeHandler(e) {
@@ -28,7 +35,7 @@ function ReviewModal(props) {
     let data = {
       "comment": comment,
       "rating": rating,
-      "order": orderID,
+      "order": order.pk,
     };
     
     if (reviewAvailable)

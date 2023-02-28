@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { Card, Accordion, Button } from "react-bootstrap";
-import ReviewModal from "../Dashboard/ReviewModal";
 
-import { Rating } from "react-simple-star-rating";
+import Rating from '@mui/material/Rating';
 
 const Order = (props) => {
     const order = props.order;
@@ -16,7 +15,7 @@ const Order = (props) => {
     
     const accordionID = props.accordionID.toString();
 
-    function deleteOrder() {
+    function deleteOrder(){
         const apiURL = "http://127.0.0.1:8000/api/v1/order/remove/" + order.pk + "/";
         fetch(apiURL).then(props.refreshParent);
     }
@@ -28,9 +27,14 @@ const Order = (props) => {
     const reviewElement =!reviewAvailable ? reviewButton :(
         <div>
             <p>{review.comment}</p>
-            <Rating allowHalfIcon={true} readonly={true} ratingValue={parseFloat(review.rating)} />
+            <Rating
+                name="simple-controlled"
+                value={parseFloat(review.rating)}
+                size="large"
+                readOnly 
+            />
             <br></br>
-            <Button>
+            <Button onClick={() => openModal(order)}>
                 Uredi
             </Button>
         </div>
@@ -38,7 +42,6 @@ const Order = (props) => {
     
     return (
         <Card>
-            
             <Card.Header>
                 <Accordion.Toggle as={Button} variant="light" eventKey={accordionID}>
                     {menu.date.split("-").reverse().join(".")} - Naročilo v {diner}

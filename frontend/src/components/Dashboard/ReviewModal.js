@@ -1,67 +1,60 @@
 import React, { useEffect, useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
-
-import { Rating } from "react-simple-star-rating";
+import Rating from '@mui/material/Rating';
 import CloseButton from "react-bootstrap/CloseButton";
 
 function ReviewModal(props) {
-  const order = props.order;
-  console.log(props);
-  const reviewAvailable = order.review !== null;
-  const review = order.review;
+  const apiAddUrl = "http://127.0.0.1:8000/api/v1/review/add/";
+  const defaultReview = { "rating": 0, "comment": "" };
   
-  const [comment, setComment] = useState(reviewAvailable ? review.comment : "");
-  const [rating, setRating] = useState(reviewAvailable ? review.rating : 0);
+  const order = props.data.order_id;
+  const reviewAvailable = props.data.review != null;
+  let review = reviewAvailable ? props.data.review : defaultReview;
+  const [rating , setRating] = useState(parseFloat(review.rating));
 
   useEffect(() => {
-    setComment(review.comment);
-    setRating(review.rating);
-  }, [props.order]);
+    setRating(parseFloat(review.rating));
+  }, [review.rating]);
   
-  const apiAddUrl = "http://127.0.0.1:8000/api/v1/review/add/";
-  
-  const ratingChangeHandler = (rate) => {
-    rate = rate / 20;//TODO: fix
-    //TODO: Put me back: setRating(rate);
-  };
-
   function commentChangeHandler(e) {
-    setComment(e.target.value);
+    setReview({ ...review, comment: e.target.value });
   }
-
+  
+  function setReview(newReview) {
+    review = reviewAvailable ? props.data.review : defaultReview;
+  }
+  
   function submitReview() {
     const apiURL = apiAddUrl;
     
     let data = {
-      "comment": comment,
-      "rating": rating,
-      "order": order.pk,
+      "comment": review.comment,
+      "rating": review.rating,
+      "order": order,
+      "review": reviewAvailable ? review.id : null
     };
     
-    if (reviewAvailable)
-    {
-      data.reviewID = review.id;
-    }
+    const headers = {
+      "Content-type": "application/json",
+      "Authorization": "Token " + props.data.auth.token,
+    } 
     
     fetch(apiURL,
       {
         method: "POST",
-        headers: {
-          "Content-type" : "application/json",
-          "Authorization": "Token " + props.auth.token,
-        },
+        headers: headers,
         body: JSON.stringify(data)
       })
       .then((result) => {
-        props.closeModal(false);
+        props.closeModal();
       });
   }
 
   return (
-    <Modal show={props.show}>
+    <Modal show={props.show} onHide={() => {props.closeModal()}}>
       <Modal.Header>
         <Modal.Title>Oceni jed</Modal.Title>
-        <CloseButton onClick={() => props.closeModal(false)} />
+        <CloseButton onClick={() => props.closeModal()} />
       </Modal.Header>
       <Modal.Body>
         <Form>
@@ -69,10 +62,12 @@ function ReviewModal(props) {
             <Form.Label>Ocena</Form.Label>
             <br></br>
             <Rating
-              allowHalfIcon={true}
-              onClick={ratingChangeHandler}
-              ratingValue={parseFloat(rating)}
-              transition={true}
+              name="simple-controlled"
+              value={rating}
+              size="large"
+              onChange={(event, newValue) => {
+                setRating(parseFloat(newValue));
+              }}
             />
           </Form.Group>
 
@@ -83,7 +78,7 @@ function ReviewModal(props) {
               rows={3}
               placeholder="Vpišite komentar"
               onChange={commentChangeHandler}
-              defaultValue={comment}
+              defaultValue={review.comment}
             />
           </Form.Group>
         </Form>

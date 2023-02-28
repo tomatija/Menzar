@@ -11,30 +11,29 @@ import ReviewModal from "./ReviewModal";
 
 
 function Dashboard(props) {
-  const user = props.auth.user;
+  const auth = props.auth;
+  const user = auth.user;
   const [errors, setErrors] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [orders, setOrders] = useState([]);
   const [showReviewModal, setShowReviewModal] = useState(false);
-  const [modalReview, setReviewModalData] = useState({});
+  const [modalReview, setReviewModalData] = useState({review:null, order_id:null, auth:auth});
 
   const apiUrl =
     "http://127.0.0.1:8000/api/v1/user/" + user.username + "/orders/";
-
-  var displayElement = null;
 
   function onLogout() {
     props.logout();
   }
   
   function openReviewModal(order) {
-    setReviewModalData(order);
+    setReviewModalData({review: order.review, order_id: order.pk, auth:auth});
     setShowReviewModal(true);
   }
   
   function closeReviewModal() {
-    setShowReviewModal(false);
     getUserOrderData();
+    setShowReviewModal(false);
   }
   
   function getUserOrderData() {
@@ -54,7 +53,9 @@ function Dashboard(props) {
 
   useEffect(() => {
     getUserOrderData();
-  });
+  }, []);
+  
+  var displayElement = null;
 
   if (errors)
   {
@@ -75,7 +76,6 @@ function Dashboard(props) {
             order={order}
             auth={props.auth}
             openModal={openReviewModal}
-            closeModal={closeReviewModal}
           />
         ))}
       </Accordion>

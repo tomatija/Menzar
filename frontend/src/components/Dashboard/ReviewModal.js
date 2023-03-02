@@ -2,12 +2,12 @@ import React from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import Rating from '@mui/material/Rating';
 import CloseButton from "react-bootstrap/CloseButton";
+import RadioGroupRating from "./SmileyRating";
 
 function ReviewModal(props) {
   const apiAddUrl = "http://127.0.0.1:8000/api/v1/review/add/";
   const defaultReview = { "rating": 0, "comment": "" };
   const data = props.data;
-  
   const order_id = data.order_id;
   
   const reviewAvailable = data.review != null;
@@ -67,12 +67,8 @@ function ReviewModal(props) {
       <Modal.Body>
         <Form>
           <Form.Group className="mb-3">
-            <Form.Label>Ocena</Form.Label>
-            <br></br>
-            <Rating
-              name="half-rating"
-              value={review.rating}
-              size="large"
+            <RadioGroupRating
+              value={parseInt(review.rating)}
               onChange={(event, newValue) => {
                 changeRating(newValue);
               }}

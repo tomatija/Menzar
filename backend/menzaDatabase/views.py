@@ -195,7 +195,7 @@ def createReview(request):
     If it doesn't, it creates a new review.
     """
 
-    reviewID = request.data.get('reviewID')
+    reviewID = request.data.get('review')
     review = Review.objects.filter(pk=reviewID)
 
     serializer = None

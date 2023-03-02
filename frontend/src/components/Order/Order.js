@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { Card, Accordion, Button } from "react-bootstrap";
-import ReviewModal from "./ReviewModal";
 
-import { Rating } from "react-simple-star-rating";
+import Rating from '@mui/material/Rating';
 
 const Order = (props) => {
     const order = props.order;
@@ -12,51 +11,37 @@ const Order = (props) => {
     const soup = menu.soup.name;
     const review = order.review;
     const reviewAvailable = review !== null;
+    const openModal = props.openModal;
     
     const accordionID = props.accordionID.toString();
-    
-    const [showReviewModal, setShowReviewModal] = useState(false);
-    const [modalEditMode, setModalEditMode] = useState(false);
 
-    function refreshOrder() {
-        setShowReviewModal(false);
-    }
-
-    function deleteOrder() {
+    function deleteOrder(){
         const apiURL = "http://127.0.0.1:8000/api/v1/order/remove/" + order.pk + "/";
         fetch(apiURL).then(props.refreshParent);
     }
 
     const reviewButton = (
-        <Button onClick={() => setShowReviewModal(true)}>Oceni kosilo</Button>
+        <Button onClick={() => openModal(order)}>Oceni kosilo</Button>
     );
     
-    console.log(order);
     const reviewElement =!reviewAvailable ? reviewButton :(
         <div>
             <p>{review.comment}</p>
-            <Rating allowHalfIcon={true} readonly={true} ratingValue={parseFloat(review.rating)} />
+            <Rating
+                name="simple-controlled"
+                value={parseFloat(review.rating)}
+                size="large"
+                readOnly 
+            />
             <br></br>
-            <Button
-                onClick={() => {
-                    setModalEditMode(true);
-                    setShowReviewModal(true);
-                }}
-            >
+            <Button onClick={() => openModal(order)}>
                 Uredi
             </Button>
         </div>
     );
+    
     return (
         <Card>
-            <ReviewModal
-                show={showReviewModal}
-                closeModal={refreshOrder}
-                orderID={order.pk}
-                auth={props.auth}
-                review={review}
-                edit={modalEditMode}
-            />
             <Card.Header>
                 <Accordion.Toggle as={Button} variant="light" eventKey={accordionID}>
                     {menu.date.split("-").reverse().join(".")} - Naročilo v {diner}

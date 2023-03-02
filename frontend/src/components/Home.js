@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { Button, Container } from "react-bootstrap";
 
 const Home = (props) => {

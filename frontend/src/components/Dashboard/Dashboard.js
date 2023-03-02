@@ -17,7 +17,7 @@ function Dashboard(props) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [orders, setOrders] = useState([]);
   const [showReviewModal, setShowReviewModal] = useState(false);
-  const [modalReview, setReviewModalData] = useState({review:null, order_id:null, auth:auth});
+  const [modalReviewData, setReviewModalData] = useState({review:null, order_id:null, auth:auth});
 
   const apiUrl =
     "http://127.0.0.1:8000/api/v1/user/" + user.username + "/orders/";
@@ -86,8 +86,9 @@ function Dashboard(props) {
     <div>
       <ReviewModal
         show={showReviewModal}
-        closeModal={closeReviewModal}
-        data={modalReview}
+        refresh={setReviewModalData}
+        close={closeReviewModal}
+        data={modalReviewData}
       />
       <Navbar bg="light">
         <Navbar.Brand href="/">Domov</Navbar.Brand>

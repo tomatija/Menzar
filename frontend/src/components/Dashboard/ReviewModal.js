@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import Rating from '@mui/material/Rating';
 import CloseButton from "react-bootstrap/CloseButton";
@@ -6,31 +6,39 @@ import CloseButton from "react-bootstrap/CloseButton";
 function ReviewModal(props) {
   const apiAddUrl = "http://127.0.0.1:8000/api/v1/review/add/";
   const defaultReview = { "rating": 0, "comment": "" };
+  const data = props.data;
   
-  const order = props.data.order_id;
-  const reviewAvailable = props.data.review != null;
-  let review = reviewAvailable ? props.data.review : defaultReview;
-  const [rating , setRating] = useState(parseFloat(review.rating));
+  const order_id = data.order_id;
+  
+  const reviewAvailable = data.review != null;
+  const review = reviewAvailable ? data.review : defaultReview;
 
-  useEffect(() => {
-    setRating(parseFloat(review.rating));
-  }, [review.rating]);
-  
-  function commentChangeHandler(e) {
-    setReview({ ...review, comment: e.target.value });
+  function changeComment(newComment) {
+    props.refresh({
+      ...data,
+      review: {
+        ...review,
+        comment: newComment,
+      }
+    });
   }
   
-  function setReview(newReview) {
-    review = reviewAvailable ? props.data.review : defaultReview;
+  function changeRating(newRating) {
+    props.refresh({
+      ...data,
+      review: {
+        ...review,
+        rating: newRating,
+      }
+    });
   }
   
   function submitReview() {
     const apiURL = apiAddUrl;
-    
-    let data = {
-      "comment": review.comment,
-      "rating": review.rating,
-      "order": order,
+
+    const requestData = {
+      ...review,
+      "order": order_id,
       "review": reviewAvailable ? review.id : null
     };
     
@@ -43,18 +51,18 @@ function ReviewModal(props) {
       {
         method: "POST",
         headers: headers,
-        body: JSON.stringify(data)
+        body: JSON.stringify(requestData)
       })
       .then((result) => {
-        props.closeModal();
+        props.close();
       });
   }
 
   return (
-    <Modal show={props.show} onHide={() => {props.closeModal()}}>
+    <Modal show={props.show} onHide={() => {props.close()}}>
       <Modal.Header>
         <Modal.Title>Oceni jed</Modal.Title>
-        <CloseButton onClick={() => props.closeModal()} />
+        <CloseButton onClick={() => props.close()} />
       </Modal.Header>
       <Modal.Body>
         <Form>
@@ -62,11 +70,11 @@ function ReviewModal(props) {
             <Form.Label>Ocena</Form.Label>
             <br></br>
             <Rating
-              name="simple-controlled"
-              value={rating}
+              name="half-rating"
+              value={review.rating}
               size="large"
               onChange={(event, newValue) => {
-                setRating(parseFloat(newValue));
+                changeRating(newValue);
               }}
             />
           </Form.Group>
@@ -77,7 +85,7 @@ function ReviewModal(props) {
               as="textarea"
               rows={3}
               placeholder="Vpišite komentar"
-              onChange={commentChangeHandler}
+              onChange={(e) => changeComment(e.target.value)}
               defaultValue={review.comment}
             />
           </Form.Group>

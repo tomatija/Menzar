@@ -7,14 +7,29 @@ from django.utils import timezone
 import json
 from django.core import serializers
 from django.core.serializers.json import DjangoJSONEncoder
-from .serializers.serializers import DinerSerializer, MenuSerializer, OrderSerializer, ReviewSerializer
+
+from .serializers.serializers import        \
+    DinerSerializer,            \
+    MenuSerializer,             \
+    OrderSerializer,            \
+    ReviewSerializer,           \
+    AnonymousDinerSerializer
+
 from rest_framework.decorators import api_view
+from rest_framework import generics
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 
-def getAvailableDiners(request):
-    diners = Diner.objects.all()
-    serializedData = DinerSerializer(diners, many=True).data
-    return HttpResponse(json.dumps(serializedData))
+class DinerList(generics.ListAPIView):
+    queryset = Diner.objects.all()
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def get_serializer_class(self):
+        user = self.request.user
+        if user.is_authenticated:
+            return DinerSerializer
+        else:
+            return AnonymousDinerSerializer
 
 
 def getDinerMenus(dinerName, date):
@@ -126,9 +141,35 @@ def deleteUserOrder(request, pk):
     return HttpResponse("order deleted")
 
 
+@api_view(['POST', 'DELETE'])
+def favoriteDiner(request):
+    '''
+        Change favorite diner for a given user
+    '''
+    dinerName = request.data['diner']
+    user = User.objects.filter(username=request.user)
+    if len(user) == 0:
+        return HttpResponse(USER_NOT_FOUND)
+
+    diner = Diner.objects.filter(name=dinerName)
+    if len(diner) == 0:
+        return HttpResponse(DINER_NOT_FOUND)
+
+    if request.method == 'DELETE':
+        favoriteDiner = FavoriteDiner.objects.filter(
+            user=user.first(), diner=diner.first())
+        if len(favoriteDiner) == 0:
+            return HttpResponse(DINER_NOT_FOUND)
+        favoriteDiner.first().delete()
+        return HttpResponse("Diner removed from favorites")
+
+    else:
+        favoriteDiner = FavoriteDiner(user=user.first(), diner=diner.first())
+        favoriteDiner.save()
+        return HttpResponse("Diner added to favorites")
+
+
 # HELPER VIEWS
-
-
 def indexView(request):
     '''
         Index view for the API

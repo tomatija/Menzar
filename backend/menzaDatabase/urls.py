@@ -1,5 +1,4 @@
 from django.urls import path
-
 from . import views
 
 urlpatterns = [
@@ -14,7 +13,7 @@ urlpatterns = [
     # DINERS
     path(
         'diners/',
-        views.getAvailableDiners,
+        views.DinerList.as_view(),
         name='Diners'
     ),
 
@@ -60,6 +59,11 @@ urlpatterns = [
         'order/remove/<int:pk>/',
         view=views.deleteUserOrder,
         name='order delete order'
+    ),
+    path(
+        'users/favorite/',
+        view=views.favoriteDiner,
+        name='favorite diner'
     ),
     # ORDERS
     # path('orders/<int:orderId>/', views.getOrderDetails, name='Order details'),

@@ -1,6 +1,5 @@
 import React from "react";
 import { Modal, Button, Form } from "react-bootstrap";
-import Rating from '@mui/material/Rating';
 import CloseButton from "react-bootstrap/CloseButton";
 import RadioGroupRating from "./SmileyRating";
 

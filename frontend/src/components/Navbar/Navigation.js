@@ -2,7 +2,8 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Container from "react-bootstrap/Container";
 
-function Navigation() {
+const Navigation = () => {
+  
   return (
     <Navbar bg="light" expand="lg">
       <Container>

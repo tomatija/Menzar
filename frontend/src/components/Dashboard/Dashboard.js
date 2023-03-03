@@ -90,7 +90,7 @@ function Dashboard(props) {
         close={closeReviewModal}
         data={modalReviewData}
       />
-      <Navbar bg="light">
+      <Navbar auth={props.auth} bg="light">
         <Navbar.Brand href="/">Domov</Navbar.Brand>
         <Navbar.Toggle />
         <Navbar.Collapse className="justify-content-end">

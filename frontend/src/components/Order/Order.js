@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, Accordion, Button } from "react-bootstrap";
 
-import Rating from '@mui/material/Rating';
+import IconContainer from "../Dashboard/Smiley";
 
 const Order = (props) => {
     const order = props.order;
@@ -20,25 +20,28 @@ const Order = (props) => {
         fetch(apiURL).then(props.refreshParent);
     }
 
-    const reviewButton = (
-        <Button onClick={() => openModal(order)}>Oceni kosilo</Button>
-    );
-    
-    const reviewElement =!reviewAvailable ? reviewButton :(
+
+    const ratingIcon = reviewAvailable ? (
         <div>
             <p>{review.comment}</p>
-            <Rating
-                name="simple-controlled"
-                value={parseFloat(review.rating)}
-                size="large"
-                readOnly 
-            />
+            <IconContainer value={parseInt(review.rating)} />
             <br></br>
-            <Button onClick={() => openModal(order)}>
-                Uredi
-            </Button>
         </div>
+    ) : "";
+    
+    // set up the new review button
+    const newReviewButton = (
+        <Button className="float-right mb-2 mr-2" onClick={() => openModal(order)}>Oceni kosilo</Button>
     );
+    
+    // set up the edit review button
+    const editAvailable = reviewAvailable;
+    const editButton = editAvailable ? (
+        <Button className="float-right mb-2 mr-2" onClick={() => openModal(order)}>
+            Uredi oceno
+        </Button>) : "";
+    
+    const reviewButton = reviewAvailable ? editButton : newReviewButton;
     
     return (
         <Card>
@@ -51,10 +54,11 @@ const Order = (props) => {
                 <Card.Body>         
                     <p>{soup}</p>
                     <p>{dish}</p>
-                    {reviewElement}
+                    {ratingIcon}
                     <Button className="float-right mb-2" onClick={() => deleteOrder()}>
                         Izbriši naročilo
                     </Button>
+                    {reviewButton}
                 </Card.Body>
             </Accordion.Collapse>
         </Card>

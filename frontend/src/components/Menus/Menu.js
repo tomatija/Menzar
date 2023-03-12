@@ -8,6 +8,7 @@ function orderMenu(user, menuID) {
 
 const Menu = (props) => {
     const menuID = props.menu.pk;
+    const hasBeenOrdered = props.menu.ordered;
     const soupString = props.menu.soup.name;
     const rating = props.menu.rating == null ? null : ((Math.round(props.menu.rating * 100) / 100).toFixed(2));
     const dishString = props.menu.dish.name;
@@ -37,14 +38,14 @@ const Menu = (props) => {
             className="mb-2"
         >
             <Button
-                variant={isLoading ? "success" : "secondary"}
+                variant={isLoading || hasBeenOrdered ? "success" : "secondary"}
                 className="col-10"
             >
             {isLoading ? loadingText : dishDisplayString}
             </Button>
             
             <Button
-                variant={isLoading ? "success" : "secondary"}
+                variant={isLoading || hasBeenOrdered ? "success" : "secondary"}
                 className="col-2 text-left"
             >
             {isLoading ? "" : ratingDisplayString}

@@ -17,7 +17,6 @@ import UserOptional from "./utils/UserOptional";
 axios.defaults.baseURL = "http://127.0.0.1:8000/api/v1/";
 
 // below <Root> add
-//TODO: For nested paths, check: https://ui.dev/react-router-nested-routes
 class App extends Component {
   render() {
     return (

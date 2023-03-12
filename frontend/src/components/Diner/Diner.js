@@ -12,7 +12,6 @@ const Diner = (props) => {
     const [isFavorite, setIsFavorite] = useState(dinerFavorite);
     
     function handleClick() {
-        //TODO: Add authentication
         const changeToFavorite = !isFavorite;
         const apiURL = "favorite/diner";
         const data = {

@@ -7,13 +7,14 @@ from django.utils import timezone
 import json
 from django.core import serializers
 from django.core.serializers.json import DjangoJSONEncoder
+from .serializers.MenuSerializers.DefaultMenuSerializer import DefaultMenuSerializer
+from .serializers.DinerSerializers.AnonymousDinerSerializer import AnonymousDinerSerializer
+from .serializers.DinerSerializers.UserDinerSerializer import UserDinerSerializer
+from .serializers.MenuSerializers.AnonymousMenuSerializer import AnonymousMenuSerializer
+from .serializers.MenuSerializers.UserMenuSerializer import UserMenuSerializer
 
-from .serializers.serializers import        \
-    DinerSerializer,            \
-    MenuSerializer,             \
-    OrderSerializer,            \
-    ReviewSerializer,           \
-    AnonymousDinerSerializer
+
+from .serializers.serializers import OrderSerializer, ReviewSerializer
 
 from rest_framework.decorators import api_view
 from rest_framework import generics
@@ -27,25 +28,46 @@ class DinerList(generics.ListAPIView):
     def get_serializer_class(self):
         user = self.request.user
         if user.is_authenticated:
-            return DinerSerializer
+            return UserDinerSerializer
         else:
             return AnonymousDinerSerializer
 
 
-def getDinerMenus(dinerName, date):
-    diner = Diner.objects.filter(name=dinerName)
+class MenuList(generics.ListAPIView):
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
-    if len(diner) == 0:
-        return HttpResponse(DINER_NOT_FOUND)
+    def get_queryset(self):
+        kwargs = dict()
 
-    menus = Menu.objects.filter(
-        diner=diner.first(), date=date)
+        # TODO: This kinda wack
+        if 'menuId' in self.kwargs:
+            kwargs['pk'] = self.kwargs.get('menuId', None)
 
-    if len(menus) == 0:
-        return HttpResponse(DINER_MENUS_UNAVAILABLE)
+        if 'dinerName' in self.kwargs and 'dateString' in self.kwargs:
+            dateString = self.kwargs['dateString']
+            diner = Diner.objects.filter(name=self.kwargs['dinerName'])
+            if len(diner) == 0:
+                diner = None
 
-    serializedData = MenuSerializer(menus, many=True).data
-    return HttpResponse(json.dumps(serializedData))
+            # convert date string to date object
+            date = None
+            if dateString == "today":
+                date = timezone.now().date()
+            else:
+                date = datetime.strptime(dateString, '%d-%m-%Y').date()
+
+            kwargs['diner'] = diner.first()
+            kwargs['date'] = date
+
+        menus = Menu.objects.filter(**kwargs)
+        return menus
+
+    def get_serializer_class(self):
+        user = self.request.user
+        if user.is_authenticated:
+            return UserMenuSerializer
+        else:
+            return AnonymousMenuSerializer
 
 
 @api_view(['POST'])
@@ -72,30 +94,6 @@ def userOrder(request, menuID):
         order = Order(user=user.first(), menu=menu.first())
         order.save()
     return HttpResponse("Order created successfully.")
-
-
-def getDinerMenusByDate(request, dinerName, dateString):
-    '''
-        Returns all menus for a given diner on a given date
-    '''
-    date = None
-    if type(dateString) == str:
-        if dateString == "today":
-            date = timezone.now().date()
-        else:
-            date = datetime.strptime(dateString, '%d-%m-%Y').date()
-
-    if date is None:
-        return HttpResponse(DINER_NO_MENUS_ON_DATE)
-
-    return getDinerMenus(dinerName, date)
-
-
-def getMenuDetails(request, menuId):
-    '''
-        Returns all details for a given menu
-    '''
-    return HttpResponse("API not implemented yet.")
 
 
 def getMenuOrders(request, menuId):
@@ -129,14 +127,13 @@ def getUserOrders(request):
     if len(user) == 0:
         return HttpResponse(USER_NOT_FOUND)
 
-    orders = Order.objects.filter(user=user.first()).order_by('-timestamp')
+    orders = Order.objects.filter(user=user.first()).order_by('timestamp')
     serializedData = OrderSerializer(orders, many=True).data
     return HttpResponse(json.dumps(serializedData, cls=DjangoJSONEncoder))
 
 
 @api_view(['DELETE'])
 def deleteUserOrder(request):
-    # TODO: check if request came from corrent user (by username)
     print(request.data)
     orders = Order.objects.filter(
         pk=request.data['order_pk'], user=request.user)

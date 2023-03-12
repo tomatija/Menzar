@@ -41,7 +41,6 @@ function Dashboard(props) {
     axios.get(apiUrl)
       .then(
         (result) => {
-          console.log(result);
           setIsLoaded(true);
           setOrders(result.data);
         },

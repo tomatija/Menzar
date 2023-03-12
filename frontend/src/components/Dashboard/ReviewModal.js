@@ -43,7 +43,6 @@ function ReviewModal(props) {
     };
     axios.post(apiURL, requestData)
       .then((result) => {
-        console.log(result);
         props.close();
       });
   }

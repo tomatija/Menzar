@@ -10,7 +10,6 @@ const StyledRating = styled(Rating)(({ theme }) => ({
 }));
 
 export default function RadioGroupRating(props) {
-    console.log(props);
   return (
     <StyledRating
         name="highlight-selected-only"

@@ -2,7 +2,6 @@ import React from "react";
 import { Button, Container } from "react-bootstrap";
 
 const Home = (props) => {
-  
     return (
       <Container>
         <h1>Home</h1>

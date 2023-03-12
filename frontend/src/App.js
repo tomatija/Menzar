@@ -10,8 +10,10 @@ import DinerDetailsPage from "./components/DinerDetailsPage";
 import DinerMenusPage from "./components/DinersMenusPage";
 import { ToastContainer } from "react-toastify";
 import axios from "axios";
-import requireAuth from "./utils/RequireAuth";
+import UserRequired from "./utils/UserRequired";
 import Navigation from "./components/Navbar/Navigation";
+import UserOptional from "./utils/UserOptional";
+
 axios.defaults.baseURL = "http://127.0.0.1:8000";
 
 // below <Root> add
@@ -24,17 +26,17 @@ class App extends Component {
           <Navigation />
           <ToastContainer hideProgressBar={true} newestOnTop={true} />
           <Switch>
-            <Route exact path="/diners" component={DinerListPage} />
+            <Route exact path="/diners" component={UserOptional(DinerListPage)} />
             <Route exact path="/diner/:diner" component={DinerDetailsPage} />
             <Route
               exact
               path="/diner/:diner/:date"
-              component={requireAuth(DinerMenusPage)}
+              component={UserOptional(DinerMenusPage)}
             />
             <Route path="/signup" component={Signup} />
             <Route path="/login" component={Login} />
-            <Route path="/dashboard" component={requireAuth(Dashboard)} />
-            <Route exact path="/" component={Home} />
+            <Route path="/dashboard" component={UserRequired(Dashboard)} />
+            <Route exact path="/" component={UserOptional(Home)} />
             <Route path="*">Ups</Route>
           </Switch>
         </Root>

@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { Component, useEffect, useState } from "react";
 import {
   Container,
@@ -7,14 +8,12 @@ import {
 import Diner from "./Diner/Diner";
 
 const DinerListPage = (props) => {
-
     const apiUrl = 'http://127.0.0.1:8000/api/v1/diners/';
     const [state, setState] = useState({
         error: null,
         isLoaded: false,
         diners: []
     });        
-
     function dinerSortByFavorite(a, b) {
         if (a.favorite) {
             return -1;
@@ -26,14 +25,12 @@ const DinerListPage = (props) => {
     }
     
     function renderDiners() {
-        fetch(apiUrl)
-        .then(response => response.json())
+        axios.get(apiUrl)
         .then(
             (result) => {
-                console.log(result);
                 setState({
                     isLoaded: true,
-                    diners: result.sort(dinerSortByFavorite) // Sort diners by favorite
+                    diners: result.data.sort(dinerSortByFavorite) // Sort diners by favorite
                 });
             },
             (error) => {
@@ -61,7 +58,7 @@ const DinerListPage = (props) => {
             <Container>
                 <Row>
                     {diners.map((diner, index) => (
-                        <Diner key={index}  diner={diner}/>
+                        <Diner key={index} displayFavorite={props.isAuthenticated} diner={diner}/>
                     ))}
                 </Row>
             </Container>

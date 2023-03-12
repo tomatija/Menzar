@@ -2,8 +2,8 @@ import axios from "axios";
 import React, { useEffect, useState, } from "react";
 import { Button, ButtonGroup } from "react-bootstrap";
 
-function simulateNetworkRequest(user, menuID) {
-    axios.get("http://127.0.0.1:8000/api/v1/user/"+ user.username +"/order/"+menuID.toString()+"/")
+function orderMenu(user, menuID) {
+    return axios.get("http://127.0.0.1:8000/api/v1/user/"+ user.username +"/order/"+menuID.toString()+"/")
     return new Promise((resolve) => setTimeout(resolve, 2000));
 }
 
@@ -23,7 +23,7 @@ const Menu = (props) => {
     const [isLoading, setLoading] = useState(false);
     useEffect(() => {
         if (isLoading) {
-        simulateNetworkRequest(props.user, menuID).then(() => {
+            orderMenu(props.user, menuID).then(() => {
             setLoading(false);
         });
         }

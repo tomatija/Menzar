@@ -8,6 +8,7 @@ import { logout } from "../Login/LoginActions";
 import Order from "../Order/Order";
 import Accordion from "react-bootstrap/Accordion";
 import ReviewModal from "./ReviewModal";
+import axios from "axios";
 
 
 function Dashboard(props) {
@@ -20,7 +21,7 @@ function Dashboard(props) {
   const [modalReviewData, setReviewModalData] = useState({review:null, order_id:null, auth:auth});
 
   const apiUrl =
-    "http://127.0.0.1:8000/api/v1/user/" + user.username + "/orders/";
+    "http://127.0.0.1:8000/api/v1/user/orders/";
 
   function onLogout() {
     props.logout();
@@ -37,12 +38,12 @@ function Dashboard(props) {
   }
   
   function getUserOrderData() {
-    fetch(apiUrl)
-      .then((response) => response.json())
+    axios.get(apiUrl)
       .then(
         (result) => {
+          console.log(result);
           setIsLoaded(true);
-          setOrders(result);
+          setOrders(result.data);
         },
         (error) => {
           setIsLoaded(false);

@@ -119,11 +119,12 @@ def getUserDetails(request, userId):
     return HttpResponse("API not implemented yet.")
 
 
-def getUserOrders(request, username):
+@api_view(['GET'])
+def getUserOrders(request):
     '''
         Gets all orders of a given user
     '''
-    user = User.objects.filter(username=username)
+    user = User.objects.filter(username=request.user)
     if len(user) == 0:
         return HttpResponse(USER_NOT_FOUND)
 
@@ -147,6 +148,7 @@ def favoriteDiner(request):
         Change favorite diner for a given user
     '''
     dinerName = request.data['diner']
+    print(request.user)
     user = User.objects.filter(username=request.user)
     if len(user) == 0:
         return HttpResponse(USER_NOT_FOUND)

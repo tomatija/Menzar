@@ -46,7 +46,7 @@ urlpatterns = [
         name='User details'
     ),
     path(
-        'user/<str:username>/orders/',
+        'user/orders/',
         views.getUserOrders,
         name='User orders'
     ),
@@ -61,7 +61,7 @@ urlpatterns = [
         name='order delete order'
     ),
     path(
-        'users/favorite/',
+        'favorite/diner',
         view=views.favoriteDiner,
         name='favorite diner'
     ),

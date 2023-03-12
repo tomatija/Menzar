@@ -3,17 +3,14 @@ import React, { useEffect, useState, } from "react";
 import { Button, ButtonGroup } from "react-bootstrap";
 
 function orderMenu(user, menuID) {
-    return axios.get("http://127.0.0.1:8000/api/v1/user/"+ user.username +"/order/"+menuID.toString()+"/")
-    return new Promise((resolve) => setTimeout(resolve, 2000));
+    return axios.post("user/order/"+menuID.toString()+"/")
 }
 
 const Menu = (props) => {
-    const diner = props.menu.diner.name;
     const menuID = props.menu.pk;
     const soupString = props.menu.soup.name;
     const rating = props.menu.rating == null ? null : ((Math.round(props.menu.rating * 100) / 100).toFixed(2));
     const dishString = props.menu.dish.name;
-    const user = props.user;
 
     const dishDisplayString = (soupString == null) ? (soupString + " | ") : "" + dishString;
     const ratingDisplayString = (rating == null) ? "" : rating + "🌟";

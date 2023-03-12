@@ -9,6 +9,7 @@ import { logout } from "./Login/LoginActions";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import Menu from "./Menus/Menu";
+import axios from "axios";
 
 class DinerMenusPage extends Component {
     constructor(props) {
@@ -16,7 +17,7 @@ class DinerMenusPage extends Component {
         this.splitPath = window.location.pathname.split('/');
         this.dinerName = this.splitPath[this.splitPath.length - 3];
         this.dinerDate = this.splitPath[this.splitPath.length - 2];
-        this.apiUrl = 'http://127.0.0.1:8000/api/v1/diner/' + this.dinerName+'/'+this.dinerDate+'/';
+        this.apiUrl = 'diner/' + this.dinerName+'/'+this.dinerDate+'/';
         this.state = {
             error: null,
             isLoaded: false,
@@ -28,13 +29,12 @@ class DinerMenusPage extends Component {
         this.props.logout();
     };
     componentDidMount() {
-        fetch(this.apiUrl)
-        .then(response => response.json())
+        axios.get(this.apiUrl)
         .then(
             (result) => {
                 this.setState({
                     isLoaded: true,
-                    menus: result
+                    menus: result.data
                 });
             },
             (error) => {

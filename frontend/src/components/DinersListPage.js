@@ -8,7 +8,6 @@ import {
 import Diner from "./Diner/Diner";
 
 const DinerListPage = (props) => {
-    const apiUrl = 'http://127.0.0.1:8000/api/v1/diners/';
     const [state, setState] = useState({
         error: null,
         isLoaded: false,
@@ -25,7 +24,7 @@ const DinerListPage = (props) => {
     }
     
     function renderDiners() {
-        axios.get(apiUrl)
+        axios.get('diners/')
         .then(
             (result) => {
                 setState({

@@ -14,7 +14,7 @@ import UserRequired from "./utils/UserRequired";
 import Navigation from "./components/Navbar/Navigation";
 import UserOptional from "./utils/UserOptional";
 
-axios.defaults.baseURL = "http://127.0.0.1:8000";
+axios.defaults.baseURL = "http://127.0.0.1:8000/api/v1/";
 
 // below <Root> add
 //TODO: For nested paths, check: https://ui.dev/react-router-nested-routes

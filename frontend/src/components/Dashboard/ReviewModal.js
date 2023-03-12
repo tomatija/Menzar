@@ -1,10 +1,11 @@
+import axios from "axios";
 import React from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import CloseButton from "react-bootstrap/CloseButton";
 import RadioGroupRating from "./SmileyRating";
 
 function ReviewModal(props) {
-  const apiAddUrl = "http://127.0.0.1:8000/api/v1/review/add/";
+  const apiAddUrl = "review/add/";
   const defaultReview = { "rating": 0, "comment": "" };
   const data = props.data;
   const order_id = data.order_id;
@@ -40,19 +41,9 @@ function ReviewModal(props) {
       "order": order_id,
       "review": reviewAvailable ? review.id : null
     };
-    
-    const headers = {
-      "Content-type": "application/json",
-      "Authorization": "Token " + props.data.auth.token,
-    } 
-    
-    fetch(apiURL,
-      {
-        method: "POST",
-        headers: headers,
-        body: JSON.stringify(requestData)
-      })
+    axios.post(apiURL, requestData)
       .then((result) => {
+        console.log(result);
         props.close();
       });
   }

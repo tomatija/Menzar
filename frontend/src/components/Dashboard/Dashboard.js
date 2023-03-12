@@ -21,7 +21,7 @@ function Dashboard(props) {
   const [modalReviewData, setReviewModalData] = useState({review:null, order_id:null, auth:auth});
 
   const apiUrl =
-    "http://127.0.0.1:8000/api/v1/user/orders/";
+    "user/orders/";
 
   function onLogout() {
     props.logout();

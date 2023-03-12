@@ -48,11 +48,12 @@ def getDinerMenus(dinerName, date):
     return HttpResponse(json.dumps(serializedData))
 
 
-def userOrder(request, username, menuID):
+@api_view(['POST'])
+def userOrder(request, menuID):
     '''
         Creates an order for a given user and menu
     '''
-    user = User.objects.filter(username=username)
+    user = User.objects.filter(username=request.user)
     if len(user) == 0:
         return HttpResponse(USER_NOT_FOUND)
 
@@ -133,9 +134,12 @@ def getUserOrders(request):
     return HttpResponse(json.dumps(serializedData, cls=DjangoJSONEncoder))
 
 
-def deleteUserOrder(request, pk):
+@api_view(['DELETE'])
+def deleteUserOrder(request):
     # TODO: check if request came from corrent user (by username)
-    orders = Order.objects.filter(pk=pk)
+    print(request.data)
+    orders = Order.objects.filter(
+        pk=request.data['order_pk'], user=request.user)
     if not len(orders) == 0:
         orders.first().delete()
 

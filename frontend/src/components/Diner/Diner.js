@@ -14,7 +14,7 @@ const Diner = (props) => {
     function handleClick() {
         //TODO: Add authentication
         const changeToFavorite = !isFavorite;
-        const apiURL = "http://127.0.0.1:8000/api/v1/favorite/diner";
+        const apiURL = "favorite/diner";
         const data = {
             diner: diner.name,
             favorite: changeToFavorite

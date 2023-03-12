@@ -51,12 +51,12 @@ urlpatterns = [
         name='User orders'
     ),
     path(
-        'user/<str:username>/order/<int:menuID>/',
+        'user/order/<int:menuID>/',
         view=views.userOrder,
         name='User order menu'
     ),
     path(
-        'order/remove/<int:pk>/',
+        'order/remove/',
         view=views.deleteUserOrder,
         name='order delete order'
     ),

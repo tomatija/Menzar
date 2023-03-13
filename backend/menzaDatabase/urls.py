@@ -51,7 +51,7 @@ urlpatterns = [
         name='User orders'
     ),
     path(
-        'user/order/<int:menuID>/',
+        'user/order/',
         view=views.userOrder,
         name='User order menu'
     ),

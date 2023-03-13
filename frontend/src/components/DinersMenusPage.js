@@ -28,7 +28,7 @@ class DinerMenusPage extends Component {
     onLogout = () => {
         this.props.logout();
     };
-    componentDidMount() {
+    refreshMenus = () => {
         axios.get(this.apiUrl)
         .then(
             (result) => {
@@ -44,6 +44,10 @@ class DinerMenusPage extends Component {
                 });
             }
         );
+    }
+    
+    componentDidMount() {
+        this.refreshMenus();
     }
     
     render()
@@ -65,7 +69,7 @@ class DinerMenusPage extends Component {
                             <div className="d-grid gap-2">
                             {
                                 menus.map((menu, index) => (
-                                    <Menu user={user} key={index} menu={menu}/>
+                                    <Menu user={user} key={index} menu={menu} refresh={this.refreshMenus}/>
                             ))}
                             </div>
                         </Col>

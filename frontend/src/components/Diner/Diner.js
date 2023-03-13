@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useState } from 'react';
-import {Button, Card} from 'react-bootstrap';
+import { Button, Card } from 'react-bootstrap';
 import DinerInfo from './DinerData/DinerInfo';
 import FavoriteButton from './Favorite';
 
@@ -10,7 +10,7 @@ const Diner = (props) => {
     const dinerFavorite = diner.favorite === true;
     const displayFavorite = props.displayFavorite;
     const [isFavorite, setIsFavorite] = useState(dinerFavorite);
-    
+
     function handleClick() {
         const changeToFavorite = !isFavorite;
         const apiURL = "favorite/diner";
@@ -18,23 +18,24 @@ const Diner = (props) => {
             diner: diner.name,
             favorite: changeToFavorite
         }
-        if(changeToFavorite)
-        {
-            axios.post(apiURL, data).then((response) => {setIsFavorite(changeToFavorite)});
+        if (changeToFavorite) {
+            axios
+                .post(apiURL, data)
+                .then((response) => { setIsFavorite(changeToFavorite) })
+                .catch((error) => { console.log(error) });
         }
-        else
-        {
-            axios.delete(apiURL, { data: data }).then((response) => { setIsFavorite(changeToFavorite)});
+        else {
+            axios.delete(apiURL, { data: data }).then((response) => { setIsFavorite(changeToFavorite) });
         }
     };
-    
+
     const favoriteButton = displayFavorite ? (
         <FavoriteButton
             favorite={isFavorite}
             handleClick={handleClick}
         ></FavoriteButton>
     ) : null;
-    
+
     return (
         <Card
             className="col-5 mx-2 my-2"

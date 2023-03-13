@@ -36,9 +36,19 @@ class UserMenuSerializer(serializers.ModelSerializer):
             menu__in=menusWithSameDish).exclude(review=None)
 
         return {
-            "dishAverage": menuOrders.aggregate(Avg('review__rating'))["review__rating__avg"],
-            "totalOrders": len(totalOrders),
-            "totalAverage": totalOrders.aggregate(Avg('review__rating'))["review__rating__avg"],
-            "userOrders": len(userOrders),
-            "userAverage": userOrders.aggregate(Avg('review__rating'))["review__rating__avg"]
+            # number of today's orders of this menu
+            "dailyOrderCount": totalOrders.count(),
+            # average rating of today's orders of this menu
+            "dailyOrderAverage": totalOrders.aggregate(Avg('review__rating'))["review__rating__avg"],
+
+            # number of orders of same dish in same diner
+            "totalOrderCount": menuOrders.count(),
+            # average rating of same dish in same diner
+            "totalOrderAverage": menuOrders.aggregate(Avg('review__rating'))["review__rating__avg"],
+
+            # number of orders of same dish in same diner by this user
+            "userTotalOrderCount": userOrders.count(),
+            # average rating of same dish in same diner by this user
+            "userTotalOrderAverage": userOrders.aggregate(Avg('review__rating'))["review__rating__avg"],
+
         }

@@ -23,8 +23,7 @@ const Order = (props) => {
         };
         axios.delete(apiURL, { data: data }).then(props.refreshParent);
     }
-
-
+    
     const ratingIcon = reviewAvailable ? (
         <div>
             <p>{review.comment}</p>

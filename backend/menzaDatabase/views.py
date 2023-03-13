@@ -71,15 +71,15 @@ class MenuList(generics.ListAPIView):
 
 
 @api_view(['POST'])
-def userOrder(request, menuID):
+def userOrder(request):
     '''
         Creates an order for a given user and menu
     '''
     user = User.objects.filter(username=request.user)
     if len(user) == 0:
         return HttpResponse(USER_NOT_FOUND)
-
-    menu = Menu.objects.filter(pk=menuID)
+    print(request.data)
+    menu = Menu.objects.filter(pk=request.data["menu_pk"])
 
     if len(menu) == 0:
         return HttpResponse(MENU_NOT_FOUND)
@@ -127,7 +127,7 @@ def getUserOrders(request):
     if len(user) == 0:
         return HttpResponse(USER_NOT_FOUND)
 
-    orders = Order.objects.filter(user=user.first()).order_by('timestamp')
+    orders = Order.objects.filter(user=user.first()).order_by('-timestamp')
     serializedData = OrderSerializer(orders, many=True).data
     return HttpResponse(json.dumps(serializedData, cls=DjangoJSONEncoder))
 

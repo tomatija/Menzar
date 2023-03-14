@@ -16,17 +16,17 @@ urlpatterns = [
         views.DinerList.as_view(),
         name='Diners'
     ),
+    path(
+        'diner/<str:dinerName>/<str:dateString>/',
+        views.MenuList.as_view(),
+        name='Diner menus by date'
+    ),
 
     # MENUS
     path(
-        'diner/<str:dinerName>/<str:dateString>/',
-        views.getDinerMenusByDate,
-        name='Diner menus by date'
-    ),
-    path(
-        'menus/<int:menuId>/',
-        views.getMenuDetails,
-        name='Comments'
+        'menu/<int:menuId>/',
+        views.MenuList.as_view(),
+        name='Menu details'
     ),
     path(
         'menus/<int:menuId>/orders/',
@@ -51,7 +51,7 @@ urlpatterns = [
         name='User orders'
     ),
     path(
-        'user/order/<int:menuID>/',
+        'user/order/',
         view=views.userOrder,
         name='User order menu'
     ),

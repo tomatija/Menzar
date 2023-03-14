@@ -1,9 +1,5 @@
 import React, { Component } from "react";
-import {
-  Container,
-  Row,
-  Col,
-} from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 
 import { logout } from "./Login/LoginActions";
 import { connect } from "react-redux";
@@ -14,59 +10,58 @@ import axios from "axios";
 class DinerMenusPage extends Component {
     constructor(props) {
         super(props);
-        this.splitPath = window.location.pathname.split('/');
+        this.splitPath = window.location.pathname.split("/");
         this.dinerName = this.splitPath[this.splitPath.length - 3];
         this.dinerDate = this.splitPath[this.splitPath.length - 2];
-        this.apiUrl = 'diner/' + this.dinerName+'/'+this.dinerDate+'/';
+        this.apiUrl = "diner/" + this.dinerName + "/" + this.dinerDate + "/";
         this.state = {
             error: null,
             isLoaded: false,
-            menus: []
+            menus: [],
         };
         this.auth = this.props.auth;
     }
     onLogout = () => {
         this.props.logout();
     };
-    componentDidMount() {
-        axios.get(this.apiUrl)
-        .then(
+    refreshMenus = () => {
+        axios.get(this.apiUrl).then(
             (result) => {
                 this.setState({
                     isLoaded: true,
-                    menus: result.data
+                    menus: result.data,
                 });
             },
             (error) => {
                 this.setState({
                     isLoaded: false,
-                    error: error
+                    error: error,
                 });
             }
         );
+    };
+
+    componentDidMount() {
+        this.refreshMenus();
     }
-    
-    render()
-    {
+
+    render() {
         const { user } = this.props.auth;
         const { error, isLoaded, menus } = this.state;
-        
+
         if (error) {
             return <div>Error: {error.message}</div>;
-        }
-        else if (!isLoaded) {
+        } else if (!isLoaded) {
             return <div>Loading...</div>;
-        }
-        else {
+        } else {
             return (
                 <Container>
                     <Row>
                         <Col>
                             <div className="d-grid gap-2">
-                            {
-                                menus.map((menu, index) => (
-                                    <Menu user={user} key={index} menu={menu}/>
-                            ))}
+                                {menus.map((menu, index) => (
+                                    <Menu user={user} key={index} menu={menu} refresh={this.refreshMenus} />
+                                ))}
                             </div>
                         </Col>
                     </Row>
@@ -76,10 +71,10 @@ class DinerMenusPage extends Component {
     }
 }
 
-const mapStateToProps = state => ({
-  auth: state.auth
+const mapStateToProps = (state) => ({
+    auth: state.auth,
 });
 
 export default connect(mapStateToProps, {
-  logout
+    logout,
 })(withRouter(DinerMenusPage));

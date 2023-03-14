@@ -26,6 +26,11 @@ class DinerList(generics.ListAPIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
 
     def get_serializer_class(self):
+
+        # TODO: removeme
+        if len(Menu.objects.filter(date=timezone.now().date())) == 0:
+            scrapeView(None)
+
         user = self.request.user
         if user.is_authenticated:
             return UserDinerSerializer

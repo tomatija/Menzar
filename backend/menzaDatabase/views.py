@@ -144,8 +144,10 @@ def deleteUserOrder(request):
         pk=request.data['order_pk'], user=request.user)
     if not len(orders) == 0:
         orders.first().delete()
-
-    return HttpResponse("order deleted")
+        return HttpResponse("order deleted")
+    else:
+        return HttpResponse("order doesn't exist")
+    
 
 
 @api_view(['POST', 'DELETE'])

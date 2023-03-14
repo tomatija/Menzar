@@ -36,6 +36,7 @@ function Dashboard(props) {
     }
 
     function getUserOrderData() {
+        console.log("getUserOrderData")
         axios.get(apiUrl).then(
             (result) => {
                 setIsLoaded(true);
@@ -68,6 +69,7 @@ function Dashboard(props) {
                         order={order}
                         auth={props.auth}
                         openModal={openReviewModal}
+                        refreshParent={getUserOrderData}
                     />
                 ))}
             </Accordion>

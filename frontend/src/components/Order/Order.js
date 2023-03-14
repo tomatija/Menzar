@@ -21,7 +21,9 @@ const Order = (props) => {
         const data = {
             "order_pk": order.pk,
         };
-        axios.delete(apiURL, { data: data }).then(props.refreshParent);
+        axios.delete(apiURL, { data: data }).then(setTimeout(() => {
+            props.refreshParent();
+        }, 1000 ));
     }
     
     const ratingIcon = reviewAvailable ? (

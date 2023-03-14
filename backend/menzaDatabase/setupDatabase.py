@@ -5139,7 +5139,7 @@ def createOrders():
 
 
 def deleteDatabase():
-    User.objects.all().delete()
+    #User.objects.all().delete()
     Order.objects.all().delete()
     Menu.objects.all().delete()
     Dish.objects.all().delete()

@@ -1,9 +1,6 @@
 import axios from "axios";
 import React, { Component, useEffect, useState } from "react";
-import {
-  Container,
-  Row,
-} from "react-bootstrap";
+import { Container, Row } from "react-bootstrap";
 
 import Diner from "./Diner/Diner";
 
@@ -11,8 +8,8 @@ const DinerListPage = (props) => {
     const [state, setState] = useState({
         error: null,
         isLoaded: false,
-        diners: []
-    });        
+        diners: [],
+    });
     function dinerSortByFavorite(a, b) {
         if (a.favorite) {
             return -1;
@@ -22,20 +19,19 @@ const DinerListPage = (props) => {
         }
         return -1;
     }
-    
+
     function renderDiners() {
-        axios.get('diners/')
-        .then(
+        axios.get("diners/").then(
             (result) => {
                 setState({
                     isLoaded: true,
-                    diners: result.data.sort(dinerSortByFavorite) // Sort diners by favorite
+                    diners: result.data.sort(dinerSortByFavorite), // Sort diners by favorite
                 });
             },
             (error) => {
                 setState({
                     isLoaded: true,
-                    error
+                    error,
                 });
             }
         );
@@ -44,26 +40,23 @@ const DinerListPage = (props) => {
     useEffect(() => {
         renderDiners();
     }, []);
-    
+
     const { error, isLoaded, diners } = state;
     if (error) {
         return <div>Error: {error.message}</div>;
-    }
-    else if (!isLoaded) {
+    } else if (!isLoaded) {
         return <div>Loading...</div>;
-    }
-    else {
+    } else {
         return (
             <Container>
                 <Row>
                     {diners.map((diner, index) => (
-                        <Diner key={index} displayFavorite={props.isAuthenticated} diner={diner}/>
+                        <Diner key={index} displayFavorite={props.isAuthenticated} diner={diner} />
                     ))}
                 </Row>
             </Container>
         );
     }
-    
-}
+};
 
 export default DinerListPage;

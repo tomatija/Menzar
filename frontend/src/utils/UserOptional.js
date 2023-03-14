@@ -8,19 +8,18 @@ const UserOptional = (Component) => {
             <div>
                 <Component {...props} />
             </div>
-        )
-    }
+        );
+    };
     const mapStateToProps = (state, ownProps) => {
         const userPresent = state.auth !== null;
         return {
             isAuthenticated: userPresent ? state.auth.isAuthenticated : false,
             token: userPresent ? state.auth.token : null,
-            own: ownProps
+            own: ownProps,
         };
     };
 
     return connect(mapStateToProps)(UserOptionalComponent);
-}
+};
 
 export default UserOptional;
-

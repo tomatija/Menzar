@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Button, ButtonGroup } from "react-bootstrap";
 import axios from "axios";
-import { withRouter } from "react-router-dom";
-import { connect } from "react-redux";
+
+import StarIcon from "@material-ui/icons/Star";
+import { Icon } from "@mui/material";
 
 const getMenuColor = (ordered) => {
     if (ordered) {
@@ -11,6 +12,8 @@ const getMenuColor = (ordered) => {
         return "secondary";
     }
 };
+const betterThanNormalSign = "+";
+const worseThanNormalSign = "-";
 
 const Menu = (props) => {
     const menuID = props.menu.pk;
@@ -65,11 +68,25 @@ const Menu = (props) => {
                 });
         }
     };
-    console.log(props.menu.stats);
 
+    const stats = props.menu.stats;
     const displayRating = props.menu.stats.totalOrderAverage > 0;
     const rating = displayRating ? Math.round(props.menu.stats.totalOrderAverage * 100) / 100 : null;
-    const ratingString = displayRating ? rating.toFixed(2) + "🌟" : "";
+    const ratingString = displayRating ? rating.toFixed(2) : "";
+    const ratingIcon = displayRating ? (
+        <Icon component={StarIcon} color="yellow" className="d-flex align-items-center justify-content-center" />
+    ) : (
+        ""
+    );
+    let ratingBetterOrWorse = "";
+
+    if (stats.dailyOrderCount > 0) {
+        if (stats.dailyOrderAverage > stats.totalOrderAverage) {
+            ratingBetterOrWorse = betterThanNormalSign;
+        } else if (stats.dailyOrderAverage < stats.totalOrderAverage) {
+            ratingBetterOrWorse = worseThanNormalSign;
+        }
+    }
 
     const handleClick = () => {
         orderMenu(menuID);
@@ -85,6 +102,8 @@ const Menu = (props) => {
 
             <Button variant={state.menu_text_color} className="col-2 text-left">
                 {ratingString}
+                {ratingIcon}
+                {ratingBetterOrWorse}
             </Button>
         </ButtonGroup>
     );

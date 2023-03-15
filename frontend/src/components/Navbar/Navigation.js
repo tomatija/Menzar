@@ -85,6 +85,7 @@ const Navigation = (props) => {
 
     return (
         <AppBar
+            style={{ background: "#f3aa20" }}
             position="static"
             sx={{
                 mb: 4,
@@ -105,7 +106,7 @@ const Navigation = (props) => {
                             fontFamily: "monospace",
                             fontWeight: 700,
                             letterSpacing: ".3rem",
-                            color: "inherit",
+                            color: "#841e62",
                             textDecoration: "none",
                         }}
                     >
@@ -160,7 +161,7 @@ const Navigation = (props) => {
                             fontFamily: "monospace",
                             fontWeight: 700,
                             letterSpacing: ".3rem",
-                            color: "inherit",
+                            color: "#688052",
                             textDecoration: "none",
                         }}
                     >
@@ -171,7 +172,7 @@ const Navigation = (props) => {
                             <Button
                                 key={index}
                                 onClick={page.callback}
-                                sx={{ my: 2, color: "white", display: "block" }}
+                                sx={{ my: 2, color: "#346b6d", display: "block" }}
                             >
                                 {page.name}
                             </Button>

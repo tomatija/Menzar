@@ -3,7 +3,7 @@ import { Button, ButtonGroup } from "react-bootstrap";
 import axios from "axios";
 
 import StarIcon from "@material-ui/icons/Star";
-import { Icon } from "@mui/material";
+import { Grid, Icon } from "@mui/material";
 
 const getMenuColor = (ordered) => {
     if (ordered) {
@@ -74,7 +74,15 @@ const Menu = (props) => {
     const rating = displayRating ? Math.round(props.menu.stats.totalOrderAverage * 100) / 100 : null;
     const ratingString = displayRating ? rating.toFixed(2) : "";
     const ratingIcon = displayRating ? (
-        <Icon component={StarIcon} color="yellow" className="d-flex align-items-center justify-content-center" />
+        <Icon
+            baseClassName="string"
+            component={StarIcon}
+            sx={{
+                color: "#FAAF00",
+                fontStretch: "expanded",
+                verticalAlign: "middle",
+            }}
+        />
     ) : (
         ""
     );
@@ -95,14 +103,16 @@ const Menu = (props) => {
     useEffect(() => {}, [state]);
 
     return (
-        <ButtonGroup size="lg" onClick={handleClick} disabled={true} style={{ width: "100%" }} className="mb-2">
+        <ButtonGroup size="lg" onClick={handleClick} style={{ width: "100%" }} className="mb-2">
             <Button variant={state.menu_text_color} className="col-10">
                 {state.menu_text}
             </Button>
 
-            <Button variant={state.menu_text_color} className="col-2 text-left">
-                {ratingString}
-                {ratingIcon}
+            <Button variant={state.menu_text_color} disabled="true" className="col-2 align-center">
+                <Grid container direction="row" alignItems="center">
+                    {ratingString}
+                    {ratingIcon}
+                </Grid>
                 {ratingBetterOrWorse}
             </Button>
         </ButtonGroup>

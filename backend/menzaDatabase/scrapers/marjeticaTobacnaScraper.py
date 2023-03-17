@@ -9,6 +9,7 @@ from datetime import datetime
 class MarjeticaTobacnaScraper(ScraperBase):
     url = "https://www.marjetice.si/"
     name = 'marjeticatobacna'
+    display_name = "Marjetica - Tobačna"
 
     def parser(self, soup) -> list[MenuBase]:
         elements = soup.find_all("p", {"style": "text-align: center;"})

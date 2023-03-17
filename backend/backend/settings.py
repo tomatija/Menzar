@@ -22,6 +22,12 @@ from menzaDatabase.scrapers.menzaIJSScraper import MenzaIJSScraper
 from menzaDatabase.scrapers.menzaPFScraper import MenzaPFScraper
 from menzaDatabase.scrapers.menzaFEScraper import MenzaFEScraper
 from menzaDatabase.scrapers.dijaskiDomVicScraper import DijaskiDomVicScraper
+from menzaDatabase.scrapers.restavracija123DSUScraper import Restavracija123DSUScraper
+from menzaDatabase.scrapers.restavracija123LetaliskaScraper import Restavracija123LetaliskaScraper
+from menzaDatabase.scrapers.restavracija123Megacenter2Scraper import Restavracija123Megacenter2Scraper
+from menzaDatabase.scrapers.restavracija123PoslovnaScraper import Restavracija123PoslovnaScraper
+from menzaDatabase.scrapers.restavracija123PristanScraper import Restavracija123PristanScraper
+
 
 DINER_SCRAPERS = Scrapers()
 DINER_SCRAPERS.registerScraper(MarjeticaTobacnaScraper())
@@ -32,6 +38,11 @@ DINER_SCRAPERS.registerScraper(DijaskiDomVicScraper())
 DINER_SCRAPERS.registerScraper(MenzaIJSScraper())
 DINER_SCRAPERS.registerScraper(MenzaPFScraper())
 DINER_SCRAPERS.registerScraper(MenzaFEScraper())
+DINER_SCRAPERS.registerScraper(Restavracija123DSUScraper())
+DINER_SCRAPERS.registerScraper(Restavracija123LetaliskaScraper())
+DINER_SCRAPERS.registerScraper(Restavracija123Megacenter2Scraper())
+DINER_SCRAPERS.registerScraper(Restavracija123PoslovnaScraper())
+DINER_SCRAPERS.registerScraper(Restavracija123PristanScraper())
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.

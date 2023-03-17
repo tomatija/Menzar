@@ -7,6 +7,7 @@ class RoznaKuhnaScraper(ScraperBase):
 
     url = "https://www.stud-dom-lj.si/bivanje-v-sdl/restavracija-in-bar/"
     name = 'roznakuhna'
+    display_name = "Rožna Kuh'na"
 
     # this will return an list of menu strings
     def parser(self, html) -> list[MenuBase]:

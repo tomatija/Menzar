@@ -7,6 +7,7 @@ from datetime import datetime
 class MenzaBFScraper(ScraperBase):
     url = "https://www.studentska-prehrana.si/sl/restaurant/Details/2023"
     name = 'menzabf'
+    display_name = "Menza BF"
 
     def parser(self, soup) -> list[MenuBase]:
         elements = soup.find_all(

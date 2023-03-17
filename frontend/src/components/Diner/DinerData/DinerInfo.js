@@ -35,23 +35,23 @@ const DinerData = {
     },
     restavracija123Pristan: {
         image: require("./DinerImages/restavracija123.png"),
-        description: "To je opis restavracije 123 - Restavracija123Pristan",
+        description: "To je opis Restavracije 123 - Pristan",
     },
     restavracija123Poslovna: {
         image: require("./DinerImages/restavracija123.png"),
-        description: "To je opis restavracije 123 - Restavracija123Poslovna",
+        description: "To je opis Restavracije 123 - Poslovna",
     },
     restavracija123Megacenter2: {
         image: require("./DinerImages/restavracija123.png"),
-        description: "To je opis restavracije 123 - Restavracija123Megacenter2",
+        description: "To je opis Restavracije 123 - Megacenter2",
     },
     restavracija123Letaliska: {
         image: require("./DinerImages/restavracija123.png"),
-        description: "To je opis restavracije 123 - Restavracija123Letaliska",
+        description: "To je opis Restavracije 123 - Letaliska",
     },
     restavracija123DSU: {
         image: require("./DinerImages/restavracija123.png"),
-        description: "To je opis restavracije 123 - Restavracija123DSU",
+        description: "To je opis Restavracije 123 - DSU",
     },
 };
 

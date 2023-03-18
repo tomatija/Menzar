@@ -76,9 +76,11 @@ CRONJOBS = [
     ('*/1 * * * *', 'menzaDatabase.cron.my_scheduled_job')
 ]
 
-# Application definition
+AUTH_USER_MODEL = 'users.User'
 
+# Application definition
 INSTALLED_APPS = [
+    'users.apps.UsersConfig',
     'menzaDatabase.apps.MenzadatabaseConfig',
     'django_crontab',
     'django.contrib.admin',

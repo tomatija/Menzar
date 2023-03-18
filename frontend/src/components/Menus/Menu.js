@@ -108,7 +108,7 @@ const Menu = (props) => {
                 {state.menu_text}
             </Button>
 
-            <Button variant={state.menu_text_color} disabled="true" className="col-2 align-center">
+            <Button variant={state.menu_text_color} disabled={true} className="col-2 align-center">
                 <Grid container direction="row" alignItems="center">
                     {ratingString}
                     {ratingIcon}

@@ -12,9 +12,8 @@ import { ToastContainer } from "react-toastify";
 import axios from "axios";
 import requireAuth from "./utils/RequireAuth";
 
-const { smth } = process.env;
 console.log("ENV", process.env);
-console.log("URL", smth);
+console.log("URL", process.env.BACKEND_URL);
 
 axios.defaults.baseURL = "https://mojamenza.onrender.com";
 

@@ -63,10 +63,14 @@ DEBUG = 'RENDER' not in os.environ
 BACKEND_URL = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 FRONTEND_URL = os.environ.get('FRONTEND_URL')
 
-ALLOWED_HOSTS = []
+# TODO: REMOVE THIS '*' ALLOWED HOSTS
+ALLOWED_HOSTS = [
+    '*'
+]
 
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000'
+    'http://localhost:3000',
+    'https://menzar.vercel.app'
 ]
 
 if FRONTEND_URL:
@@ -82,7 +86,6 @@ AUTH_USER_MODEL = 'users.User'
 INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'menzaDatabase.apps.MenzadatabaseConfig',
-    'django_crontab',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

@@ -14,7 +14,12 @@ import UserRequired from "./utils/UserRequired";
 import Navigation from "./components/Navbar/Navigation";
 import UserOptional from "./utils/UserOptional";
 
-axios.defaults.baseURL = "http://127.0.0.1:8000/api/v1/";
+const BACKEND_URL =
+    process.env.REACT_APP_BACKEND_URL === undefined
+        ? "http://127.0.0.1:8000/api/v1/"
+        : process.env.REACT_APP_BACKEND_URL + "/api/v1/";
+
+axios.defaults.baseURL = BACKEND_URL;
 
 // below <Root> add
 class App extends Component {

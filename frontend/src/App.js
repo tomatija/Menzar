@@ -11,6 +11,10 @@ import DinerMenusPage from "./components/DinersMenusPage";
 import { ToastContainer } from "react-toastify";
 import axios from "axios";
 import requireAuth from "./utils/RequireAuth";
+
+const { smth } = process.env;
+console.log(process.env);
+
 axios.defaults.baseURL = "https://mojamenza.onrender.com";
 
 // below <Root> add

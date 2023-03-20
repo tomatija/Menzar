@@ -31,35 +31,35 @@ class Login extends Component {
             <Container>
                 <Row>
                     <Col md="4">
-                        <h1>Login</h1>
+                        <h1>Prijava</h1>
                         <Form>
                             <Form.Group controlId="usernameId">
-                                <Form.Label>User name</Form.Label>
+                                <Form.Label>Uporabniško ime</Form.Label>
                                 <Form.Control
                                     type="text"
                                     name="username"
-                                    placeholder="Enter user name"
+                                    placeholder="Vstavite uporabniško ime"
                                     value={this.state.username}
                                     onChange={this.onChange}
                                 />
                             </Form.Group>
 
                             <Form.Group controlId="passwordId">
-                                <Form.Label>Your password</Form.Label>
+                                <Form.Label>Vaše geslo</Form.Label>
                                 <Form.Control
                                     type="password"
                                     name="password"
-                                    placeholder="Enter password"
+                                    placeholder="Vstavite geslo"
                                     value={this.state.password}
                                     onChange={this.onChange}
                                 />
                             </Form.Group>
                         </Form>
                         <Button color="primary" onClick={this.onLoginClick}>
-                            Login
+                            Prijavi
                         </Button>
                         <p className="mt-2">
-                            Don't have account? <Link to="/signup">Signup</Link>
+                            Nimate računa? <Link to="/signup">Ustvarite račun</Link>
                         </p>
                     </Col>
                 </Row>

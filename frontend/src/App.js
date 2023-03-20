@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import Root from "./Root"; // <------------- new import
 import { Route, Switch } from "react-router-dom"; // <--- remove BrowserRouter
-import Home from "./components/Home";
 import Signup from "./components/Signup/Signup";
 import Login from "./components/Login/Login";
 import Dashboard from "./components/Dashboard/Dashboard";

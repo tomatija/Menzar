@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
-import { Button, Card } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import DinerInfo from "./DinerData/DinerInfo";
 import FavoriteFab from "./FavoriteFab";

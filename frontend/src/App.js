@@ -13,7 +13,8 @@ import axios from "axios";
 import requireAuth from "./utils/RequireAuth";
 
 const { smth } = process.env;
-console.log(process.env);
+console.log("ENV", process.env);
+console.log("URL", smth);
 
 axios.defaults.baseURL = "https://mojamenza.onrender.com";
 

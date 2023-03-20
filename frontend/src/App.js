@@ -13,9 +13,12 @@ import axios from "axios";
 import requireAuth from "./utils/RequireAuth";
 
 console.log("ENV", process.env);
-console.log("URL", process.env.BACKEND_URL);
+console.log("URL", process.env.REACT_APP_BACKEND_URL);
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL === undefined
+    ? "http://127.0.0.1:8000/"
+    : process.env.REACT_APP_BACKEND_URL; 
 
-axios.defaults.baseURL = "https://mojamenza.onrender.com";
+axios.defaults.baseURL = BACKEND_URL;
 
 // below <Root> add
 //TODO: For nested paths, check: https://ui.dev/react-router-nested-routes

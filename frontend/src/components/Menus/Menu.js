@@ -70,6 +70,7 @@ const Menu = (props) => {
     };
 
     const stats = props.menu.stats;
+
     const displayRating = props.menu.stats.totalOrderAverage > 0;
     const rating = displayRating ? Math.round(props.menu.stats.totalOrderAverage * 100) / 100 : null;
     const ratingString = displayRating ? rating.toFixed(2) : "";

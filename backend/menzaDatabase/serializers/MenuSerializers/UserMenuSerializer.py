@@ -50,5 +50,4 @@ class UserMenuSerializer(serializers.ModelSerializer):
             "userTotalOrderCount": userOrders.count(),
             # average rating of same dish in same diner by this user
             "userTotalOrderAverage": userOrders.aggregate(Avg('review__rating'))["review__rating__avg"],
-
         }

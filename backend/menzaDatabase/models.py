@@ -9,6 +9,7 @@ class Diner(models.Model):
     name = models.CharField(max_length=50)
     display_name = models.CharField(max_length=50)
     date = models.DateField(auto_now_add=True)
+    description = models.CharField(max_length=500, default='Placeholder description')
 
     def __str__(self):
         return f"{self.display_name}"

@@ -1,6 +1,6 @@
 
 const DinerData = {
-    
+    //TODO: Remove descriptions
     'roznakuhna': {
         'image': require('./DinerImages/roznakuhna.png'),
         'description': "To je opis restavracije Rožna kuhna"

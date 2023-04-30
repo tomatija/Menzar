@@ -11,7 +11,6 @@ const Diner = (props) => {
     const dinerFavorite = diner.favorite === true;
     const displayFavorite = props.displayFavorite;
     const [isFavorite, setIsFavorite] = useState(dinerFavorite);
-
     function handleClick() {
         const changeToFavorite = !isFavorite;
         const apiURL = "favorite/diner";
@@ -42,7 +41,7 @@ const Diner = (props) => {
                 <Card.Img variant="top" src={dinerInfo.image} />
                 <Card.Body>
                     <Card.Title>{diner.display_name}</Card.Title>
-                    <Card.Text>{dinerInfo.description}</Card.Text>
+                    <Card.Text>{diner.description}</Card.Text>
                 </Card.Body>
             </Link>
         </Card>

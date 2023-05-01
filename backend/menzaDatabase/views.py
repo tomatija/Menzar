@@ -1,6 +1,8 @@
 from datetime import datetime
+from datetime import date
 from backend.settings import DINER_SCRAPERS
 from django.http import HttpResponse
+from django.http import HttpResponseBadRequest
 from .setupDatabase import *
 from language import *
 from django.utils import timezone
@@ -249,13 +251,20 @@ def createReview(request):
     reviewID = request.data.get('review')
     review = Review.objects.filter(pk=reviewID)
 
-    serializer = None
-    if len(review) == 0:
-        serializer = ReviewSerializer(data=request.data)
-    else:
-        serializer = ReviewSerializer(
-            instance=review.first(), data=request.data)
+    date_format = '%Y-%m-%d'
+    order_date = datetime.strptime(request.data.get('order_date'), date_format).date()
 
-    if serializer.is_valid(raise_exception=True):
-        serializer.save()
-    return HttpResponse(serializer.data)
+    try:
+        serializer = None
+        if len(review) == 0:
+            serializer = ReviewSerializer(data=request.data)
+        elif (order_date == date.today()):
+            serializer = ReviewSerializer(instance=review.first(), data=request.data)
+            
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+
+        return HttpResponse(serializer.data)
+    except:
+        return HttpResponseBadRequest('Editing is only allowed on orders made today')
+

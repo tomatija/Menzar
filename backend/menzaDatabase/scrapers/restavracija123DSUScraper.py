@@ -10,7 +10,6 @@ class Restavracija123DSUScraper(ScraperBase):
     date = timezone.now().date()
     strDate = date.strftime("%Y-%m-%d")
     url = f"https://www.restavracija123.si/api/getDailyMenu/4697/{strDate}/"
-    print(url)
     name = 'restavracija123DSU'
     display_name = "Restavracija 123 - DSU"
 

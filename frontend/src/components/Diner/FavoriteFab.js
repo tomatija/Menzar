@@ -4,7 +4,6 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import "./Diner.css";
 
 const FavoriteFab = ({ isFavorite, display, onClick }) => {
-    console.log(isFavorite);
     const favoriteButton = (
         <Icon
             className={isFavorite ? "favorite-icon filled" : "favorite-icon empty"}

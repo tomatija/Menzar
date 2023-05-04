@@ -53,7 +53,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-5!o3+^w*(+4zb_v_qk0fkg_q&$)b+c93b@lcdq+l&zz-1tmh@&'
+SECRET_KEY = os.environ.get(
+    'SECRET_KEY', 'django-insecure-5!o3+^w*(+4zb_v_qk0fkg_q&$)b+c93b@lcdq+l&zz-1tmh@&',)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = 'RENDER' not in os.environ
@@ -63,10 +64,15 @@ DEBUG = 'RENDER' not in os.environ
 BACKEND_URL = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 FRONTEND_URL = os.environ.get('FRONTEND_URL')
 
+# TODO: REMOVE THIS '*' ALLOWED HOSTS
 ALLOWED_HOSTS = []
+RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
+if RENDER_EXTERNAL_HOSTNAME:
+    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000'
+    'http://localhost:3000',
+    'https://menzar.vercel.app'
 ]
 
 if FRONTEND_URL:
@@ -76,11 +82,12 @@ CRONJOBS = [
     ('*/1 * * * *', 'menzaDatabase.cron.my_scheduled_job')
 ]
 
-# Application definition
+AUTH_USER_MODEL = 'users.User'
 
+# Application definition
 INSTALLED_APPS = [
+    'users.apps.UsersConfig',
     'menzaDatabase.apps.MenzadatabaseConfig',
-    'django_crontab',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -153,7 +160,7 @@ if DEBUG == True:
 else:
     DATABASES["default"] = dj_database_url.config(
         # Feel free to alter this value to suit your needs.
-        default='postgresql://postgres:postgres@localhost:5432/mysite',
+        default='',
         conn_max_age=600
     )
 
@@ -180,7 +187,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'sl'
 
 TIME_ZONE = 'UTC'
 

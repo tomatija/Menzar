@@ -1,5 +1,5 @@
 from menzaDatabase.models import *
-from django.contrib.auth.models import User
+from users.models import User
 import random
 from tqdm import tqdm
 from backend.settings import DINER_SCRAPERS

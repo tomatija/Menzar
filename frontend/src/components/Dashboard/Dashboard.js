@@ -21,10 +21,6 @@ function Dashboard(props) {
 
     const apiUrl = "user/orders/";
 
-    function onLogout() {
-        props.logout();
-    }
-
     function openReviewModal(order) {
         setReviewModalData({ review: order.review, order_id: order.pk, auth: auth });
         setShowReviewModal(true);
@@ -36,7 +32,6 @@ function Dashboard(props) {
     }
 
     function getUserOrderData() {
-        console.log("getUserOrderData")
         axios.get(apiUrl).then(
             (result) => {
                 setIsLoaded(true);
@@ -84,16 +79,6 @@ function Dashboard(props) {
                 close={closeReviewModal}
                 data={modalReviewData}
             />
-            <Navbar auth={props.auth} bg="light">
-                <Navbar.Brand href="/">Domov</Navbar.Brand>
-                <Navbar.Toggle />
-                <Navbar.Collapse className="justify-content-end">
-                    <Navbar.Text>
-                        User: <b>{user.username}</b>
-                    </Navbar.Text>
-                    <Nav.Link onClick={onLogout}>Logout</Nav.Link>
-                </Navbar.Collapse>
-            </Navbar>
             <Container>{displayElement}</Container>
         </div>
     );

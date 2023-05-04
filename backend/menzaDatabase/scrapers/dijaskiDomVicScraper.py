@@ -8,6 +8,7 @@ class DijaskiDomVicScraper(ScraperBase):
     year = timezone.now().date().strftime("%Y")
     url = "https://www.studentska-prehrana.si/sl/restaurant/Details/1314"
     name = 'ddvic'
+    display_name = "Dijaški dom Vič"
 
     def parser(self, soup) -> list[MenuBase]:
         elements = soup.find_all(

@@ -31,7 +31,7 @@ class App extends Component {
                         <Route path="/signup" component={Signup} />
                         <Route path="/login" component={Login} />
                         <Route path="/dashboard" component={UserRequired(Dashboard)} />
-                        <Route exact path="/" component={UserOptional(Home)} />
+                        <Route exact path="/" component={UserOptional(DinerListPage)} />
                         <Route path="*">Ups</Route>
                     </Switch>
                 </Root>

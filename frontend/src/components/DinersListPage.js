@@ -48,7 +48,7 @@ const DinerListPage = (props) => {
         return <div>Loading...</div>;
     } else {
         return (
-            <Container>
+            <Container className="d-flex align-items-center justify-content-center">
                 <Row>
                     {diners.map((diner, index) => (
                         <Diner key={index} displayFavorite={props.isAuthenticated} diner={diner} />

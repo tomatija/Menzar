@@ -12,7 +12,7 @@ const Home = (props) => {
     return (
         <Container>
             <div className="row">
-                <Card className="my-card col-5 mx-4 my-4">
+                <Card className="my-card col-md-5 mx-4 my-4">
                     <Link to={"/diners/"} style={{ textDecoration: "none", color: "black" }}>
                         <Card.Img src={EatImage} style={imageStyle} />
                         <Card.Body>
@@ -20,7 +20,7 @@ const Home = (props) => {
                         </Card.Body>
                     </Link>
                 </Card>
-                <Card className="my-card col-5 mx-4 my-4">
+                <Card className="my-card col-md-5 mx-4 my-4">
                     <Link to={"/dashboard/"} style={{ textDecoration: "none", color: "black" }}>
                         <Card.Img src={ProfileImage} style={imageStyle} />
                         <Card.Body>

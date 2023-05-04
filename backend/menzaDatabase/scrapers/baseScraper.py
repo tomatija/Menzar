@@ -23,6 +23,11 @@ class ScraperBase(ABC):
 
     @property
     @abstractmethod
+    def display_name(self):
+        pass
+
+    @property
+    @abstractmethod
     def url(self):
         pass
 
@@ -43,4 +48,5 @@ class ScraperBase(ABC):
             menus = self.parser(soup)
             return menus
         except Exception as e:
+            print("Error while parsing menus:", e)
             return []

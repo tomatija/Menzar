@@ -2,7 +2,7 @@ from .baseScraper import MenuBase, ScraperBase
 
 
 class Scrapers:
-
+    
     def __init__(self):
         self.scrapers = []
 

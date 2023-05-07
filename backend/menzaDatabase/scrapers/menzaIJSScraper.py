@@ -8,6 +8,7 @@ class MenzaIJSScraper(ScraperBase):
     year = timezone.now().date().strftime("%Y")
     url = "https://www.studentska-prehrana.si/sl/restaurant/Details/3236"
     name = 'menzaijs'
+    display_name = "Menza IJS"
 
     def parser(self, soup) -> list[MenuBase]:
         elements = soup.find_all(

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Button, ButtonGroup } from "react-bootstrap";
 import axios from "axios";
-import { withRouter } from "react-router-dom";
-import { connect } from "react-redux";
+
+import StarIcon from "@material-ui/icons/Star";
+import { Grid, Icon } from "@mui/material";
 
 const getMenuColor = (ordered) => {
     if (ordered) {
@@ -11,6 +12,8 @@ const getMenuColor = (ordered) => {
         return "secondary";
     }
 };
+const betterThanNormalSign = "+";
+const worseThanNormalSign = "-";
 
 const Menu = (props) => {
     const menuID = props.menu.pk;
@@ -65,11 +68,33 @@ const Menu = (props) => {
                 });
         }
     };
-    console.log(props.menu.stats);
 
+    const stats = props.menu.stats;
     const displayRating = props.menu.stats.totalOrderAverage > 0;
     const rating = displayRating ? Math.round(props.menu.stats.totalOrderAverage * 100) / 100 : null;
-    const ratingString = displayRating ? rating.toFixed(2) + "🌟" : "";
+    const ratingString = displayRating ? rating.toFixed(2) : "";
+    const ratingIcon = displayRating ? (
+        <Icon
+            baseClassName="string"
+            component={StarIcon}
+            sx={{
+                color: "#FAAF00",
+                fontStretch: "expanded",
+                verticalAlign: "middle",
+            }}
+        />
+    ) : (
+        ""
+    );
+    let ratingBetterOrWorse = "";
+
+    if (stats.dailyOrderCount > 0) {
+        if (stats.dailyOrderAverage > stats.totalOrderAverage) {
+            ratingBetterOrWorse = betterThanNormalSign;
+        } else if (stats.dailyOrderAverage < stats.totalOrderAverage) {
+            ratingBetterOrWorse = worseThanNormalSign;
+        }
+    }
 
     const handleClick = () => {
         orderMenu(menuID);
@@ -78,13 +103,17 @@ const Menu = (props) => {
     useEffect(() => {}, [state]);
 
     return (
-        <ButtonGroup size="lg" onClick={handleClick} disabled={true} style={{ width: "100%" }} className="mb-2">
+        <ButtonGroup size="lg" onClick={handleClick} style={{ width: "100%" }} className="mb-2">
             <Button variant={state.menu_text_color} className="col-10">
                 {state.menu_text}
             </Button>
 
-            <Button variant={state.menu_text_color} className="col-2 text-left">
-                {ratingString}
+            <Button variant={state.menu_text_color} disabled={true} className="col-2 align-center">
+                <Grid container direction="row" alignItems="center">
+                    {ratingString}
+                    {ratingIcon}
+                </Grid>
+                {ratingBetterOrWorse}
             </Button>
         </ButtonGroup>
     );

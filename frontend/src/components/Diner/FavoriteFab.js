@@ -4,15 +4,14 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import "./Diner.css";
 
 const FavoriteFab = ({ isFavorite, display, onClick }) => {
-    console.log(isFavorite);
-    const favoriteButton = display ? (
+    const favoriteButton = (
         <Icon
             className={isFavorite ? "favorite-icon filled" : "favorite-icon empty"}
             component={isFavorite ? FavoriteIcon : FavoriteBorderIcon}
         />
-    ) : null;
+    );
 
-    return (
+    return display ? (
         <Fab
             onClick={onClick}
             className="favorite-fab"
@@ -25,6 +24,8 @@ const FavoriteFab = ({ isFavorite, display, onClick }) => {
         >
             {favoriteButton}
         </Fab>
+    ) : (
+        <></>
     );
 };
 

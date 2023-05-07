@@ -6,7 +6,6 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import Menu from "./Menus/Menu";
 import axios from "axios";
-
 class DinerMenusPage extends Component {
     constructor(props) {
         super(props);
@@ -56,7 +55,7 @@ class DinerMenusPage extends Component {
         } else {
             return (
                 <Container>
-                    <Row>
+                    <Row className="d-flex align-items-center justify-content-center">
                         <Col>
                             <div className="d-grid gap-2">
                                 {menus.map((menu, index) => (

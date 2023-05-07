@@ -13,41 +13,50 @@ const Order = (props) => {
     const review = order.review;
     const reviewAvailable = review !== null;
     const openModal = props.openModal;
-    
+
     const accordionID = props.accordionID.toString();
 
-    function deleteOrder(){
+    function deleteOrder() {
         const apiURL = "order/remove/";
         const data = {
-            "order_pk": order.pk,
+            order_pk: order.pk,
         };
-        axios.delete(apiURL, { data: data }).then(setTimeout(() => {
-            props.refreshParent();
-        }, 1000 ));
+        axios.delete(apiURL, { data: data }).then(
+            setTimeout(() => {
+                props.refreshParent();
+            }, 1000)
+        );
     }
-    
+
     const ratingIcon = reviewAvailable ? (
         <div>
             <p>{review.comment}</p>
             <IconContainer value={parseInt(review.rating)} />
             <br></br>
         </div>
-    ) : "";
-    
+    ) : (
+        ""
+    );
+
     // set up the new review button
     const newReviewButton = (
-        <Button className="float-right mb-2 mr-2" onClick={() => openModal(order)}>Oceni kosilo</Button>
+        <Button className="float-right mb-2 mr-2" onClick={() => openModal(order)}>
+            Oceni kosilo
+        </Button>
     );
-    
+
     // set up the edit review button
     const editAvailable = reviewAvailable;
     const editButton = editAvailable ? (
         <Button className="float-right mb-2 mr-2" onClick={() => openModal(order)}>
             Uredi oceno
-        </Button>) : "";
-    
+        </Button>
+    ) : (
+        ""
+    );
+
     const reviewButton = reviewAvailable ? editButton : newReviewButton;
-    
+
     return (
         <Card>
             <Card.Header>
@@ -56,7 +65,7 @@ const Order = (props) => {
                 </Accordion.Toggle>
             </Card.Header>
             <Accordion.Collapse eventKey={accordionID}>
-                <Card.Body>         
+                <Card.Body>
                     <p>{soup}</p>
                     <p>{dish}</p>
                     {ratingIcon}

@@ -1,5 +1,6 @@
 import axios from "axios";
 import React from "react";
+import { toast } from "react-toastify";
 import { Modal, Button, Form } from "react-bootstrap";
 import CloseButton from "react-bootstrap/CloseButton";
 import RadioGroupRating from "./SmileyRating";
@@ -8,8 +9,7 @@ function ReviewModal(props) {
     const apiAddUrl = "review/add/";
     const defaultReview = { rating: 0, comment: "" };
     const data = props.data;
-    const order_id = data.order_id;
-
+    const order = data.order;
     const reviewAvailable = data.review != null;
     const review = reviewAvailable ? data.review : defaultReview;
 
@@ -38,12 +38,28 @@ function ReviewModal(props) {
 
         const requestData = {
             ...review,
-            order: order_id,
+            order_id: order.pk,
             review: reviewAvailable ? review.id : null,
+            order_date: reviewAvailable ? order.menu.date : null
         };
         axios.post(apiURL, requestData).then((result) => {
             props.close();
-        });
+        }).then((response) => {
+            toast.success("Success");
+        }).catch((error) => {
+            if (error.response) {
+                // The request was made and the server responded with a status code
+                // that falls out of the range of 2xx
+                toast.error(JSON.stringify(error.response.data));
+            } else if (error.message) {
+                // the error message is available,
+                // let's display it on error toast
+                toast.error(JSON.stringify(error.message));
+            } else {
+                // strange error, just show it
+                toast.error(JSON.stringify(error));
+            }
+        });;
     }
 
     return (

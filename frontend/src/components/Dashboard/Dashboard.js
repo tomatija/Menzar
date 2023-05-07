@@ -17,12 +17,12 @@ function Dashboard(props) {
     const [isLoaded, setIsLoaded] = useState(false);
     const [orders, setOrders] = useState([]);
     const [showReviewModal, setShowReviewModal] = useState(false);
-    const [modalReviewData, setReviewModalData] = useState({ review: null, order_id: null, auth: auth });
+    const [modalReviewData, setReviewModalData] = useState({ review: null, order: null, auth: auth });
 
     const apiUrl = "user/orders/";
 
     function openReviewModal(order) {
-        setReviewModalData({ review: order.review, order_id: order.pk, auth: auth });
+        setReviewModalData({ review: order.review, order: order, auth: auth });
         setShowReviewModal(true);
     }
 

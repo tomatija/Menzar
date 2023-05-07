@@ -7,7 +7,7 @@ class UserDinerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Diner
-        fields = ['name', 'display_name', 'favorite']
+        fields = ['name', 'display_name', 'favorite', 'description']
         depth = 1
 
     def get_favorite(self, obj):

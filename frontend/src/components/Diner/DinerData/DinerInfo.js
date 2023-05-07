@@ -1,6 +1,4 @@
-
 const DinerData = {
-    //TODO: Remove descriptions
     'roznakuhna': {
         'image': require('./DinerImages/roznakuhna.png'),
         'description': "To je opis restavracije Rožna kuhna"
@@ -40,12 +38,11 @@ const DinerData = {
 const DinerInfo = (props) => {
     if (props in DinerData) {
         return DinerData[props];
-    }
-    else {
+    } else {
         return {
-            'image':  require('./DinerImages/fallbackImage.png'),
-            'description': "Opis restavracije ni na voljo."
-        }
+            image: require("./DinerImages/fallbackImage.png"),
+            description: "Opis restavracije ni na voljo.",
+        };
     }
-}
+};
 export default DinerInfo;

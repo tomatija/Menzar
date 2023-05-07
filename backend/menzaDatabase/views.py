@@ -83,7 +83,6 @@ def userOrder(request):
     user = User.objects.filter(username=request.user)
     if len(user) == 0:
         return HttpResponse(USER_NOT_FOUND)
-    print(request.data)
     menu = Menu.objects.filter(pk=request.data["menu_pk"])
 
     if len(menu) == 0:
@@ -139,7 +138,6 @@ def getUserOrders(request):
 
 @api_view(['DELETE'])
 def deleteUserOrder(request):
-    print(request.data)
     orders = Order.objects.filter(
         pk=request.data['order_pk'], user=request.user)
     if not len(orders) == 0:
@@ -147,7 +145,6 @@ def deleteUserOrder(request):
         return HttpResponse("order deleted")
     else:
         return HttpResponse("order doesn't exist")
-    
 
 
 @api_view(['POST', 'DELETE'])
@@ -156,7 +153,6 @@ def favoriteDiner(request):
         Change favorite diner for a given user
     '''
     dinerName = request.data['diner']
-    print(request.user)
     user = User.objects.filter(username=request.user)
     if len(user) == 0:
         return HttpResponse(USER_NOT_FOUND)

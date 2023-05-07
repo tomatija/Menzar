@@ -1,7 +1,7 @@
 from django.db import models
 from django.core.validators import *
 
-from django.contrib.auth.models import User
+from users.models import User
 
 
 # table of diners

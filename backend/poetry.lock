@@ -495,20 +495,6 @@ files = [
 Django = ">=3.2"
 
 [[package]]
-name = "django-crontab"
-version = "0.7.1"
-description = "dead simple crontab powered job scheduling for django"
-category = "main"
-optional = false
-python-versions = "*"
-files = [
-    {file = "django-crontab-0.7.1.tar.gz", hash = "sha256:1201810a212460aaaa48eb6a766738740daf42c1a4f6aafecfb1525036929236"},
-]
-
-[package.dependencies]
-Django = ">=1.8"
-
-[[package]]
 name = "django-templated-mail"
 version = "1.1.1"
 description = "Send emails using Django template system."
@@ -1098,4 +1084,4 @@ brotli = ["Brotli"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "eab249b77867ec9c745cd02b6680cc8c64f3784ece2233e368a1815406fdecf7"
+content-hash = "03f4bf7c2180056e648035c845f59009527078d0b4fff314c8e0ebb4b37e37fb"

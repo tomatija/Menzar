@@ -1,7 +1,8 @@
 from menzaDatabase.models import *
-from django.contrib.auth.models import User
+from users.models import User
 import random
 from tqdm import tqdm
+from backend.settings import DINER_SCRAPERS
 
 
 def createDatabase():
@@ -22,21 +23,12 @@ def createDatabase():
 
 
 def createDiners():
-    diners = {
-        "marjeticatobacna": "Marjetica - Tobačna",
-        "marjeticabelinka": "Marjetica - Belinka",
-        "roznakuhna": "Rožna Kuh'na",
-        "menzabf": "Menza BF",
-        "ddvic": "Dijaški dom Vič",
-        'menzapf': "Menza PF",
-        'menzaijs': "Menza IJS",
-        'menzafe': "Menza FE",
-    }
-    for name in tqdm(diners):
+    for dinerScraper in tqdm(DINER_SCRAPERS.scrapers):
         try:
-            Diner.objects.get(name=name)
+            Diner.objects.get(name=dinerScraper.name)
         except Diner.DoesNotExist:
-            q = Diner(name=name, display_name=diners[name])
+            q = Diner(name=dinerScraper.name,
+                      display_name=dinerScraper.display_name)
             q.save()
 
 
@@ -5139,7 +5131,7 @@ def createOrders():
 
 
 def deleteDatabase():
-    #User.objects.all().delete()
+    # User.objects.all().delete()
     Order.objects.all().delete()
     Menu.objects.all().delete()
     Dish.objects.all().delete()

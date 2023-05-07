@@ -33,15 +33,15 @@ class Signup extends Component {
             <Container>
                 <Row>
                     <Col md="4">
-                        <h1>Sign up</h1>
+                        <h1>Ustvarjanje računa</h1>
                         <Form>
                             <Form.Group controlId="usernameId">
-                                <Form.Label>User name</Form.Label>
+                                <Form.Label>Uporabniško ime</Form.Label>
                                 <Form.Control
                                     isInvalid={this.props.createUser.usernameError}
                                     type="text"
                                     name="username"
-                                    placeholder="Enter user name"
+                                    placeholder="Vstavite uporabniško ime"
                                     value={this.state.username}
                                     onChange={this.onChange}
                                 />
@@ -51,25 +51,27 @@ class Signup extends Component {
                             </Form.Group>
 
                             <Form.Group controlId="passwordId">
-                                <Form.Label>Your password</Form.Label>
+                                <Form.Label>Geslo</Form.Label>
                                 <Form.Control
                                     isInvalid={this.props.createUser.passwordError}
                                     type="password"
                                     name="password"
-                                    placeholder="Enter password"
+                                    placeholder="Vstavite geslo"
                                     value={this.password}
                                     onChange={this.onChange}
                                 />
                                 <Form.Control.Feedback type="invalid">
-                                    {this.props.createUser.passwordError}
+                                    {this.props.createUser.passwordError.length > 0
+                                        ? this.props.createUser.passwordError[0]
+                                        : ""}
                                 </Form.Control.Feedback>
                             </Form.Group>
                         </Form>
                         <Button color="primary" onClick={this.onSignupClick}>
-                            Sign up
+                            Ustvari
                         </Button>
                         <p className="mt-2">
-                            Already have account? <Link to="/login">Login</Link>
+                            Že imate račun? <Link to="/login">Prijava</Link>
                         </p>
                     </Col>
                 </Row>

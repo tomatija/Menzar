@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
-import { Button, Card } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import DinerInfo from "./DinerData/DinerInfo";
 import FavoriteFab from "./FavoriteFab";
@@ -35,7 +35,7 @@ const Diner = (props) => {
     }
 
     return (
-        <Card className="my-card col-5 mx-4 my-4">
+        <Card className="my-card col-md-5 mx-4 my-4">
             <FavoriteFab isFavorite={isFavorite} display={displayFavorite} onClick={handleClick} />
             <Link to={"/diner/" + diner.name + "/"} style={{ textDecoration: "none", color: "black" }}>
                 <Card.Img variant="top" src={dinerInfo.image} />

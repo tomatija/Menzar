@@ -255,7 +255,6 @@ def createReview(request):
     order_date = datetime.strptime(request.data.get('order_date'), date_format).date()
 
     try:
-        serializer = None
         if len(review) == 0:
             serializer = ReviewSerializer(data=request.data)
         elif (order_date == date.today()):

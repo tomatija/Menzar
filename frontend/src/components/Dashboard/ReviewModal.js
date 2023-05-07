@@ -13,7 +13,6 @@ function ReviewModal(props) {
     const reviewAvailable = data.review != null;
     const review = reviewAvailable ? data.review : defaultReview;
 
-    console.log(order);
     function changeComment(newComment) {
         props.refresh({
             ...data,

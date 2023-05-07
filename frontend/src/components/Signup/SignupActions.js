@@ -15,7 +15,6 @@ export const signupNewUser = (userData) => (dispatch) => {
             if (error.response) {
                 // The request was made and the server responded with a status code
                 // that falls out of the range of 2xx
-                //toast.error(JSON.stringify(error.response));
                 dispatch({
                     type: CREATE_USER_ERROR,
                     errorData: error.response.data,

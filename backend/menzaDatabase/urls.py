@@ -43,17 +43,17 @@ urlpatterns = [
     path(
         'user/<int:userId>/',
         views.getUserDetails,
-        name='User details'
+        name='DinerUser details'
     ),
     path(
         'user/orders/',
         views.getUserOrders,
-        name='User orders'
+        name='DinerUser orders'
     ),
     path(
         'user/order/',
         view=views.userOrder,
-        name='User order menu'
+        name='DinerUser order menu'
     ),
     path(
         'order/remove/',

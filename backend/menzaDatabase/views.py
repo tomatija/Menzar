@@ -13,12 +13,12 @@ from .serializers.DinerSerializers.UserDinerSerializer import UserDinerSerialize
 from .serializers.MenuSerializers.AnonymousMenuSerializer import AnonymousMenuSerializer
 from .serializers.MenuSerializers.UserMenuSerializer import UserMenuSerializer
 
-
 from .serializers.serializers import OrderSerializer, ReviewSerializer
-
-from rest_framework.decorators import api_view
-from rest_framework import generics
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework import generics
+from rest_framework.decorators import api_view
+
+import menzaDatabase.permissions
 
 
 class DinerList(generics.ListAPIView):
@@ -80,7 +80,7 @@ def userOrder(request):
     '''
         Creates an order for a given user and menu
     '''
-    user = User.objects.filter(username=request.user)
+    user = DinerUser.objects.filter(username=request.user)
     if len(user) == 0:
         return HttpResponse(USER_NOT_FOUND)
     menu = Menu.objects.filter(pk=request.data["menu_pk"])
@@ -127,7 +127,7 @@ def getUserOrders(request):
     '''
         Gets all orders of a given user
     '''
-    user = User.objects.filter(username=request.user)
+    user = DinerUser.objects.filter(username=request.user)
     if len(user) == 0:
         return HttpResponse(USER_NOT_FOUND)
 
@@ -153,7 +153,7 @@ def favoriteDiner(request):
         Change favorite diner for a given user
     '''
     dinerName = request.data['diner']
-    user = User.objects.filter(username=request.user)
+    user = DinerUser.objects.filter(username=request.user)
     if len(user) == 0:
         return HttpResponse(USER_NOT_FOUND)
 

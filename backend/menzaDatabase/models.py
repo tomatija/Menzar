@@ -1,7 +1,7 @@
 from django.db import models
 from django.core.validators import *
 
-from users.models import User
+from users.models import DinerUser
 
 
 # table of diners
@@ -46,7 +46,7 @@ class Menu(models.Model):
 # table of orders, connecting menza menus to users
 class Order(models.Model):
     menu = models.ForeignKey(Menu, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(DinerUser, on_delete=models.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
@@ -67,7 +67,7 @@ class Review(models.Model):
 
 class FavoriteDiner(models.Model):
     diner = models.ForeignKey(Diner, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(DinerUser, on_delete=models.CASCADE)
 
     def __str__(self) -> str:
         return f"{self.user} likes {self.diner}"

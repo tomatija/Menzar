@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from ..models import Dish, Soup, Review, Order, User
+from ..models import Dish, Soup, Review, Order, DinerUser
 
 
 class SoupSerializer(serializers.ModelSerializer):
@@ -16,7 +16,7 @@ class DishSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
+        model = DinerUser
         fields = ['pk', 'username']
 
 

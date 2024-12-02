@@ -1,5 +1,6 @@
+from django.utils import timezone
 from menzaDatabase.models import *
-from users.models import User
+from users.models import DinerUser
 import random
 from tqdm import tqdm
 from backend.settings import DINER_SCRAPERS
@@ -724,13 +725,13 @@ USERS = {
 def createUsers():
 
     for user in tqdm(USERS):
-        name = f"User {user}"
+        name = f"DinerUser {user}"
 
         try:
-            obj = User.objects.get(username=name)
+            obj = DinerUser.objects.get(username=name)
 
-        except User.DoesNotExist:
-            user = User.objects.create(
+        except DinerUser.DoesNotExist:
+            user = DinerUser.objects.create(
                 username=name)
             user.set_password("testpass123")
             user.save()
@@ -740,16 +741,18 @@ def createMenus():
     diner = Diner.objects.get(name="roznakuhna")
     for dishGroup in tqdm(DISH_GROUPS):
         for dish in dishGroup["menus"]:
+            menuDate = timezone.datetime.strptime(
+                dishGroup["datum"], "%Y-%m-%d")
             name = ",".join(dish)
-            s = Soup.objects.get(name=random.choice(SOUPS))
+            s = Soup.objects.get(name=SOUPS[0])
             d = Dish.objects.get(name=name)
 
             try:
                 obj = Menu.objects.get(
-                    soup=s, dish=d, diner=diner, date=dishGroup["datum"])
+                    soup=s, dish=d, diner=diner, date=menuDate)
             except Menu.DoesNotExist:
                 obj = Menu(soup=s, dish=d, diner=diner,
-                           date=dishGroup["datum"])
+                           date=menuDate)
                 obj.save()
 
 
@@ -5093,7 +5096,7 @@ def createOrders():
 
     diner = Diner.objects.get(name="roznakuhna")
     for order in tqdm(ORDERS):
-        username = f"User {order['user_pk']}"
+        username = f"DinerUser {order['user_pk']}"
         menuOrdered = None
         # find which food string was orderd
         for dishGroup in DISH_GROUPS:
@@ -5106,7 +5109,7 @@ def createOrders():
             continue
 
         dishString = ",".join(menuOrdered["menus"][order["submenu_num"]])
-        user = User.objects.get(username=username)
+        user = DinerUser.objects.get(username=username)
         dish = Dish.objects.get(name=dishString)
         menu = Menu.objects.get(
             date=menuOrdered["datum"], dish=dish, diner=diner)
@@ -5131,7 +5134,7 @@ def createOrders():
 
 
 def deleteDatabase():
-    # User.objects.all().delete()
+    # DinerUser.objects.all().delete()
     Order.objects.all().delete()
     Menu.objects.all().delete()
     Dish.objects.all().delete()

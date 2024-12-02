@@ -76,7 +76,7 @@ CRONJOBS = [
     ('*/1 * * * *', 'menzaDatabase.cron.my_scheduled_job')
 ]
 
-AUTH_USER_MODEL = 'users.User'
+AUTH_USER_MODEL = 'users.DinerUser'
 
 # Application definition
 INSTALLED_APPS = [
